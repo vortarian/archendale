@@ -6,7 +6,7 @@
 
 
 CPP = g++
-CPP_FLAGS = $(GLOBALCCOPTIONS) -D_REENTRANT
+CPP_FLAGS = $(GLOBALCCOPTIONS) -D_REENTRANT -g
 CPP_INCLUDES = -I. -I../
 CPP_DEFINES = 
 SOCKETLIBS = 
@@ -14,7 +14,7 @@ LINKER = ar cru
 SHLINKER = g++ -shared
 LINKER_FLAGS = 
 LINKER_ENTRY = 
-SOCKETOBJECTS = SocketObject.o SocketAttribute.o APPLETALKAttribute.o ATMPVCAttribute.o AX25Attribute.o INET6Attribute.o INETAttribute.o IPXAttribute.o NETLINKAttribute.o PACKETAttribute.o SocketAttribute.o SocketObject.o SocketTestDriver.o UNIXAttribute.o X25Attribute.o
+SOCKETOBJECTS = NameResolver.o # SocketObject.o SocketAttribute.o APPLETALKSocket.o ATMPVCSocket.o AX25Socket.o INET6Socket.o INETSocket.o IPXSocket.o NETLINKSocket.o PACKETSocket.o SocketSocket.o SocketObject.o SocketTestDriver.o UNIXSocket.o X25Socket.o
 
 all: ../lib/libSocketObject.a ../lib/libSocketObject.so
 
