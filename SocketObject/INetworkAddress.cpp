@@ -1,4 +1,3 @@
-
 #include <SocketObject/INetworkAddress.h>
 #include <String/String.h>
 #include <string.h>
@@ -18,10 +17,10 @@ namespace archendale
 
 	INetworkAddress::INetworkAddress(const INetworkAddress& addr)
 	{ 
-		m_addressType = addr.m_addressType;
+		m_addressType 	= addr.m_addressType;
 		m_addressLength = addr.m_addressLength;
-		m_addresses = addr.m_addresses;
-		m_hosts = addr.m_hosts;
+		m_addresses 	= addr.m_addresses;
+		m_hosts 	= addr.m_hosts;
 	} // INetworkAddress
 
 	// ~INetworkAddress:

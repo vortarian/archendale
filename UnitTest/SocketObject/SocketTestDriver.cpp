@@ -10,6 +10,7 @@
 #include <SocketObject/InternetAddress.h>
 #include <SocketObject/SocketException.h>
 #include <SocketObject/SocketObject.h>
+#include <SocketObject/INETSocket.h>
 
 using namespace std;
 using namespace archendale;
@@ -84,65 +85,185 @@ bool testSocketObject()
 {
 	SocketObject obj;
 
-	{
-		char data = 'a';
-		cout << endl << "char :" << endl;
-		obj << data << SocketObject::transmit;
-	}
+	try {
+		{
+			char data = 'a';
+			cout << endl << "char :" << endl;
+			obj << data << SocketObject::transmit;
+		}
 
-	{
-		unsigned char data = 'a';
-		cout << endl << "unsigned char :" << endl;
-		obj << data << SocketObject::transmit;
-	}
+		{
+			unsigned char data = 'a';
+			cout << endl << "unsigned char :" << endl;
+			obj << data << SocketObject::transmit;
+		}
 
-	{
-		char data[] = "1234567890abcd";
-		cout << endl << "char [15] :" << endl;
-		obj << data << SocketObject::transmit;
-	}
+		{
+			char data[] = "1234567890abcd";
+			cout << endl << "char [15] :" << endl;
+			obj << data << SocketObject::transmit;
+		}
 
-	{
-		unsigned char data[15] = "1234567890abcd";
-		cout << endl << "unsigned char[15] :" << endl;
-		obj << data << SocketObject::transmit;
-	}
+		{
+			unsigned char data[15] = "1234567890abcd";
+			cout << endl << "unsigned char[15] :" << endl;
+			obj << (char*) data << SocketObject::transmit;
+		}
 
-	{
-		int data = 1234567890;
-		cout << endl << "int :" << endl;
-		obj << data << SocketObject::transmit;
-	}
+		{
+			int data = 1234567890;
+			cout << endl << "int :" << endl;
+			obj << data << SocketObject::transmit;
+		}
 
-	{
-		unsigned int data = 1234567890;
-		cout << endl << "unsigned int :" << endl;
-		obj << data << SocketObject::transmit;
-	}
+		{
+			unsigned int data = 1234567890;
+			cout << endl << "unsigned int :" << endl;
+			obj << data << SocketObject::transmit;
+		}
 
-	{
-		double data = 452462408;
-		cout << endl << "double :" << endl;
-		obj << data << SocketObject::transmit;
-	}
+		{
+			double data = 452462408;
+			cout << endl << "double :" << endl;
+			obj << data << SocketObject::transmit;
+		}
 
-	{
-		long data = 452462408;
-		cout << endl << "long :" << endl;
-		obj << data << SocketObject::transmit;
-	}
+		{
+			long data = 452462408;
+			cout << endl << "long :" << endl;
+			obj << data << SocketObject::transmit;
+		}
 
-	{
-		unsigned long data = 452462408;
-		cout << endl << "unsigned long :" << endl;
-		obj << data << SocketObject::transmit;
-	}
+		{
+			unsigned long data = 452462408;
+			cout << endl << "unsigned long :" << endl;
+			obj << data << SocketObject::transmit;
+		}
 
-	{
-		float data = 234552.43;
-		cout << endl << "float :" << endl;
-		obj << data << SocketObject::transmit;
-	}
+		{
+			float data = 234552.43;
+			cout << endl << "float :" << endl;
+			obj << data << SocketObject::transmit;
+		}
+	} catch (OutOfMemoryException exp) {
+		cerr << exp.why() << endl;
+		return false;
+	} // try 
+
+	return true;
+} // testSocketObject
+
+bool testSocketObjectRead()
+{
+	INETSocket obj;
+	obj.connect();
+
+	try {
+		{
+			string data = "testget"; 
+			cout << endl << "string : " << data << endl;
+			obj << data  << SocketObject::transmit;
+			data = "";
+			cerr << endl << "Recieving" << endl;
+			obj >> data;
+			cout << "Read Data: " << data << endl;
+		}
+
+		{
+			char data = 'a';
+			cout << endl << "char : " << data << endl;
+			obj << data << char(13) << SocketObject::transmit;
+			data = 0;
+			cerr << endl << "Recieving" << endl;
+			obj >> data;
+			cout << "Read Data: " << data << endl;
+		}
+
+		{
+			unsigned char data = 'a';
+			cout << endl << "unsigned char :" << data << endl;
+			obj << data << SocketObject::transmit;
+			data = 0;
+			obj >> data;
+			cout << "Read Data: " << data << endl;
+		}
+
+		{
+			char data[] = "1234567890abcd";
+			cout << endl << "char [15] :" << data << endl;
+			obj << data << SocketObject::transmit;
+			string sdata;
+			obj >> sdata;
+			cout << "Read Data: " << sdata << endl;
+		}
+
+		{
+			unsigned char data[15] = "1234567890abcd";
+			cout << endl << "unsigned char[15] :" << data << endl;
+			obj << (char*) data << SocketObject::transmit;
+			string sdata;
+			obj >> sdata;
+			cout << "Read Data: " << sdata << endl;
+		}
+
+		{
+			int data = 1234567890;
+			cout << endl << "int :" << data << endl;
+			obj << data << SocketObject::transmit;
+			data = 0;
+			obj >> data;
+			cout << "Read Data: " << data << endl;
+		}
+
+		{
+			unsigned int data = 1234567890;
+			cout << endl << "unsigned int :" << data << endl;
+			obj << data << SocketObject::transmit;
+			data = 0;
+			obj >> data;
+			cout << "Read Data: " << data << endl;
+		}
+
+		{
+			double data = 452462408;
+			cout << endl << "double :" << data << endl;
+			obj << data << SocketObject::transmit;
+			data = 0;
+			obj >> data;
+			cout << "Read Data: " << data << endl;
+		}
+
+		{
+			long data = 452462408;
+			cout << endl << "long :" << data << endl;
+			obj << data << SocketObject::transmit;
+			data = 0;
+			obj >> data;
+			cout << "Read Data: " << data << endl;
+		}
+
+		{
+			unsigned long data = 452462408;
+			cout << endl << "unsigned long :" << data << endl;
+			obj << data << SocketObject::transmit;
+			data = 0;
+			obj >> data;
+			cout << "Read Data: " << data << endl;
+		}
+
+		{
+			float data = 234552.43;
+			cout << endl << "float :" << data << endl;
+			obj << data << SocketObject::transmit;
+			data = 0;
+			obj >> data;
+			cout << "Read Data: " << data << endl;
+		}
+	} catch (OutOfMemoryException exp) {
+		cerr << exp.why() << endl;
+		return false;
+	} // try 
+
 
 	return true;
 } // testSocketObject
@@ -163,6 +284,7 @@ void main(void)
 		cout << endl << "Please input Command:" << endl <<
 			"1: NameResolver\n"
 			"2: SocketObject\n"
+			"3: SocketObject(Reads)\n"
 			"Q: Quit\n"
 			"?:";
 		cin.getline(input, 4);
@@ -175,6 +297,9 @@ void main(void)
 				break;
 			case '2':	
 				outputStatus(testSocketObject());
+				break;
+			case '3':	
+				outputStatus(testSocketObjectRead());
 				break;
 			case 'q':
 			case 'Q':

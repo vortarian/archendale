@@ -6,9 +6,13 @@
 #include <sys/socket.h>    
 #include <strstream>
 #include <vector>
+#include <queue>
+#include <string>
 #include <SocketObject/SocketException.h>
 
 using std::vector;
+using std::queue;
+using std::string;
 
 namespace archendale 
 {
@@ -49,7 +53,7 @@ namespace archendale
 	class SocketObject 
 	{
 	public:
-		SocketObject();
+		SocketObject(unsigned int = 10000);
 		SocketObject(const SocketObject&);
 		virtual ~SocketObject();
 
@@ -57,44 +61,57 @@ namespace archendale
 		//	transmit the data
 		void send();
 
+		// recieve:
+		//	recieve the data, read into buffer
+		void recieve();
+
+		// get
+		//	Return the first character from the read queue
+		//		remove the character from the queue
+		inline char get();
+	
 		// writeToBuffer:
 		//	write raw data to a buffer
 		//	writeToBuffer(iterator start, iterator end);
-		void writeToBuffer(unsigned char*, unsigned char*);
-		inline void writeToBuffer(char* beg, char* end); // defers to unsigned version
+		void writeToBuffer(const unsigned char*, const unsigned char*);
+		inline void writeToBuffer(const char* beg, const char* end); // defers to unsigned version
 
 		SocketObject& operator<<(char); 
-		SocketObject& operator>>(char); 
+		SocketObject& operator>>(char&); 
 		SocketObject& operator<<(unsigned char); 
-		SocketObject& operator>>(unsigned char); 
+		SocketObject& operator>>(unsigned char&); 
 
-		SocketObject& operator<<(char*); 
-		SocketObject& operator>>(char*); 
-		SocketObject& operator<<(unsigned char*); 
-		SocketObject& operator>>(unsigned char*); 
+		SocketObject& operator<<(const string&); 
+		SocketObject& operator>>(string&); 
 
 		SocketObject& operator<<(int); 
-		SocketObject& operator>>(int); 
+		SocketObject& operator>>(int&); 
 		SocketObject& operator<<(unsigned int); 
-		SocketObject& operator>>(unsigned int); 
+		SocketObject& operator>>(unsigned int&); 
 
 		SocketObject& operator<<(double); 
-		SocketObject& operator>>(double); 
+		SocketObject& operator>>(double&); 
 
 		SocketObject& operator<<(long); 
-		SocketObject& operator>>(long); 
+		SocketObject& operator>>(long&); 
 		SocketObject& operator<<(unsigned long); 
-		SocketObject& operator>>(unsigned long); 
+		SocketObject& operator>>(unsigned long&); 
 
 		SocketObject& operator<<(float); 
-		SocketObject& operator>>(float); 
+		SocketObject& operator>>(float&); 
 		
 		static Transmit transmit;
 		SocketObject& operator<<(const Transmit&); 
 
+	protected:
+		int m_socket; // The socket itself
+
 	private:
-		vector < unsigned char > m_dataBuffer;
-		int m_socket;
+		vector < unsigned char > m_sendDataBuffer;
+		queue  < unsigned char > m_readDataBuffer;
+		
+		unsigned int m_readBufferSize; // The size to use for the read buffer
+		unsigned char *m_readBuffer; 	// The buffer which recv() will read into
 
 		SocketDataConverter<int>                 iConverter;
 		SocketDataConverter<unsigned int>        uiConverter;

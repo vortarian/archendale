@@ -1,6 +1,7 @@
 
 #include <SocketObject/NameResolver.h>
 #include <SocketObject/SocketException.h>
+#include <stdlib.h> // for atoi
 
 namespace archendale
 {
@@ -32,7 +33,6 @@ namespace archendale
 	{
 		struct hostent* hostinfo;
 		hostinfo = gethostbyname(addr.getHostName().data());
-		cerr << hostinfo << endl;
 		if(!hostinfo) 
 		{
 			switch(h_errno)
@@ -115,11 +115,8 @@ namespace archendale
 
 		for(int i = 0; hostinfo->h_addr_list[i]; i++)
 		{
-			cerr << "Adding address: " << hostinfo->h_addr_list[i] << endl;
 			address.addAddress(hostinfo->h_addr_list[i]);
-			i++;
 		} // for
-		endhostent();
 		return address;
 	} // getName
 	

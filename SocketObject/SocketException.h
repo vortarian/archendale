@@ -10,21 +10,21 @@ namespace archendale
 	class UnknownHostException : public Exception
 	{
 	public:
-		UnknownHostException();
+		UnknownHostException() { ; }
 		UnknownHostException(const String& msg) : Exception(msg) { ; }
 	}; // UnknownHostException
 
 	class RetryHostLookupException : public Exception
 	{
 	public:
-		RetryHostLookupException();
+		RetryHostLookupException() { ; }
 		RetryHostLookupException(const String& msg) : Exception(msg) { ; }
 	}; // RetryHostLookupException
 
 	class HostWithNoAddressException : public Exception
 	{
 	public:
-		HostWithNoAddressException();
+		HostWithNoAddressException() { ; }
 		HostWithNoAddressException(const String& msg) : Exception(msg) { ; }
 	}; // HostWithNoAddressException
 
@@ -33,8 +33,17 @@ namespace archendale
 	class InvalidSocketDescriptorException : public Exception
 	{
 	public:
-		InvalidSocketDescriptorException();
+		InvalidSocketDescriptorException() { ; }
 		InvalidSocketDescriptorException(const String& msg) : Exception(msg) { ; }
+	}; // InvalidSocketDescriptorException
+
+	// SocketNotConnectedException:
+       	//	ENOTCONN The Socket is not connected
+	class SocketNotConnectedException : public Exception
+	{
+	public:
+		SocketNotConnectedException() { ; }
+		SocketNotConnectedException(const String& msg) : Exception(msg) { ; }
 	}; // InvalidSocketDescriptorException
 
 	// NotSocketDescriptorException :
@@ -43,7 +52,7 @@ namespace archendale
 	class NotSocketDescriptorException : public Exception
 	{
 	public:
-		NotSocketDescriptorException();
+		NotSocketDescriptorException() { ; }
 		NotSocketDescriptorException(const String& msg) : Exception(msg) { ; }
 	}; // NotSocketDescriptorException
 
@@ -54,7 +63,7 @@ namespace archendale
 	class MessageToLargeException : public Exception
 	{
 	public:
-		MessageToLargeException();
+		MessageToLargeException() { ; }
 		MessageToLargeException(const String& msg) : Exception(msg) { ; }
 	}; // MessageToLargeException
 
@@ -64,7 +73,7 @@ namespace archendale
 	class OperationWillBlockException : public Exception
 	{
 	public:
-		OperationWillBlockException();
+		OperationWillBlockException() { ; }
 		OperationWillBlockException(const String& msg) : Exception(msg) { ; }
 	}; // OperationWillBlockException
 
@@ -76,7 +85,7 @@ namespace archendale
 	class NetworkInterfaceOverflowException : public Exception
 	{
 	public:
-		NetworkInterfaceOverflowException();
+		NetworkInterfaceOverflowException() { ; }
 		NetworkInterfaceOverflowException(const String& msg) : Exception(msg) { ; }
 	}; // NetworkInterfaceOverflowException
 
@@ -85,7 +94,7 @@ namespace archendale
 	class SignalException : public Exception
 	{
 	public:
-		SignalException();
+		SignalException() { ; }
 		SignalException(const String& msg) : Exception(msg) { ; }
 	}; // Exception
 
@@ -95,7 +104,7 @@ namespace archendale
 	class SocketClosedException : public Exception
 	{
 	public:
-		SocketClosedException();
+		SocketClosedException() { ; }
 		SocketClosedException(const String& msg) : Exception(msg) { ; }
 	}; // SocketClosedException
 
