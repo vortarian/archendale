@@ -17,6 +17,8 @@ run: all
 clean:
 	-rm *\.o
 	-rm SocketTestDriver
+	-rm SocketClientTest
+	-rm SocketServerTest
 	
 SocketTestDriver: $(SOCKETDRIVEROBJECTS) 
 	$(CC) $(CCOPTIONS) -o $@ $(SOCKETDRIVEROBJECTS)  $(LINKEROPTIONS)

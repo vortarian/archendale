@@ -41,8 +41,8 @@ main(char** argv, int argc )
 		InternetAddress addr = NameResolver::getAddress("localhost");
 		SocketServer sserver(addr, port, 1);
 
-		INETSocket socket = sserver.getWaitingConnection();
 		cout << "Waiting for connection" << endl;
+		INETSocket socket = sserver.getWaitingConnection();
 		string data;
 		cout << "Waiting for data" << endl;	
 		try 

@@ -251,7 +251,7 @@ void outputStatus(bool status)
 		cout << endl << "***********************************TEST SUCCEEDED********************************" << endl;
 } // outputStatus
 
-void main(void)
+int main(void)
 {
 	char input[4];
 	do	
