@@ -13,6 +13,9 @@ namespace archendale
 		virtual ~Exception();
 		Exception(const Exception&);
 
+		// operators
+		const Exception& operator=(const Exception& exp);
+	
 		// why:
 		//	Returns message that applies to the exception
 		String why() const;
@@ -29,7 +32,7 @@ namespace archendale
 		// setNestedException:
 		//	Append an exception to this one, so as to ensure
 		//	that exceptions are not lost
-		void setNestedException(Exception exp); 
+		void setNestedException(const Exception& exp); 
 	private:
 		String m_msg;			// message, if any
 		bool m_isNested;		// true if has nested exception

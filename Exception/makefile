@@ -18,13 +18,13 @@ CPP = g++
 YACC_FLAGS =      
 LEX_FLAGS =      
 JAVA_FLAGS =      
-CC_FLAGS =      
-CPP_FLAGS =      
+CC_FLAGS = $(GLOBALCCOPTIONS)
+CPP_FLAGS = $(GLOBALCCOPTIONS)
 YACC_INCLUDES = 
 LEX_INCLUDES = 
 JAVA_INCLUDES = 
 CC_INCLUDES = 
-CPP_INCLUDES = -I. -I/home/vortex/project
+CPP_INCLUDES = -I. -I../
 YACC_DEFINES = 
 LEX_DEFINES = 
 JAVA_DEFINES = 
@@ -71,6 +71,6 @@ all: ../lib/libException.a
 
 
 clean:
-	rm -f *.o
+	-rm -f *.o
 	rm -f ../lib/libException.a
 

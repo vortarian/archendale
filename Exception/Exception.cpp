@@ -3,7 +3,6 @@
 
 namespace archendale 
 {
-
 	Exception::Exception()
 	{
 		m_isNested = false;
@@ -19,7 +18,7 @@ namespace archendale
 	
 	Exception::~Exception()
 	{
-		if(hasNested()) 
+		if(m_isNested) 
 		{
 			delete m_nestedException;
 		} // if
@@ -30,15 +29,33 @@ namespace archendale
 		m_msg = exp.why();
 		if(exp.hasNested()) 
 		{
-			m_nestedException = new Exception(exp.getNestedException());
+			m_nestedException = new Exception();
+			(*m_nestedException) = (exp.getNestedException());
+			m_isNested = true;
+		} else {
+			m_nestedException = 0;
+			m_isNested = false;
 		} // if
 	} // copy constructor
-	
+
+	const Exception& Exception::operator=(const Exception& exp)
+	{
+		m_msg = exp.why();
+		if(exp.hasNested())
+		{
+			m_nestedException = new Exception(exp.getNestedException());
+			m_isNested = true;
+		} else {
+			m_nestedException = 0;
+			m_isNested = false;
+		} // if
+	} // operator =	
+
 	String Exception::why() const
 	{
 		return m_msg;
 	}  // why
-	
+
 	// hasNested:
 	//	Return true if there is a nested exception
 	//	otherwise return false
@@ -53,6 +70,7 @@ namespace archendale
 	{
 		if(!hasNested()) 
 		{
+			cerr << "No Nested Exception being thrown" << endl;
 			Exception exp("No Nested Exception");
 			throw exp;
 		} // if
@@ -62,12 +80,12 @@ namespace archendale
 	// setNestedException:
 	//	Append an exception to this one, so as to ensure
 	//	that exceptions are not lost
-	void Exception::setNestedException(Exception exp)
+	void Exception::setNestedException(const Exception& exp)
 	{
 		m_nestedException = new Exception(exp);
 		m_isNested = true;
 	}
-	
+
 	// NotImplementedException:
 	// 	Exception throw when a method/object is not implemented
 	NotImplementedException::NotImplementedException()
