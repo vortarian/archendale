@@ -14,7 +14,7 @@ LINKER = ar cru
 SHLINKER = g++ -shared
 LINKER_FLAGS = 
 LINKER_ENTRY = 
-SOCKETOBJECTS = NameResolver.o # SocketObject.o SocketAttribute.o APPLETALKSocket.o ATMPVCSocket.o AX25Socket.o INET6Socket.o INETSocket.o IPXSocket.o NETLINKSocket.o PACKETSocket.o SocketSocket.o SocketObject.o SocketTestDriver.o UNIXSocket.o X25Socket.o
+SOCKETOBJECTS = NameResolver.o INetworkAddress.o InternetAddress.o # SocketObject.o SocketAttribute.o APPLETALKSocket.o ATMPVCSocket.o AX25Socket.o INET6Socket.o INETSocket.o IPXSocket.o NETLINKSocket.o PACKETSocket.o SocketSocket.o SocketObject.o SocketTestDriver.o UNIXSocket.o X25Socket.o
 
 all: ../lib/libSocketObject.a ../lib/libSocketObject.so
 
