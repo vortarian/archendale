@@ -68,6 +68,9 @@ namespace archendale
 		// Join the thread to the main thread, wait if necessary
 		void join();
 
+		// isRunning:
+		//	Return whether or not the thread is running
+		bool isRunning() { return m_running; }
 private:
 /* TODO 
 	           Detached Threads are seg faulting because their object handle goes out of scope

@@ -20,18 +20,32 @@ namespace archendale
 
 	// INETSocket:
 	//	Default constructor for use by SocketServer
-	INETSocket::INETSocket()
+	INETSocket::INETSocket() : m_protocolName("tcp")
 	{
 		m_port = 0;
 	} // INETSocket
 
 	// INETSocket:
 	//
-	INETSocket::INETSocket(const InternetAddress& addr, int port)
+	INETSocket::INETSocket(const InternetAddress& addr, int port) : m_protocolName("tcp")
 	{
 		m_address = addr;
 		m_port = port;
-		setSocket(socket(m_address.getType(), SOCK_STREAM, 6));
+		// Get the protocol id from the system 
+		// TODO: this is specific to BSD systems, find POSIX method
+		protoent* protocol = getprotobyname(m_protocolName.c_str());
+		if(protocol == 0)
+		{
+			// Either the file does not exist, or there is some other error
+			string error = 
+				__FILE__ 
+				": INETSocket::INETSocket() : " 
+				"Unable to get the protocol "; 
+			error += m_protocolName;
+			Exception exp(error);
+			throw exp;
+		} // if	
+		setSocket(socket(m_address.getType(), SOCK_STREAM, protocol->p_proto));
 		if(-1 == getSocket())
 		{
 			switch(errno)
@@ -83,8 +97,17 @@ namespace archendale
 
 	// INETSocket:
 	//
-	INETSocket::INETSocket(const INETSocket& in) : SocketObject(in)
+	INETSocket::INETSocket(const INETSocket& in) : SocketObject(in), m_protocolName("tcp")
 	{
+		m_address = in.m_address;
+		m_port = in.m_port;
+	} // INETSocket
+
+	// INETSocket:
+	//
+	const INETSocket& INETSocket::operator=(const INETSocket& in) 
+	{
+		SocketObject::operator=(in);
 		m_address = in.m_address;
 		m_port = in.m_port;
 	} // INETSocket

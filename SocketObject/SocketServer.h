@@ -44,6 +44,7 @@ namespace archendale
 		InternetAddress m_address;	
 		int m_port;
 		int m_backlog; // The number of connections to be allowed to wait at a time
+		const string m_protocolName;
 		Mutex m_serverMutex;
 	}; // SocketServer
 } // namespace archendale

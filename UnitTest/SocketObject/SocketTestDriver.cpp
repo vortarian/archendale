@@ -205,23 +205,30 @@ bool testSocketObjectLargeReadWrite()
 			return false;
 		} // try
 
-		unsigned int DATASIZE = 40000;
-		string sendData;
-		string receiveData;
+		unsigned int DATASIZE = 4000000;
 
+		char *p_data = new char[DATASIZE];
+
+		cout << "Building Data, may take a few seconds" << endl;
 		for(unsigned int i = 0; i < DATASIZE; i++)
 		{
-			if(i%100000 == 0) std::cout << "size: " << i << endl;
 			// Can't send char == 0, as that is the delimiter for strings
 			if(char(i) == char(0))
 			{
-				sendData += char(i+1);
+				p_data[i] = char(i+1);
 			} else
 			{
-				sendData += char(i);
+				p_data[i] = char(i);
 			} // if
 		} // for
-			
+		// Set the terminator
+		p_data[DATASIZE - 1] = '\0';	
+
+		string sendData = p_data;	
+		delete p_data;
+
+		string receiveData;
+
 		try {
 			cout 	<< "Sending "
 				<< float(sendData.size()) / 100000
@@ -230,6 +237,7 @@ bool testSocketObjectLargeReadWrite()
 
 			obj << sendData << SocketObject::transmit;
 
+			cout << "Data sent, reading data back" << endl;
 			obj >> receiveData;
 
 		} catch (OutOfMemoryException exp) 

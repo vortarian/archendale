@@ -64,6 +64,10 @@ namespace archendale
 			return *m_data; 
 		} // operator*
 
+		T* operator->() { 
+			return m_data; 
+		} // operator->
+
 		const _ref& operator=(const _ref& rhs) {
 			(*m_count)--;
 			if(*m_count == 0) {
@@ -85,10 +89,10 @@ namespace archendale
 		unsigned int* m_count;
 	}; // _ref
 
-	template <class T> class RefCount
+	template <class T> class ReferenceCounter 
 	{
 	public:
-		RefCount() { 
+		ReferenceCounter() { 
 			m_pointer = 0;
 			m_pointer = new _ref<T>(); 
 			if(m_pointer == 0) 
@@ -97,9 +101,9 @@ namespace archendale
 				OutOfMemoryException exp("Not Enough Memory to build m_pointer: " __FILE__);
 				throw exp;
 			} // if
-		} // RefCount
+		} //ReferenceCounter 
 
-		RefCount(const T& value) { 
+		ReferenceCounter(const T& value) { 
 			m_pointer = 0;
 			m_pointer = new _ref<T>(value); 
 			if(m_pointer == 0) 
@@ -108,9 +112,9 @@ namespace archendale
 				OutOfMemoryException exp("Not Enough Memory to build m_pointer: " __FILE__);
 				throw exp;
 			} // if
-		} // RefCount
+		} //ReferenceCounter 
 
-		RefCount(const RefCount& rhs) { 
+		ReferenceCounter(const ReferenceCounter& rhs) { 
 			m_pointer = 0;
 			m_pointer = new _ref<T>(); 
 			if(m_pointer == 0) 
@@ -120,17 +124,21 @@ namespace archendale
 				throw exp;
 			} // if
 			*m_pointer = *rhs.m_pointer; 
-		} // RefCount
+		} //ReferenceCounter 
 
-		~RefCount() { 
+		~ReferenceCounter() { 
 			delete m_pointer; 
-		} // RefCount
+		} //ReferenceCounter 
 
 		T& operator*() { 
 			return *(*m_pointer); 
 		} // operator*
 
-		RefCount<T>& operator=(const RefCount<T>& rhs) { 
+		T* operator->() { 
+			return m_pointer->operator->(); 
+		} // operator->
+
+		ReferenceCounter<T>& operator=(const ReferenceCounter<T>& rhs) { 
 			*m_pointer = *rhs.m_pointer; 
 		}
 	private:

@@ -68,15 +68,20 @@ namespace archendale
 		//	transmit the data
 		void send();
 
-		// recieve:
-		//	recieve the data, read into buffer
-		void recieve();
+		// receive:
+		//	receive the data, read into buffer
+		void receive();
 
 		// get
 		//	Return the first character from the read queue
 		//		remove the character from the queue
 		inline char get();
 	
+		// get
+		//	Special function for reading a string, the string
+		//	will be filled until a null terminator is found e.g. '\0'
+		inline void get(string&);
+
 		// writeToBuffer:
 		//	write raw data to a buffer
 		//	writeToBuffer(iterator start, iterator end);

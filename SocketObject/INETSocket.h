@@ -26,7 +26,11 @@ namespace archendale
 		// ~INETSocket:
 		//
 		~INETSocket();
-		
+
+		// operator=
+		//
+		const INETSocket& operator=(const INETSocket&);
+
 		// connect:
 		//	Connects the current socket
 		void connect();
@@ -41,6 +45,7 @@ namespace archendale
 	private:
 		InternetAddress m_address;	
 		unsigned int m_port;
+		const string m_protocolName;
 	}; // INETSocket
 
 } // namespace archendale

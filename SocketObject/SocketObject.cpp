@@ -7,7 +7,7 @@
 using namespace std;
 
 // TODO
-//	Set the recieve to not block;
+//	Set the receive to not block;
 //
 namespace archendale
 {
@@ -18,6 +18,12 @@ namespace archendale
 	/////////////////////////
 
 	Transmit SocketObject::transmit;
+
+	/////////////////////////
+	//
+	//	Class
+	//
+	/////////////////////////
 
 	SocketObject::SocketObject(unsigned int readBufferLength = 10000)
 	{
@@ -177,15 +183,31 @@ namespace archendale
 	//
 	inline char SocketObject::get()
 	{
-		if(m_readDataBuffer.size() <= 0) recieve();
+		if(m_readDataBuffer.size() <= 0) receive();
 		char ret = m_readDataBuffer[0];
 		m_readDataBuffer.erase(0, 1);
 		return ret;
 	} // get
 
-	// recieve:
+	// get:
+	//	special get function for strings saves the looping
+	void SocketObject::get(string& input)
+	{
+		if(m_readDataBuffer.size() <= 0) receive();
+		string::size_type i = 0;
+		// Read until we find that terminator
+		do
+		{
+			i = m_readDataBuffer.find('\0');
+			if(i == string::npos) receive();
+		} while(i == string::npos);
+		input = m_readDataBuffer.substr(0, i);
+		m_readDataBuffer.erase(0, i);
+	} // get
+
+	// receive:
 	//
-	void SocketObject::recieve()
+	void SocketObject::receive()
 	{
 		int count = ::recv(m_socketHandle->getSocket(), m_readBuffer, m_readBufferSize, MSG_NOSIGNAL);
 		if(count >= 0 )
@@ -210,7 +232,7 @@ namespace archendale
 				break;
 				case EFAULT:
 				{
-					Exception exp("Data out of Address Bounds in recieve in: " __FILE__);
+					Exception exp("Data out of Address Bounds in receive in: " __FILE__);
 					throw exp;
 				}		
 				break;
@@ -239,7 +261,7 @@ namespace archendale
 				}
 			} // switch
 		} // if(-1 != ...
-	} // recieve
+	} // receive
 	
 	///////////////////////
 	//
@@ -286,11 +308,7 @@ namespace archendale
 
 	SocketObject& SocketObject::operator>>(string& input)
 	{	
-		char data = 0;
-		while((data = get()) != '\0')
-		{
-			input += data;
-		} // while
+		get(input);
 		return *this;
 	} //  operator>>(string)
 
