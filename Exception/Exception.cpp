@@ -1,4 +1,4 @@
-
+#include <iostream>
 #include <Exception/Exception.h>
 
 namespace archendale 
@@ -70,7 +70,7 @@ namespace archendale
 	{
 		if(!hasNested()) 
 		{
-			cerr << "No Nested Exception being thrown" << endl;
+			std::cerr << "No Nested Exception being thrown" << std::endl;
 			Exception exp("No Nested Exception");
 			throw exp;
 		} // if
@@ -96,7 +96,7 @@ namespace archendale
 	// 	Exception throw when a method/object is not implemented
 	NotImplementedException::NotImplementedException(const string& msg) : Exception(msg)
 	{
-		cerr << "Unimplemented Function has been executed" << endl;
+		std::cerr << "Unimplemented Function has been executed" << std::endl;
 	} // NotImplementedException
 
 	// ~NotImplementedException:

@@ -79,7 +79,7 @@ namespace archendale
 			throw exp;
 		} // if
 		pthread_attr_t attr = m_threadAttribute.getAttribute();
-		switch(pthread_create(&m_threadHandle, &attr, &_run, this))
+		switch(pthread_create(&m_threadHandle, &attr, (void* (*)(void*)) &_run, this))
 		{
 			case EAGAIN:
 				{
