@@ -10,7 +10,6 @@
 #include <errno.h>
 #include <iostream>
 
-using std::cerr; 
 using std::string;
                      
 namespace archendale
@@ -106,7 +105,7 @@ namespace archendale
 		inet_aton(m_address.getAddress().c_str(), &socketAttribute.sin_addr);
 		if(::connect(getSocket(), (sockaddr*) &socketAttribute, sizeof(socketAttribute)))
 		{	
-			cerr << "connect caused an error: " << errno << endl;
+			std::cerr << "connect caused an error: " << errno << std::endl;
 		}  // if
 	} // connect
 

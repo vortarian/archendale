@@ -3,8 +3,6 @@
 #include <sys/socket.h>
 #include <iostream>
 
-using std::cerr;
-
 namespace archendale
 {
 	// SocketHandle:
@@ -22,7 +20,7 @@ namespace archendale
 		m_referenceCount--;
 		if(0 == m_referenceCount)
 		{
-			cerr << "Shutting down socket: " << m_socket << endl;
+			std::cerr << "Shutting down socket: " << m_socket << std::endl;
 			if(0 != m_socket) ::shutdown(m_socket, SHUT_RDWR);
 		} // if
 	} // ~SocketHandle

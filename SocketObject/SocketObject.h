@@ -61,7 +61,6 @@ namespace archendale
 	{
 	public:
 		SocketObject(unsigned int = 10000);
-		SocketObject(const SocketObject&);
 		virtual ~SocketObject();
 
 		// send:
@@ -120,6 +119,10 @@ namespace archendale
 		void setSocket(int);
 
 	private:
+		// Can't have people sharing SocketHandles
+		SocketObject(const SocketObject&);
+		const SocketObject& operator=(const SocketObject&);
+
 		string m_sendDataBuffer;
 		string m_readDataBuffer;
 		

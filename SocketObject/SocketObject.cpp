@@ -25,10 +25,10 @@ namespace archendale
 		m_readBufferSize = readBufferLength;
 		m_readBuffer	 = new char[m_readBufferSize];
 	} // SocketObject
-	
+
+	// This is a private member, as it is bad to share a handle	
 	SocketObject::SocketObject(const SocketObject& rhs)
 	{
-		delete m_readBuffer;
 		m_readBuffer 	 = 0;
 		m_socketHandle 	 = rhs.m_socketHandle;
 		m_socketHandle->increment();
@@ -45,6 +45,20 @@ namespace archendale
 		if(m_socketHandle->decrement() == 0)
 			delete m_socketHandle;
 	} // ~SocketObject
+
+	// This is a private member, as it is bad to share a handle	
+	const SocketObject& SocketObject::operator=(const SocketObject& rhs)
+	{
+		delete m_readBuffer;
+		m_readBuffer 	 = 0;
+		m_socketHandle 	 = rhs.m_socketHandle;
+		m_socketHandle->increment();
+		m_sendDataBuffer = rhs.m_sendDataBuffer;
+		m_readDataBuffer = rhs.m_readDataBuffer;
+		m_readBufferSize = rhs.m_readBufferSize;
+		m_readBuffer 	 = new char[m_readBufferSize];
+		return *this;
+	} // operator=
 
 	///////////////////////////////
 	//
