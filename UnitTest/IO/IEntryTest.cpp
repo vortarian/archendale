@@ -79,17 +79,12 @@ const string StringEntry::m_className = "StringEntry";
 
 using namespace archendale;
 
-stringstream iostr;
-
 // entryFactory:
 //	returns the next IEntry type object from the ITDF stream
 IEntry* entryFactory(ITDF& in)
 {
 	string name;
-cout << iostr.str().c_str() << endl;
 	in >> name;
-cout << iostr.str().c_str() << endl;
-cout << name << endl;
 	void *ptr = 0;
 	try
 	{
@@ -107,18 +102,22 @@ cout << name << endl;
 	return dynamic_cast<IEntry*>(static_cast<IEntry*>(ptr));
 } // entryFactory
 
+// TODO: Add an entry that uses multiple types, something hard to do
+// TODO: Try it with a Templatized Entry
+
 int main(void)
 {
 	IntEntry ia(3);
 	StringEntry sa("Hello World");
 	
+	stringstream iostr;
 	OTDF otdf(iostr);	
 
 	otdf << ia.getName() << ia << sa.getName() << sa;
 
 	ITDF itdf(iostr);
 	IEntry* tib = entryFactory(itdf);	// get the IntEntry
-	
+
 	// Test the types:
 	if(0 == tib)
 	{
@@ -137,6 +136,8 @@ int main(void)
 		cout << "Test FAILED" << endl;
 		return -1;
 	} // if
+	
+	// Finally, read the object
 	itdf >> *ib;
 	
 	IEntry* tsb = entryFactory(itdf);	// get the StringEntry
@@ -154,6 +155,8 @@ int main(void)
 		cout << "Test FAILED" << endl;
 		return -1;
 	} // if
+	
+	// Read the string object
 	itdf >> *sb;
 	
 	if( (ia == *ib) && (sa == *sb) ) 
