@@ -118,10 +118,10 @@ namespace archendale
 		//
 		void setSocket(int);
 
-	private:
 		// Can't have people sharing SocketHandles
 		SocketObject(const SocketObject&);
 		const SocketObject& operator=(const SocketObject&);
+	private:
 
 		string m_sendDataBuffer;
 		string m_readDataBuffer;

@@ -1,7 +1,7 @@
 
-CC = g++
-INCLUDE = -I../..
-CCOPTIONS = $(GLOBALCCOPTIONS) $(INCLUDE) -D_REENTRANT
+
+include ../../makefile.global
+
 LINKEROPTIONS = -L../../lib -lpthread -lException -lThreadObject
 THREADSUPERTESTDRIVEROBJECTS =  DetachedThreadRunner.o ThreadSuperTestDriver.o ThreadCounter.o
 
@@ -17,8 +17,8 @@ clean:
 	-rm ThreadSuperTestDriver
 	
 ThreadSuperTestDriver: $(THREADSUPERTESTDRIVEROBJECTS) 
-	$(CC) $(CCOPTIONS) -o $@ $(THREADSUPERTESTDRIVEROBJECTS)  $(LINKEROPTIONS)
+	$(CPP) $(CPP_FLAGS) -o $@ $(THREADSUPERTESTDRIVEROBJECTS) $(LINKEROPTIONS) 
 
 .cpp.o:	$<
-	$(CC) $(CCOPTIONS) -c $<
+	$(CPP) $(CPP_FLAGS) -c $<
 

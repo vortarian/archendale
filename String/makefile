@@ -1,27 +1,11 @@
 #########################################################
 # makefile
 
+include ../makefile.global
+
 
 .SUFFIXES: .cc .class .java .cxx .C .cpp .o .c .l .y
 
-
-JAVA = gcj
-CC = gcc
-CPP = g++
-JAVA_FLAGS =      
-CC_FLAGS = $(GLOBALCCOPTIONS)    
-CPP_FLAGS = $(GLOBALCCOPTIONS)
-JAVA_INCLUDES = 
-CC_INCLUDES = 
-CPP_INCLUDES = -I. -I..
-JAVA_DEFINES = 
-CC_DEFINES = 
-CPP_DEFINES = 
-string_LIBS = 
-LINKER = ar cru
-SHLINKER = g++ -shared
-LINKER_FLAGS = 
-LINKER_ENTRY = 
 string_OBJECTS = String.o
 
 all: ../lib/libString.a ../lib/libString.so

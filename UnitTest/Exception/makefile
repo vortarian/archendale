@@ -1,7 +1,6 @@
 
-CC = g++
-INCLUDE = -I../..
-CCOPTIONS = $(GLOBALCCOPTIONS) $(INCLUDE)
+include ../../makefile.global
+
 LINKEROPTIONS = -L../../lib -lException
 ExceptionTestDriverObjects = ExceptionTestDriver.o
 
@@ -17,8 +16,8 @@ clean:
 	-rm ExceptionTestDriver
 	
 ExceptionTestDriver: $(ExceptionTestDriverObjects) 
-	$(CC) $(CCOPTIONS) -o $@ $(ExceptionTestDriverObjects)  $(LINKEROPTIONS)
+	$(CPP) $(CPP_FLAGS) -o $@ $(ExceptionTestDriverObjects)  $(LINKEROPTIONS) 
 
 .cpp.o:	$<
-	$(CC) $(CCOPTIONS) -c $<
+	$(CPP) $(CPP_FLAGS) -c $<
 

@@ -54,9 +54,6 @@ main(char** argv, int argc )
 		} catch (SocketNotConnectedException exp) 
 		{
 			cerr << "SocketNotConnectedException exp: " << exp.why() << endl;
-		} catch (Exception exp) 
-		{
-			cerr << "Exception exp: " << exp.why() << endl;
 		} catch (OperationWillBlockException exp) 
 		{
 			cerr << "OperationWillBlockException exp: " << exp.why() << endl;
@@ -66,6 +63,9 @@ main(char** argv, int argc )
 		} catch (InvalidArgumentException exp) 
 		{
 			cerr << "InvalidArgumentException exp: " << exp.why() << endl;
+		} catch (Exception exp) 
+		{
+			cerr << "Exception exp: " << exp.why() << endl;
 		} // try
 
 		cout << "Recieved string data: " << data << endl;

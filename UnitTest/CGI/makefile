@@ -1,7 +1,6 @@
 
-CC = g++
-INCLUDE = -I../..
-CCOPTIONS = $(GLOBALCCOPTIONS) $(INCLUDE) -D_REENTRANT
+include ../../makefile.global
+
 LINKEROPTIONS = -L../../lib -lCGIObject -lException
 CGITESTDRIVEROBJECTS =  CGITest.o
 
@@ -17,8 +16,8 @@ clean:
 	-rm CGITest
 	
 CGITest: $(CGITESTDRIVEROBJECTS) 
-	$(CC) $(CCOPTIONS) -o $@ $(CGITESTDRIVEROBJECTS)  $(LINKEROPTIONS)
+	$(CPP) $(CPP_FLAGS) -o $@ $(CGITESTDRIVEROBJECTS)  $(LINKEROPTIONS)
 
 .cpp.o:	$<
-	$(CC) $(CCOPTIONS) -c $<
+	$(CPP) $(CPP_FLAGS) -c $<
 

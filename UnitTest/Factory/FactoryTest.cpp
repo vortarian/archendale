@@ -46,4 +46,5 @@ int main(void)
 	{
 		cout << "Exception caught, test succeeded" << endl;
 	} // try
+	return 0;
 } // main

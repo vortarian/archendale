@@ -4,37 +4,12 @@
 #
 
 
+include ../makefile.global
+
+
 .SUFFIXES: .cc .class .java .cxx .C .cpp .o .c .l .y
 
 
-VPATH = /home/vortex/project/Exception/.
-
-
-YACC = bison
-LEX = flex
-JAVA = gcj
-CC = gcc
-CPP = g++
-YACC_FLAGS =      
-LEX_FLAGS =      
-JAVA_FLAGS =      
-CC_FLAGS = $(GLOBALCCOPTIONS)
-CPP_FLAGS = $(GLOBALCCOPTIONS)
-YACC_INCLUDES = 
-LEX_INCLUDES = 
-JAVA_INCLUDES = 
-CC_INCLUDES = 
-CPP_INCLUDES = -I. -I../
-YACC_DEFINES = 
-LEX_DEFINES = 
-JAVA_DEFINES = 
-CC_DEFINES = 
-CPP_DEFINES = 
-exception_LIBS = 
-LINKER = ar cru 
-SHLINKER = g++ -shared
-LINKER_FLAGS = 
-LINKER_ENTRY = 
 exception_OBJECTS = Exception.o
 
 all: ../lib/libException.a ../lib/libException.so
@@ -45,33 +20,9 @@ all: ../lib/libException.a ../lib/libException.so
 ../lib/libException.so: $(exception_OBJECTS)
 	$(SHLINKER) -o ../lib/libException.so $(LINKER_ENTRY) $(LINKER_FLAGS) $(exception_OBJECTS) $(exception_LIBS)
 
-.y.c:
-	$(YACC) $< $(YACC_FLAGS) $(YACC_DEFINES) $(YACC_INCLUDES)
-
-
-.l.c:
-	$(LEX) $< $(LEX_FLAGS) $(LEX_DEFINES) $(LEX_INCLUDES)
-
-
-.java.o:
-	$(JAVA) -c $< $(JAVA_FLAGS) $(JAVA_DEFINES) $(JAVA_INCLUDES)
-.class:
-	$(JAVA) -c $< $(JAVA_FLAGS) $(JAVA_DEFINES) $(JAVA_INCLUDES)
-
-
-.c.o:
-	$(CC) -c $< $(CC_FLAGS) $(CC_DEFINES) $(CC_INCLUDES)
-
 
 .cpp.o:
 	$(CPP) -c $< $(CPP_FLAGS) $(CPP_DEFINES) $(CPP_INCLUDES)
-.C.o:
-	$(CPP) -c $< $(CPP_FLAGS) $(CPP_DEFINES) $(CPP_INCLUDES)
-.cc.o:
-	$(CPP) -c $< $(CPP_FLAGS) $(CPP_DEFINES) $(CPP_INCLUDES)
-.cxx.o:
-	$(CPP) -c $< $(CPP_FLAGS) $(CPP_DEFINES) $(CPP_INCLUDES)
-
 
 
 clean:

@@ -1,7 +1,6 @@
 
-CC = g++
-INCLUDE = -I../..
-CCOPTIONS = $(GLOBALCCOPTIONS) $(INCLUDE) -D_REENTRANT -g
+include ../../makefile.global
+
 LINKEROPTIONS = -L../../lib -lpthread -lException -lThreadObject -lSocketObject
 SOCKETDRIVEROBJECTS =  SocketTestDriver.o
 SOCKETSERVEROBJECTS =  SocketServerTest.o
@@ -21,14 +20,14 @@ clean:
 	-rm SocketServerTest
 	
 SocketTestDriver: $(SOCKETDRIVEROBJECTS) 
-	$(CC) $(CCOPTIONS) -o $@ $(SOCKETDRIVEROBJECTS)  $(LINKEROPTIONS)
+	$(CPP) $(CPP_FLAGS) -o $@ $(SOCKETDRIVEROBJECTS)  $(LINKEROPTIONS)
 
 SocketServerTest: $(SOCKETSERVEROBJECTS) 
-	$(CC) $(CCOPTIONS) -o $@ $(SOCKETSERVEROBJECTS)  $(LINKEROPTIONS)
+	$(CPP) $(CPP_FLAGS) -o $@ $(SOCKETSERVEROBJECTS)  $(LINKEROPTIONS)
 
 SocketClientTest: $(SOCKETCLIENTOBJECTS) 
-	$(CC) $(CCOPTIONS) -o $@ $(SOCKETCLIENTOBJECTS)  $(LINKEROPTIONS)
+	$(CPP) $(CPP_FLAGS) -o $@ $(SOCKETCLIENTOBJECTS)  $(LINKEROPTIONS)
 
 .cpp.o:	$<
-	$(CC) $(CCOPTIONS) -c $<
+	$(CPP) $(CPP_FLAGS) -c $<
 

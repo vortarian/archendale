@@ -1,19 +1,10 @@
 #########################################################
 # makefile
 
+include ../makefile.global
 
 .SUFFIXES: .cc .class .java .cxx .C .cpp .o .c .l .y
 
-
-CPP = g++
-CPP_FLAGS = $(GLOBALCCOPTIONS) -D_REENTRANT -g
-CPP_INCLUDES = -I. -I../
-CPP_DEFINES = 
-SOCKETLIBS = 
-LINKER = ar cru 
-SHLINKER = g++ -shared
-LINKER_FLAGS = 
-LINKER_ENTRY = 
 SOCKETOBJECTS = NameResolver.o INetworkAddress.o InternetAddress.o SocketObject.o INETSocket.o SocketHandle.o SocketServer.o # SocketAttribute.o APPLETALKSocket.o ATMPVCSocket.o AX25Socket.o INET6Socket.o INETSocket.o IPXSocket.o NETLINKSocket.o PACKETSocket.o SocketSocket.o SocketObject.o SocketTestDriver.o UNIXSocket.o X25Socket.o
 
 all: ../lib/libSocketObject.a ../lib/libSocketObject.so

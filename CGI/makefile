@@ -1,19 +1,11 @@
 #########################################################
 # makefile
 
+include ../makefile.global
 
 .SUFFIXES: .cc .class .java .cxx .C .cpp .o .c .l .y
 
 
-CPP = g++
-CPP_FLAGS = $(GLOBALCCOPTIONS) -D_REENTRANT -g
-CPP_INCLUDES = -I. -I../
-CPP_DEFINES = 
-CGILIBS = 
-LINKER = ar cru 
-SHLINKER = g++ -shared
-LINKER_FLAGS = 
-LINKER_ENTRY = 
 CGIOBJECTS = CGI.o CGICommand.o
 
 all: ../lib/libCGIObject.a ../lib/libCGIObject.so

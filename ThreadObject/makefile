@@ -1,27 +1,11 @@
 #########################################################
 # makefile
 
+include ../makefile.global
+
 
 .SUFFIXES: .cc .class .java .cxx .C .cpp .o .c .l .y
 
-
-JAVA = gcj
-CC = gcc
-CPP = g++
-JAVA_FLAGS =      
-CC_FLAGS =      
-CPP_FLAGS = $(GLOBALCCOPTIONS) -D_REENTRANT
-JAVA_INCLUDES = 
-CC_INCLUDES = 
-CPP_INCLUDES = -I. -I../
-JAVA_DEFINES = 
-CC_DEFINES = 
-CPP_DEFINES = 
-threadobject_LIBS = 
-LINKER = ar cru 
-SHLINKER = g++ -shared
-LINKER_FLAGS = 
-LINKER_ENTRY = 
 threadobject_OBJECTS = ThreadSuper.o ThreadAttribute.o Mutex.o AutoMutex.o AutoMutexTry.o
 
 all: ../lib/libThreadObject.a ../lib/libThreadObject.so

@@ -77,7 +77,7 @@ void printSource(String file)
 		<< "} // namespace archendale" << endl;
 }
 
-void main(unsigned int arguementCount, char **argumentArray)
+int main(int arguementCount, char **argumentArray)
 {
 	try {
 		String file;

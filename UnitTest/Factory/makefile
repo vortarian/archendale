@@ -1,7 +1,6 @@
 
-CC = g++
-INCLUDE = -I../..
-CCOPTIONS = $(GLOBALCCOPTIONS) $(INCLUDE) -D_REENTRANT
+include ../../makefile.global
+
 LINKEROPTIONS = -L../../lib -lFactoryObject -lException
 FACTORYTESTDRIVEROBJECTS =  FactoryTest.o
 
@@ -18,8 +17,8 @@ clean:
 	-rm FactoryTest
 	
 FactoryTest: $(FACTORYTESTDRIVEROBJECTS) 
-	$(CC) $(CCOPTIONS) -o $@ $(FACTORYTESTDRIVEROBJECTS)  $(LINKEROPTIONS)
+	$(CPP) $(CPP_FLAGS) -o $@ $(FACTORYTESTDRIVEROBJECTS)  $(LINKEROPTIONS)
 
 .cpp.o:	$<
-	$(CC) $(CCOPTIONS) -c $<
+	$(CPP) $(CPP_FLAGS) -c $<
 

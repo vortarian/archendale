@@ -1,7 +1,7 @@
 
-export GLOBALCCOPTIONS = -d
+include ./makefile.global
 
-all: libraries writeclass 
+all: libraries # writeclass 
 	make -C UnitTest -j
 
 libraries: 
@@ -9,6 +9,7 @@ libraries:
 	make -C ThreadObject -j
 	make -C String -j
 	make -C CGI -j
+	make -C IO -j
 	make -C Factory -j
 	make -C SocketObject -j
 
@@ -21,6 +22,7 @@ clean:
 	make -C Exception clean -j 
 	make -C String clean -j 
 	make -C ThreadObject clean -j 
+	make -C IO clean -j 
 	make -C CGI clean -j 
 	make -C Factory clean -j 
 	make -C UnitTest clean -j 
@@ -37,13 +39,8 @@ touch:
 
 .SUFFIXES: .cc .class .java .cxx .C .cpp .o .c .l .y
 
-CPP = g++
-CPP_FLAGS = $(GLOBALCCOPTIONS) -D_REENTRANT
-CPP_INCLUDES = -I. -I../
-CPP_DEFINES = 
-
 writeclass:  writeclass.o libraries  
-	$(CPP) -o  writeclass  writeclass.o -L./lib -lString -lException
+	$(CPP) -o  writeclass writeclass.o -L./lib -lString -lException
 	
 .cpp.o:
 	$(CPP) -c $< $(CPP_FLAGS) $(CPP_DEFINES) $(CPP_INCLUDES)
