@@ -5,31 +5,31 @@
 #include <Exception/Exception.h>
 namespace archendale 
 {
-	class ThreadParameterOutsideOfMemorySpaceException : Exception
+	class ThreadParameterOutsideOfMemorySpaceException : public Exception
 	{
 	}; // ThreadParameterOutsideOfMemorySpaceException
 	
-	class ThreadNotStartedException : Exception
+	class ThreadNotStartedException : public Exception
 	{
 	}; // ThreadNotStartedException
 	
-	class ThreadNotFoundException : Exception
+	class ThreadNotFoundException : public Exception
 	{
 	}; // ThreadNotFoundException
 
-	class ThreadResourcesNotAvailableException : Exception
+	class ThreadResourcesNotAvailableException : public Exception
 	{
 	}; // ThreadResourcesNotAvailableException
 
-	class ThreadDetachedException : Exception
+	class ThreadDetachedException : public Exception
 	{
 	}; // ThreadDetachedException
 
-	class ThreadRequestSelfJoinException : Exception
+	class ThreadRequestSelfJoinException : public Exception
 	{
 	}; // ThreadRequestSelfJoinException
 
-	class InvalidThreadAttributeException : Exception
+	class InvalidThreadAttributeException : public Exception
 	{
 	public:
 		InvalidThreadAttributeException() {}; 
@@ -37,7 +37,7 @@ namespace archendale
 		~InvalidThreadAttributeException() {};
 	}; // InvalidThreadAttributeException
 
-        class ThreadScheduleInsufficientPermission : Exception
+        class ThreadScheduleInsufficientPermission : public Exception
         {
 	public:
                 ThreadScheduleInsufficientPermission() {};
