@@ -27,6 +27,7 @@
 #include <errno.h>
 #include <ThreadObject/ThreadAttribute.h>
 #include <ThreadObject/ThreadException.h>
+#include <ThreadObject/Mutex.h>
 
 namespace archendale 
 {
@@ -43,6 +44,14 @@ namespace archendale
 		ThreadSuper(const ThreadAttribute& attr);
 		virtual ~ThreadSuper();
 	
+		/////////////////////////////////////////////////////////////
+		//
+		// Threading Operations
+		//	Misc threading operations which do not fit in the 
+		//	above categories
+		//
+		/////////////////////////////////////////////////////////////
+
 		// start:
 		//	Begin execution of thread
 		void start();
@@ -55,11 +64,25 @@ namespace archendale
 		// Join the thread to the main thread, wait if necessary
 		void join();
 
+		// detach:
+		//	Detach the current thread while executing
+		//	detach() will try to lock m_joinOrDetachMutex, if it fails
+		// 	it will throw ThreadJoinInProcessException
+		void detach();
+
+		///////////////////////////////////////////////////////////
+		//
+		//	Standard Accessors / Operators
+		//
+		///////////////////////////////////////////////////////////
+
 		// compares thread id's to see if they equal
 		bool operator==(const ThreadSuper&) const;
+
 		// deep copy of the incoming object,
 		// this may be dangerous, as two thread handles
 		// floating around . . . .
+		// TODO: Decide if this is _to_ dangerous
 		const ThreadSuper& operator=(const ThreadSuper&);	
 	
 		// getThread:
@@ -94,6 +117,7 @@ namespace archendale
 		//	Takes an optional parameter to set priority
 		//	Note: Only processes running as root can do this
 		void scheduleRoundRobin(int = 1);
+
 	private:	
 		// run:
 		//	function that is defined by the subclass to
@@ -107,6 +131,16 @@ namespace archendale
 		bool m_running;
 		pthread_t m_threadHandle;
 		ThreadAttribute m_threadAttribute;
+
+		// Mutex's:
+	
+		// m_joinOrDetachMutex:	
+		// Mutex to coordinate between join's and detach's
+		//	join() will lock this mutex, and if it does, proceed to join
+		// 	the thread 
+		//	detach() will try to lock this mutex, if it fails
+		// 	it will throw ThreadJoinInProgressException
+		Mutex m_joinOrDetachMutex;	
 	};
 } // archendale
 

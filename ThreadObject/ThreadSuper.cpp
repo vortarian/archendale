@@ -22,19 +22,19 @@
 //
 
 #include <ThreadObject/ThreadSuper.h>
+#include <ThreadObject/AutoMutex.h>
+#include <ThreadObject/AutoMutexTry.h>
 
 namespace archendale 
 {
 
 	ThreadSuper::ThreadSuper()
 	{
-		m_threadHandle = 0;
 		m_running = false;
 	} // ThreadSuper
 
 	ThreadSuper::ThreadSuper(const ThreadAttribute& attr)
 	{
-		m_threadHandle = 0;
 		m_threadAttribute = attr;
 		m_running = false;
 	} // ThreadSuper
@@ -46,18 +46,29 @@ namespace archendale
 
 	void ThreadSuper::start()
 	{
+		if(m_running == true) {
+			ThreadRunningException exp;
+			throw exp;
+		} // if
 		pthread_attr_t attr = m_threadAttribute.getAttribute();
 		switch(pthread_create(&m_threadHandle, &attr, &_run, this))
 		{
 			case EAGAIN:
-				ThreadResourcesNotAvailableException exp;
-				throw exp;
+				{
+					ThreadResourcesNotAvailableException exp;
+					throw exp;
+				}
 				break;
 		} // switch
 	} // start
 
 	void ThreadSuper::stop()
 	{
+		// m_running must be updated before the cancel
+		// otherwise if an exception gets thrown, we will
+		// exit without telling the thread it is no longer
+		// running!
+		m_running = false;
 		switch(pthread_cancel(m_threadHandle))
 		{
 			case ESRCH:
@@ -65,11 +76,11 @@ namespace archendale
 				throw exp;
 				break;
 		} // switch
-
 	} // stop
 
 	void ThreadSuper::join()
 	{
+		AutoMutex aMutex(m_joinOrDetachMutex);
 		switch(pthread_join(m_threadHandle, 0))
 		{
 			case ESRCH:
@@ -94,9 +105,41 @@ namespace archendale
 		m_running = false;
 	} // join
 
+	// detach:
+	//      Detach the current thread while executing
+	//      detach() will try to lock m_joinOrDetachMutex, if it fails
+	//      it will throw ThreadJoinInProcessException
+	void ThreadSuper::detach()
+	{
+		try 
+		{
+			AutoMutexTry autoTryMutex(m_joinOrDetachMutex);
+			switch(pthread_detach(m_threadHandle))
+			{
+				case ESRCH:
+					{
+						ThreadNotFoundException tnfexp;
+						throw tnfexp;
+					}
+					break;
+				case EINVAL:
+					{
+						ThreadDetachedException tdexp;
+						throw tdexp;
+					}
+					break;
+			} // switch
+		} catch (MutexBusyException mbeexp) 
+		{
+			ThreadJoinInProgressException exp;
+			exp.setNestedException(mbeexp);
+			throw exp;
+		} // try
+	} // detach
+
 	bool ThreadSuper::operator==(const ThreadSuper& rhs) const
 	{
-		return getThread() == rhs.getThread();
+		return pthread_equal(getThread(), rhs.getThread());
 	} // operator==
 
 	// Note that running states, and thread handles will not
@@ -200,4 +243,5 @@ namespace archendale
 				break;
 		} // switch
 	} // scheduleRoundRobin
+
 } // archendale

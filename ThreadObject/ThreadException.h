@@ -3,8 +3,13 @@
 
 #include <String/String.h>
 #include <Exception/Exception.h>
+
 namespace archendale 
 {
+	class ThreadJoinInProgressException : public Exception
+	{
+	}; // ThreadJoinInProgressException 
+	
 	class ThreadParameterOutsideOfMemorySpaceException : public Exception
 	{
 	}; // ThreadParameterOutsideOfMemorySpaceException
@@ -12,6 +17,11 @@ namespace archendale
 	class ThreadNotStartedException : public Exception
 	{
 	}; // ThreadNotStartedException
+	
+	class ThreadRunningException : public Exception
+	{
+		// Occurs when the thread is started while it is running!
+	}; // ThreadRunningException
 	
 	class ThreadNotFoundException : public Exception
 	{

@@ -22,7 +22,7 @@ LINKER = ar cru
 SHLINKER = g++ -shared
 LINKER_FLAGS = 
 LINKER_ENTRY = 
-threadobject_OBJECTS = ThreadSuper.o ThreadAttribute.o Mutex.o 
+threadobject_OBJECTS = ThreadSuper.o ThreadAttribute.o Mutex.o AutoMutex.o AutoMutexTry.o
 
 all: ../lib/libThreadObject.a ../lib/libThreadObject.so
 
