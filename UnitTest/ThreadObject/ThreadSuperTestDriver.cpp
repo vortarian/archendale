@@ -74,14 +74,16 @@ void main(void)
 	fifth.start();
 
 	sleep(30);	
+	cerr << "1" << endl;
 	try
 	{
 		first.join();
 	}catch (ThreadDetachedException exp)
 	{
 		cerr << "Caught Exception: " << endl;
-		perror("First");
+		//perror("First");
 	}
+	cerr << "2" << endl;
 	try
 	{
 		second.join();
@@ -90,6 +92,7 @@ void main(void)
 		cerr << "Caught Exception: " << endl;
 		perror("Second");
 	}
+	cerr << "3" << endl;
 	try
 	{
 		third.join();
@@ -98,6 +101,7 @@ void main(void)
 		cerr << "Caught Exception: " << endl;
 		perror("third");
 	}
+	cerr << "4" << endl;
 	try
 	{
 		forth.join();
@@ -106,6 +110,7 @@ void main(void)
 		cerr << "Caught Exception: " << endl;
 		perror("forth");
 	}
+	cerr << "5" << endl;
 	try
 	{
 		fifth.join();
@@ -114,4 +119,5 @@ void main(void)
 		cerr << "Caught Exception: " << endl;
 		perror("Fifth");
 	}
+	cerr << "6" << endl;
 }
