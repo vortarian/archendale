@@ -12,6 +12,7 @@ libraries:
 	make -C IO -j
 	make -C Factory -j
 	make -C SocketObject -j
+	make -C Util -j
 
 run:
 	make -C UnitTest run
@@ -26,11 +27,14 @@ clean:
 	make -C CGI clean -j 
 	make -C Factory clean -j 
 	make -C UnitTest clean -j 
+	make -C Util clean -j 
 	make -C SocketObject clean -j 
 
 touch:
 	touch ./makefile
 	touch ./Exception/makefile
+	touch ./IO/makefile
+	touch ./Util/makefile
 	touch ./String/makefile
 	touch ./ThreadObject/makefile
 	touch ./CGI/makefile

@@ -1,12 +1,12 @@
-
+#include <iostream>
 #include <fstream>
-#include <FileTable.h>
 #include <stdexcept>
+
+#include <IO/FileTable.h>
 #include <IO/ITDF.h>
 #include <IO/OTDF.h>
 #include <IO/IOException.h>
 #include <Exception/Exception.h>
-#include <iostream>
 
 using namespace std;
 using std::ofstream;
