@@ -56,7 +56,7 @@ bool testNameResolver()
 			cout << (int) test.uname[2] << ".";
 			cout << (int) test.uname[3] << endl;
 			start++;
-		}
+		} // while
 		
 		vec = address.getHostNames();
 		start = vec.begin();
@@ -262,11 +262,68 @@ bool testSocketObjectRead()
 	} catch (OutOfMemoryException exp) {
 		cerr << exp.why() << endl;
 		return false;
+	} catch (...) {
+		cerr << "Unknown Exception caught in testSocketObject" << endl;
+		return false;
 	} // try 
-
 
 	return true;
 } // testSocketObject
+
+bool testSocketObjectLargeReadWrite()
+{
+	INETSocket obj;
+	obj.connect();
+	int sendData[2000]; 
+	int recieveData[sizeof(sendData) / sizeof(int)]; 
+	if(sizeof(recieveData) != sizeof(sendData))
+	{
+		cerr << "Data Size is not equal, can not complete large send" << endl;
+		return false;
+	} // if
+	for(int i = 0; i < sizeof(sendData) / sizeof(int); i++)
+	{
+		sendData[i] = i;
+	} // for
+		
+	try {
+		cout 	<< "Sending "
+			<< float(sizeof(sendData)) / 100000
+			<< "K bytes of data" 
+			<< endl;
+
+		for(int i = 0; i < sizeof(sendData) / sizeof(int); i++)
+		{
+			obj << sendData[i];
+		} // for
+
+		cout << "Transmitting" << endl;
+		obj << SocketObject::transmit;
+		cout << "Recieving" << endl;
+		for(int i = 0; i < sizeof(recieveData) / sizeof(int); i++)
+		{
+			obj >> recieveData[i];
+		} // for
+	} catch (OutOfMemoryException exp) {
+		cerr << exp.why() << endl;
+		return false;
+	} catch (...) {
+		cerr << "Unknown Exception caught in testSocketObject" << endl;
+		return false;
+	} // try 
+
+	for(int i = 0; i < sizeof(sendData) / sizeof(int); i++)
+	{
+		if(sendData[i] != recieveData[i]) 
+		{	
+			cerr << "Data not equal: " << endl;
+			cerr << "sendData[" << i << "] = " << sendData[i] << endl;
+			cerr << "recieveData[" << i << "] = " << recieveData[i] << endl;
+			return false;
+		} // if
+	} // for
+	return true;
+} // testSocketObjectLargeReadWrite
 
 void outputStatus(bool status) 
 {
@@ -285,6 +342,7 @@ void main(void)
 			"1: NameResolver\n"
 			"2: SocketObject\n"
 			"3: SocketObject(Reads)\n"
+			"4: SocketObject(Large Reads & Writes)\n"
 			"Q: Quit\n"
 			"?:";
 		cin.getline(input, 4);
@@ -300,6 +358,9 @@ void main(void)
 				break;
 			case '3':	
 				outputStatus(testSocketObjectRead());
+				break;
+			case '4':	
+				outputStatus(testSocketObjectLargeReadWrite());
 				break;
 			case 'q':
 			case 'Q':
