@@ -1,6 +1,8 @@
+
+#include <iostream>
+#include <stdexcept>
 #include <IO/OTDF.h>
 #include <IO/IOException.h>
-#include <iostream>
 
 using namespace std;
 
@@ -42,7 +44,22 @@ namespace archendale
 	// TODO: update algorithm so that any delimiter can be used
 	OTDF& OTDF::operator<<(const string& input)
 	{
-		m_outputStream << input << "\t";
+                string replaceText(8, ' ');
+                unsigned int startIndex = 0;
+		string modifiableInput = input;
+
+                try
+                {
+                        while(string::npos != (startIndex = modifiableInput.find('\t', startIndex)))
+                        {
+                                modifiableInput.replace(startIndex, 1, replaceText);
+                        } // while
+                } catch(out_of_range)
+                {
+                        // They are all replaced if we get here
+                } // try
+
+		m_outputStream << modifiableInput << "\t";
 		return *this;
 	} // OTDF
 	

@@ -40,30 +40,6 @@ namespace archendale
 	//	Replace all \t's with TAB_REPLACE_SIZE spaces
 	template<class T> void FileTable<T>::update(T entry)
 	{
-		string replaceText(TAB_REPLACE_SIZE, ' ');
-		unsigned int startIndex = 0;
-		try
-		{
-			while(string::npos != (startIndex = entry.m_name.find('\t', startIndex)))
-			{
-				entry.m_name.replace(startIndex, 1, replaceText);
-			} // while
-		} catch(out_of_range)
-		{
-			// They are all replaced if we get here
-		} // try
-		startIndex = 0;
-		try
-		{
-			while(string::npos != (startIndex = entry.m_description.find('\t', startIndex)))
-			{
-				entry.m_description.replace(startIndex, 1, replaceText);
-			} // while
-		} catch (out_of_range)
-		{
-			// They are all replaced if we get here
-		} // try
-		
 		if(entry.m_isNew)
 		{
 			entry.m_id = size();
@@ -121,9 +97,9 @@ namespace archendale
 		ITDF itdf(ifstr);
 		try 
 		{	
-			T entry;
 			while(1)
 			{
+				T entry;
 				itdf >> entry;
 				push_back(entry);
 			} // while

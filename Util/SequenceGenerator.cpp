@@ -6,8 +6,8 @@ using namespace std;
 namespace archendale
 {
 
-	FactoryRegistrar<SequenceGenerator> SequenceGenerator::CFR("SequenceGenerator");
 	const string SequenceGenerator::m_className("SequenceGenerator");
+	FactoryRegistrar<SequenceGenerator> SequenceGenerator::CFR("SequenceGenerator");
 
 	// SequenceGenerator:
 	//
