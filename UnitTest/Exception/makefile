@@ -1,7 +1,7 @@
 
 CC = g++
 INCLUDE = -I../..
-CCOPTIONS = $(INCLUDE) -D_REENTRANT
+CCOPTIONS = $(GLOBALCCOPTIONS) $(INCLUDE) -d
 LINKEROPTIONS = -L../../lib -lException -lString
 ExceptionTestDriverObjects = ExceptionTestDriver.o
 
@@ -10,11 +10,11 @@ ExceptionTestDriverObjects = ExceptionTestDriver.o
 all: ExceptionTestDriver
 
 run: all
-	./ThreadSuperTestDriver
+	-./ExceptionTestDriver
 
 clean:
-	rm *\.o
-	rm ExceptionTestDriver
+	-rm *\.o
+	-rm ExceptionTestDriver
 	
 ExceptionTestDriver: $(ExceptionTestDriverObjects) 
 	$(CC) $(CCOPTIONS) -o $@ $(ExceptionTestDriverObjects)  $(LINKEROPTIONS)

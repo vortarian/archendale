@@ -1,7 +1,7 @@
 
 CC = g++
 INCLUDE = -I../..
-CCOPTIONS = $(INCLUDE) -D_REENTRANT
+CCOPTIONS = $(GLOBALCCOPTIONS) $(INCLUDE) -D_REENTRANT
 LINKEROPTIONS = -L../../lib -lpthread -lException -lString -lThreadObject
 THREADSUPERTESTDRIVEROBJECTS = ThreadSuperTestDriver.o
 
@@ -10,11 +10,11 @@ THREADSUPERTESTDRIVEROBJECTS = ThreadSuperTestDriver.o
 all: ThreadSuperTestDriver
 
 run: all
-	./ThreadSuperTestDriver
+	-./ThreadSuperTestDriver
 
 clean:
-	rm *\.o
-	rm ThreadSuperTestDriver
+	-rm *\.o
+	-rm ThreadSuperTestDriver
 	
 ThreadSuperTestDriver: $(THREADSUPERTESTDRIVEROBJECTS) 
 	$(CC) $(CCOPTIONS) -o $@ $(THREADSUPERTESTDRIVEROBJECTS)  $(LINKEROPTIONS)

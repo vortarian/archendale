@@ -19,6 +19,7 @@ void throwNestedException()
 	{
 		Exception nexp("nested exception");
 		nexp.setNestedException(exp);	
+		throw nexp;
 	} // try
 } // throwNestedException
 
@@ -48,5 +49,12 @@ void testExceptions(void)
 
 void main(void)
 {
+	cout << "----------Output should be:------------\n" 
+		<< "Caught Exception from throwException - why: plain Exception" << endl
+		<< "It does not have a nested exception (GOOD)" << endl
+		<< "Caught Exception from throwException - why: nested exception" << endl
+		<< "It has a nested exception (GOOD)" << endl
+		<< "Nested Exception says - why: plain Exception" << endl;
+	cout << "--------------Running Test--------------" << endl;
 	testExceptions();
 } // main

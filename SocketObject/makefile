@@ -1,7 +1,7 @@
 
 OBJECTS 	= SocketObject.o SocketAttribute.o 
 CC		= g++
-CCOPTIONS	= -d
+CCOPTIONS	= $(GLOBALCCOPTIONS)
 EXE		= SocketTestDriver
 
 $(EXE): $(OBJECTS) $?.o
@@ -11,4 +11,4 @@ $(EXE): $(OBJECTS) $?.o
 	$(CC) $(CCOPTIONS) -c $<
 
 clean: 
-	rm $(OBJECTS) $(EXE)
+	-rm $(OBJECTS) $(EXE)
