@@ -68,11 +68,24 @@ namespace archendale
 		// Join the thread to the main thread, wait if necessary
 		void join();
 
+private:
+/* TODO 
+	           Detached Threads are seg faulting because their object handle goes out of scope
+                        before the thread destructor's call to pthread_cancel exits.
+                        This happens because pthread_cancel does not block.
+                        This could possibly be fixed by setting all detached
+                        ThreadSuper's to use PTHREAD_CANCEL_ASYNCHRONOUS
+			Another workaround would be to keep the object in scope until it is canceled
+                        The preferred method is to switch to a handle/body reference counted
+                        implemententation so the ThreadSuper object is in Scope until actual cleanup can be performed
+                        FOR NOW, detach() IS BEING MADE PRIVATE, SO IT CAN NOT BE CALLED
+*/
 		// detach:
 		//	Detach the current thread while executing
 		//	detach() will try to lock m_joinOrDetachMutex, if it fails
 		// 	it will throw ThreadJoinInProcessException
 		void detach();
+public:
 
 		///////////////////////////////////////////////////////////
 		//

@@ -29,6 +29,14 @@
 	TODO:
 		Need to add support for cancellation beyond just stop (see man pthread_cancel)
 		Need to add support for test_cancel 
+		Detached Threads are seg faulting because their object handle goes out of scope
+			before the thread destructor's call to pthread_cancel exits.
+			This happens because pthread_cancel does not block.
+			This could possibly be fixed by setting all detached
+			ThreadSuper's to use PTHREAD_CANCEL_ASYNCHRONOUS
+			The preferred method is to switch to a handle/body reference counted
+			implemententation so the Object is in Scope until actual cleanup can be performed
+			FOR NOW, detach() IS BEING MADE PRIVATE, SO IT CAN NOT BE CALLED
 */
 
 namespace archendale 
@@ -47,6 +55,8 @@ namespace archendale
 
 	ThreadSuper::~ThreadSuper()
 	{
+		// TODO: All Joinable threads must be joined, if they are not, 
+		//	Then the destructor should take care of this
 		try 
 		{
 			m_running = false;
@@ -188,7 +198,7 @@ namespace archendale
 		_this->m_running = true;
 		_this->run();	
 		// one _this->run() returns, we have stopped running
-		_this->m_running = false;
+		//_this->m_running = false;
 	} // _run
 
 	void ThreadSuper::setAttribute(const ThreadAttribute& attr)
