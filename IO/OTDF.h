@@ -18,6 +18,7 @@ namespace archendale
 		OTDF(const OTDF&);
 		virtual ~OTDF();
 
+		OTDF& operator<<(const int&);
 		OTDF& operator<<(const double&);
 		OTDF& operator<<(const string&);
 	private:

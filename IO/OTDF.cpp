@@ -18,6 +18,12 @@ namespace archendale
 	{
 	} // OTDF
 
+	OTDF& OTDF::operator<<(const int& input)
+	{
+		m_outputStream << input << "\t";
+		return *this;
+	} // OTDF
+
 	OTDF& OTDF::operator<<(const double& input)
 	{
 		m_outputStream << input << "\t";

@@ -18,6 +18,7 @@ namespace archendale
 		ITDF(const ITDF&);
 		virtual ~ITDF();
 
+		ITDF& operator>>(int&);
 		ITDF& operator>>(double&);
 		ITDF& operator>>(string&);
 	private:

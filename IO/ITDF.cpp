@@ -48,6 +48,21 @@ namespace archendale
 		return *this;
 	} // ITDF
 
+
+	ITDF& ITDF::operator>>(int& out)
+	{
+		eatwhite(m_inputStream);
+		if(!m_inputStream.eof() && m_inputStream.good())
+		{
+			m_inputStream >> out;
+		} else
+		{
+			EOFException exp("End of file reached");
+			throw exp;
+		} // if
+		return *this;
+	} // ITDF
+
 	// Assumes for now that \t can not actually be in the file for
 	// reasons other than the delimiter
 	// TODO: update so that \t can appear in file
