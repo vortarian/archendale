@@ -1,8 +1,10 @@
 #ifndef THREADEXCEPTION_H
 #define THREADEXCEPTION_H
 
-#include <String/String.h>
+#include <string>
 #include <Exception/Exception.h>
+
+using std::string;
 
 namespace archendale 
 {
@@ -43,7 +45,7 @@ namespace archendale
 	{
 	public:
 		InvalidThreadAttributeException() {}; 
-		InvalidThreadAttributeException(const String& msg) : Exception(msg) {};
+		InvalidThreadAttributeException(const string& msg) : Exception(msg) {};
 		~InvalidThreadAttributeException() {};
 	}; // InvalidThreadAttributeException
 
@@ -51,7 +53,7 @@ namespace archendale
         {
 	public:
                 ThreadScheduleInsufficientPermission() {};
-                ThreadScheduleInsufficientPermission(const String& msg) : Exception(msg) {};
+                ThreadScheduleInsufficientPermission(const string& msg) : Exception(msg) {};
                 ~ThreadScheduleInsufficientPermission() {};
         }; // InvalidThreadAttributeException
 

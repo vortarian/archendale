@@ -4,8 +4,10 @@
 
 #include <netdb.h>
 #include <sys/types.h>
-#include <String/String.h>
+#include <string>
 #include <vector>
+
+using std::string;
 
 namespace archendale
 {
@@ -29,29 +31,29 @@ namespace archendale
 
 		// getAddresses:
 		//      returns a vector of the addresses
-		virtual vector < String > getAddresses() const;
+		virtual vector < string > getAddresses() const;
 
 		// getAddress:
 		//      returns the address of the official host
-		virtual String getAddress() const;
+		virtual string getAddress() const;
 
 		// getHostNames:
 		//      returns a vector of strings with the Host Names, 
 		//      the first name is the official name of the host
 		//      subsequent names are the aliases
-		virtual vector < String > getHostNames() const;
+		virtual vector < string > getHostNames() const;
 
 		// getHostName:
 		//      returns official name of the host
-		virtual String getHostName() const;
+		virtual string getHostName() const;
 
 		// addAddress:
-		//	returns a String of the Address	
-		virtual void addAddress(const String&);
+		//	returns a string of the Address	
+		virtual void addAddress(const string&);
 
 		// addHostName:
-		//	returns a String of the Address	
-		virtual void addHostName(const String&);
+		//	returns a string of the Address	
+		virtual void addHostName(const string&);
 	protected:
 		
 		// InetAddress:
@@ -67,8 +69,8 @@ namespace archendale
 	private:
 		int 			m_addressType;
 		int 			m_addressLength;
-		vector < String >	m_addresses;
-		vector < String > 	m_hosts;
+		vector < string >	m_addresses;
+		vector < string > 	m_hosts;
 	}; // INetworkAddress
 } // namespace archendale
 

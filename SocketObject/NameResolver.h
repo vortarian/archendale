@@ -4,7 +4,6 @@
 
 #include <netdb.h>
 #include <vector>
-#include <String/String.h>
 #include <SocketObject/InternetAddress.h>
 
 using std::vector;

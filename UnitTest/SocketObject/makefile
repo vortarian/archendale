@@ -2,7 +2,7 @@
 CC = g++
 INCLUDE = -I../..
 CCOPTIONS = $(GLOBALCCOPTIONS) $(INCLUDE) -D_REENTRANT -g
-LINKEROPTIONS = -L../../lib -lpthread -lException -lString -lThreadObject -lSocketObject
+LINKEROPTIONS = -L../../lib -lpthread -lException -lThreadObject -lSocketObject
 SOCKETDRIVEROBJECTS =  SocketTestDriver.o
 
 .SUFFIXES = .cpp .h .c .o

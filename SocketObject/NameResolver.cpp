@@ -1,17 +1,13 @@
 
 #include <SocketObject/NameResolver.h>
 #include <SocketObject/SocketException.h>
-#include <stdlib.h> // for atoi
+#include <sstream>
 
 namespace archendale
 {
-	//String            m_hostName;
-	//vector < String > m_aliasList;
-	//int               m_addressType;
-	//vector < String >    m_addressList;
-
 	// TODO:
 	//	Need to define & add exceptions for all these classes
+	//	Need to Mutex this, as the BSD functions are not reentrant
 
 	// NameResolver:
 	//	Builds from a hostName
@@ -113,6 +109,7 @@ namespace archendale
 			address.addHostName(hostinfo->h_aliases[i]);
 		} // for
 
+		std::ostringstream ostr;
 		for(int i = 0; hostinfo->h_addr_list[i]; i++)
 		{
 			address.addAddress(hostinfo->h_addr_list[i]);

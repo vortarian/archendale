@@ -9,7 +9,7 @@ namespace archendale
 		m_nestedException = 0;
 	} // constructor
 	
-	Exception::Exception(const String& msg)
+	Exception::Exception(const string& msg)
 	{
 		m_msg = msg;
 		m_isNested = false;
@@ -51,7 +51,7 @@ namespace archendale
 		} // if
 	} // operator =	
 
-	String Exception::why() const
+	string Exception::why() const
 	{
 		return m_msg;
 	}  // why
@@ -94,7 +94,7 @@ namespace archendale
 
 	// NotImplementedException:
 	// 	Exception throw when a method/object is not implemented
-	NotImplementedException::NotImplementedException(const String& msg) : Exception(msg)
+	NotImplementedException::NotImplementedException(const string& msg) : Exception(msg)
 	{
 		cerr << "Unimplemented Function has been executed" << endl;
 	} // NotImplementedException

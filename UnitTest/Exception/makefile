@@ -2,7 +2,7 @@
 CC = g++
 INCLUDE = -I../..
 CCOPTIONS = $(GLOBALCCOPTIONS) $(INCLUDE) -d
-LINKEROPTIONS = -L../../lib -lException -lString
+LINKEROPTIONS = -L../../lib -lException
 ExceptionTestDriverObjects = ExceptionTestDriver.o
 
 .SUFFIXES = .cpp .h .c .o

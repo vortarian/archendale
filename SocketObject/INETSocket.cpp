@@ -3,12 +3,14 @@
 #include <SocketObject/InternetAddress.h>
 #include <SocketObject/NameResolver.h>
 #include <string.h>
-#include <String/String.h>
+#include <string>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <errno.h>
-                                    
+               
+using std::string;
+                     
 namespace archendale
 {
 	// INETSocket:
@@ -33,13 +35,13 @@ namespace archendale
 	//	Connects the current socket
 	void INETSocket::connect()
 	{
-		String host = "192.168.1.40";
+		string host = "192.168.1.40";
 		sockaddr_in socketAttribute;
 		socketAttribute.sin_family = AF_INET;
 		socketAttribute.sin_port  = htons(7);
 		cerr << "Port: " << ntohs(socketAttribute.sin_port) << endl;
-		cerr << "Connect: " << host.data() << endl;
-		inet_aton(host.data(), &socketAttribute.sin_addr);
+		cerr << "Connect: " << host << endl;
+		inet_aton(host.c_str(), &socketAttribute.sin_addr);
 		if(::connect(m_socket, (sockaddr*) &socketAttribute, sizeof(socketAttribute)))
 		{	
 			cerr << "connect caused an error: " << errno << endl;

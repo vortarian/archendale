@@ -4,7 +4,9 @@
 
 #include <sys/types.h>
 #include <sys/socket.h>    
-#include <String/String.h>    
+#include <string>    
+
+using std::string;
 
 namespace archendale
 {
@@ -18,8 +20,8 @@ namespace archendale
 		//	SocketAttribute(port, host)
 		//	SocketAttribute(portName, host)
 		//
-		SocketAttribute(unsigned int, String = "localhost");
-		SocketAttribute(String, String = "localhost");
+		SocketAttribute(unsigned int, string = "localhost");
+		SocketAttribute(string, string = "localhost");
 		virtual ~SocketAttribute();
 
 		// setHostName:
@@ -29,9 +31,9 @@ namespace archendale
 		// setPort
 		//	sets the port the host will listen on
 		void setPort(unsigned int);
-		void setPort(String);
+		void setPort(string);
 	private:
-		String m_hostName;
+		string m_hostName;
 		unsigned int m_portNumber;
 	}; // SocketAttribute
 }; // archendale

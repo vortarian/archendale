@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <vector>
+#include <string>
 
 #include <SocketObject/NameResolver.h>
 #include <SocketObject/InternetAddress.h>
@@ -13,6 +14,7 @@
 #include <SocketObject/INETSocket.h>
 
 using namespace std;
+using std::string;
 using namespace archendale;
 
 //////////////////////////////////////////////////////////////
@@ -33,7 +35,7 @@ bool testNameResolver()
 	char input[500];
 	cout << "Enter HostName: ";
 	cin.getline(input, 500);
-	String hostName(input);
+	string hostName(input);
 	InternetAddress address;
 	address.addHostName(hostName);
 	cerr << "Testing host: " << hostName << endl;	
@@ -41,9 +43,9 @@ bool testNameResolver()
 	try
 	{
 		address = NameResolver::getAddress(address);
-		vector < String > vec = address.getAddresses();
-		vector < String >::const_iterator start = vec.begin();
-		vector < String >::const_iterator end = vec.end();
+		vector < string > vec = address.getAddresses();
+		vector < string >::const_iterator start = vec.begin();
+		vector < string >::const_iterator end = vec.end();
 		while(start != end)
 		{
 			test.uname[0] = start->data()[0];
@@ -274,14 +276,15 @@ bool testSocketObjectLargeReadWrite()
 {
 	INETSocket obj;
 	obj.connect();
-	int sendData[2000]; 
-	int recieveData[sizeof(sendData) / sizeof(int)]; 
+	int sendData[4000]; 
+	const int DATASIZE = sizeof(sendData) / sizeof(int);
+	int recieveData[DATASIZE]; 
 	if(sizeof(recieveData) != sizeof(sendData))
 	{
 		cerr << "Data Size is not equal, can not complete large send" << endl;
 		return false;
 	} // if
-	for(int i = 0; i < sizeof(sendData) / sizeof(int); i++)
+	for(int i = 0; i < DATASIZE; i++)
 	{
 		sendData[i] = i;
 	} // for
@@ -291,16 +294,14 @@ bool testSocketObjectLargeReadWrite()
 			<< float(sizeof(sendData)) / 100000
 			<< "K bytes of data" 
 			<< endl;
-
-		for(int i = 0; i < sizeof(sendData) / sizeof(int); i++)
+		for(int i; i < DATASIZE; i++)
 		{
 			obj << sendData[i];
 		} // for
 
-		cout << "Transmitting" << endl;
 		obj << SocketObject::transmit;
-		cout << "Recieving" << endl;
-		for(int i = 0; i < sizeof(recieveData) / sizeof(int); i++)
+
+		for(int i; i < DATASIZE; i++)
 		{
 			obj >> recieveData[i];
 		} // for
@@ -312,7 +313,7 @@ bool testSocketObjectLargeReadWrite()
 		return false;
 	} // try 
 
-	for(int i = 0; i < sizeof(sendData) / sizeof(int); i++)
+	for(int i = 0; i < DATASIZE; i++)
 	{
 		if(sendData[i] != recieveData[i]) 
 		{	

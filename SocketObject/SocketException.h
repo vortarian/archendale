@@ -11,21 +11,21 @@ namespace archendale
 	{
 	public:
 		UnknownHostException() { ; }
-		UnknownHostException(const String& msg) : Exception(msg) { ; }
+		UnknownHostException(const string& msg) : Exception(msg) { ; }
 	}; // UnknownHostException
 
 	class RetryHostLookupException : public Exception
 	{
 	public:
 		RetryHostLookupException() { ; }
-		RetryHostLookupException(const String& msg) : Exception(msg) { ; }
+		RetryHostLookupException(const string& msg) : Exception(msg) { ; }
 	}; // RetryHostLookupException
 
 	class HostWithNoAddressException : public Exception
 	{
 	public:
 		HostWithNoAddressException() { ; }
-		HostWithNoAddressException(const String& msg) : Exception(msg) { ; }
+		HostWithNoAddressException(const string& msg) : Exception(msg) { ; }
 	}; // HostWithNoAddressException
 
 	// InvalidSocketDescriptorException:
@@ -34,7 +34,7 @@ namespace archendale
 	{
 	public:
 		InvalidSocketDescriptorException() { ; }
-		InvalidSocketDescriptorException(const String& msg) : Exception(msg) { ; }
+		InvalidSocketDescriptorException(const string& msg) : Exception(msg) { ; }
 	}; // InvalidSocketDescriptorException
 
 	// SocketNotConnectedException:
@@ -43,7 +43,7 @@ namespace archendale
 	{
 	public:
 		SocketNotConnectedException() { ; }
-		SocketNotConnectedException(const String& msg) : Exception(msg) { ; }
+		SocketNotConnectedException(const string& msg) : Exception(msg) { ; }
 	}; // InvalidSocketDescriptorException
 
 	// NotSocketDescriptorException :
@@ -53,7 +53,7 @@ namespace archendale
 	{
 	public:
 		NotSocketDescriptorException() { ; }
-		NotSocketDescriptorException(const String& msg) : Exception(msg) { ; }
+		NotSocketDescriptorException(const string& msg) : Exception(msg) { ; }
 	}; // NotSocketDescriptorException
 
 	// MessageToLargeException: 
@@ -64,7 +64,7 @@ namespace archendale
 	{
 	public:
 		MessageToLargeException() { ; }
-		MessageToLargeException(const String& msg) : Exception(msg) { ; }
+		MessageToLargeException(const string& msg) : Exception(msg) { ; }
 	}; // MessageToLargeException
 
 	// OperationWillBlockException:
@@ -74,7 +74,7 @@ namespace archendale
 	{
 	public:
 		OperationWillBlockException() { ; }
-		OperationWillBlockException(const String& msg) : Exception(msg) { ; }
+		OperationWillBlockException(const string& msg) : Exception(msg) { ; }
 	}; // OperationWillBlockException
 
 	// NetworkInterfaceOverflowException:
@@ -86,7 +86,7 @@ namespace archendale
 	{
 	public:
 		NetworkInterfaceOverflowException() { ; }
-		NetworkInterfaceOverflowException(const String& msg) : Exception(msg) { ; }
+		NetworkInterfaceOverflowException(const string& msg) : Exception(msg) { ; }
 	}; // NetworkInterfaceOverflowException
 
 	// SignalException :
@@ -95,7 +95,7 @@ namespace archendale
 	{
 	public:
 		SignalException() { ; }
-		SignalException(const String& msg) : Exception(msg) { ; }
+		SignalException(const string& msg) : Exception(msg) { ; }
 	}; // Exception
 
 	// SocketClosedException :
@@ -105,7 +105,7 @@ namespace archendale
 	{
 	public:
 		SocketClosedException() { ; }
-		SocketClosedException(const String& msg) : Exception(msg) { ; }
+		SocketClosedException(const string& msg) : Exception(msg) { ; }
 	}; // SocketClosedException
 
 } // archendale

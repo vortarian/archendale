@@ -1,6 +1,8 @@
 #include <SocketObject/INetworkAddress.h>
-#include <String/String.h>
+#include <string>
 #include <string.h>
+
+using std::string;
 
 namespace archendale
 {
@@ -45,18 +47,18 @@ namespace archendale
 
 	// getAddresses:
 	//	returns a vector of the addresses
-	vector < String > INetworkAddress::getAddresses() const
+	vector < string > INetworkAddress::getAddresses() const
 	{
 		return m_addresses;
 	} // getAddress
 
 	// getAddress:
 	//	returns the address of the official host
-	String INetworkAddress::getAddress() const
+	string INetworkAddress::getAddress() const
 	{
-		String address;
-		vector < String >::const_iterator beg = m_addresses.begin();
-		vector < String >::const_iterator end = m_addresses.end();
+		string address;
+		vector < string >::const_iterator beg = m_addresses.begin();
+		vector < string >::const_iterator end = m_addresses.end();
 		if(beg != end) address = *beg;
 		return address;
 	} // getAddress
@@ -65,32 +67,32 @@ namespace archendale
 	//	returns a vector of strings with the Host Names, 
 	//	the first name is the official name of the host
 	//	subsequent names are the aliases
-	vector < String > INetworkAddress::getHostNames() const
+	vector < string > INetworkAddress::getHostNames() const
 	{
 		return m_hosts;
 	} // getHostNames
 
 	// getHostName:
 	//	returns the official name of the host
-	String INetworkAddress::getHostName() const
+	string INetworkAddress::getHostName() const
 	{
-		String host;
-		vector < String >::const_iterator beg = m_hosts.begin();
-		vector < String >::const_iterator end = m_hosts.end();
+		string host;
+		vector < string >::const_iterator beg = m_hosts.begin();
+		vector < string >::const_iterator end = m_hosts.end();
 		if(beg != end) host = *beg;
 		return host;
 	} // getHostNames
 
 	// addAddress:
-	//      returns a String of the Address
-	void INetworkAddress::addAddress(const String& addr)
+	//      returns a string of the Address
+	void INetworkAddress::addAddress(const string& addr)
 	{
 		m_addresses.push_back(addr);
 	} // addAddress
 
 	// addHostName:
-	//      returns a String of the Address
-	void INetworkAddress::addHostName(const String& host)
+	//      returns a string of the Address
+	void INetworkAddress::addHostName(const string& host)
 	{
 		m_hosts.push_back(host);
 	} // addHostName

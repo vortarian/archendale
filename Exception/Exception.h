@@ -1,7 +1,9 @@
 #ifndef EXCEPTION_H
 #define EXCEPTION_H
 
-#include <String/String.h>
+#include <string>
+
+using std::string;
 
 namespace archendale 
 {
@@ -9,7 +11,7 @@ namespace archendale
 	{
 	public:
 		Exception();
-		Exception(const String&);
+		Exception(const string&);
 		virtual ~Exception();
 		Exception(const Exception&);
 
@@ -18,7 +20,7 @@ namespace archendale
 	
 		// why:
 		//	Returns message that applies to the exception
-		String why() const;
+		string why() const;
 		
 		// hasNested:
 		//	Return true if there is a nested exception
@@ -34,7 +36,7 @@ namespace archendale
 		//	that exceptions are not lost
 		void setNestedException(const Exception& exp); 
 	private:
-		String m_msg;			// message, if any
+		string m_msg;			// message, if any
 		bool m_isNested;		// true if has nested exception
 		Exception* m_nestedException;	// pointer to nested exception
 	}; // Exception
@@ -43,7 +45,7 @@ namespace archendale
 	{
 	public:
 		NotImplementedException();
-		NotImplementedException(const String&);
+		NotImplementedException(const string&);
 		~NotImplementedException();
 	}; // NotImplementedException
 
@@ -51,7 +53,7 @@ namespace archendale
 	{
 	public:
 		InvalidArgumentException() : Exception() { ; }
-		InvalidArgumentException(const String& msg) : Exception(msg) { ; }
+		InvalidArgumentException(const string& msg) : Exception(msg) { ; }
 		~InvalidArgumentException() { ; }
 	}; // InvalidArgumentException
 
@@ -59,7 +61,7 @@ namespace archendale
 	{
 	public:
 		OutOfMemoryException() : Exception() { ; }
-		OutOfMemoryException(const String& msg) : Exception(msg) { ; }
+		OutOfMemoryException(const string& msg) : Exception(msg) { ; }
 		~OutOfMemoryException() { ; }
 	}; // OutOfMemoryException
 } // archendale
