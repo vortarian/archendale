@@ -83,78 +83,6 @@ bool testNameResolver()
 	return true;
 } // testNameResolver
 
-bool testSocketObject()
-{
-	SocketObject obj;
-
-	try {
-		{
-			char data = 'a';
-			cout << endl << "char :" << endl;
-			obj << data << SocketObject::transmit;
-		}
-
-		{
-			unsigned char data = 'a';
-			cout << endl << "unsigned char :" << endl;
-			obj << data << SocketObject::transmit;
-		}
-
-		{
-			char data[] = "1234567890abcd";
-			cout << endl << "char [15] :" << endl;
-			obj << data << SocketObject::transmit;
-		}
-
-		{
-			unsigned char data[15] = "1234567890abcd";
-			cout << endl << "unsigned char[15] :" << endl;
-			obj << (char*) data << SocketObject::transmit;
-		}
-
-		{
-			int data = 1234567890;
-			cout << endl << "int :" << endl;
-			obj << data << SocketObject::transmit;
-		}
-
-		{
-			unsigned int data = 1234567890;
-			cout << endl << "unsigned int :" << endl;
-			obj << data << SocketObject::transmit;
-		}
-
-		{
-			double data = 452462408;
-			cout << endl << "double :" << endl;
-			obj << data << SocketObject::transmit;
-		}
-
-		{
-			long data = 452462408;
-			cout << endl << "long :" << endl;
-			obj << data << SocketObject::transmit;
-		}
-
-		{
-			unsigned long data = 452462408;
-			cout << endl << "unsigned long :" << endl;
-			obj << data << SocketObject::transmit;
-		}
-
-		{
-			float data = 234552.43;
-			cout << endl << "float :" << endl;
-			obj << data << SocketObject::transmit;
-		}
-	} catch (OutOfMemoryException exp) {
-		cerr << exp.why() << endl;
-		return false;
-	} // try 
-
-	return true;
-} // testSocketObject
-
 bool testSocketObjectRead()
 {
 	INETSocket obj;
@@ -166,7 +94,6 @@ bool testSocketObjectRead()
 			cout << endl << "string : " << data << endl;
 			obj << data  << SocketObject::transmit;
 			data = "";
-			cerr << endl << "Recieving" << endl;
 			obj >> data;
 			cout << "Read Data: " << data << endl;
 		}
@@ -174,9 +101,8 @@ bool testSocketObjectRead()
 		{
 			char data = 'a';
 			cout << endl << "char : " << data << endl;
-			obj << data << char(13) << SocketObject::transmit;
+			obj << data << SocketObject::transmit;
 			data = 0;
-			cerr << endl << "Recieving" << endl;
 			obj >> data;
 			cout << "Read Data: " << data << endl;
 		}
@@ -341,11 +267,10 @@ void main(void)
 	{
 		cout << endl << "Please input Command:" << endl <<
 			"1: NameResolver\n"
-			"2: SocketObject\n"
-			"3: SocketObject(Reads)\n"
-			"4: SocketObject(Large Reads & Writes)\n"
+			"2: SocketObject(Reads & Writes)\n"
+			"3: SocketObject(Large Reads & Writes)\n"
 			"Q: Quit\n"
-			"?:";
+			"?: ";
 		cin.getline(input, 4);
 		try 
 		{
@@ -355,12 +280,9 @@ void main(void)
 				outputStatus(testNameResolver());
 				break;
 			case '2':	
-				outputStatus(testSocketObject());
-				break;
-			case '3':	
 				outputStatus(testSocketObjectRead());
 				break;
-			case '4':	
+			case '3':	
 				outputStatus(testSocketObjectLargeReadWrite());
 				break;
 			case 'q':
@@ -368,7 +290,7 @@ void main(void)
 				break;
 			default:
 				cout << endl << "Unknown Command" << endl;
-			}
+			} // switch
 		} catch (...) {
 			cerr << "caught unknown exception in MAIN" << endl;
 		} // try

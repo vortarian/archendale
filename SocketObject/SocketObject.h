@@ -4,7 +4,7 @@
 
 #include <sys/types.h>
 #include <sys/socket.h>    
-#include <strstream>
+#include <sstream>
 #include <vector>
 #include <queue>
 #include <string>
@@ -40,7 +40,7 @@ namespace archendale
 		union
 		{
 			// convert up to 128 bit value . . .
-			unsigned char data[16];
+			char data[16];
 			T value;
 		} m_data;
 	private:
@@ -107,11 +107,11 @@ namespace archendale
 		int m_socket; // The socket itself
 
 	private:
-		vector < unsigned char > m_sendDataBuffer;
-		queue  < unsigned char > m_readDataBuffer;
+		string m_sendDataBuffer;
+		string m_readDataBuffer;
 		
 		unsigned int m_readBufferSize; // The size to use for the read buffer
-		unsigned char *m_readBuffer; 	// The buffer which recv() will read into
+		char *m_readBuffer; 	// The buffer which recv() will read into
 
 		SocketDataConverter<int>                 iConverter;
 		SocketDataConverter<unsigned int>        uiConverter;
