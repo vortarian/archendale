@@ -26,15 +26,9 @@ namespace archendale
 		virtual const std::string& getName() = 0;
 	}; // IEntry
 
-	OTDF& operator<<(OTDF& ostr, const IEntry& data)
-	{
-		return data.writeData(ostr);
-	} // operator<<
+	OTDF& operator<<(OTDF& ostr, const IEntry& data);
+	ITDF& operator>>(ITDF& istr, IEntry& data);
 
-	ITDF& operator>>(ITDF& istr, IEntry& data)
-	{
-		return data.readData(istr);
-	} // operator>>
 } // namespace
 
 #endif // IEntry_h
