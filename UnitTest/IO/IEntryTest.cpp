@@ -4,6 +4,7 @@
 #include <Factory/Factory.h>
 #include <iostream>
 #include <sstream>
+#include <typeinfo>
 
 using namespace std;
 
@@ -75,6 +76,80 @@ private:
 FactoryRegistrar<StringEntry> StringEntry::CFR("StringEntry");
 const string StringEntry::m_className = "StringEntry";
 
+class HeterogenusEntry : public IEntry
+{
+public:
+	HeterogenusEntry() { ; }
+	HeterogenusEntry(string data) { m_data = data; }
+	~HeterogenusEntry() { ; }
+	static void* newInstance() { return new HeterogenusEntry; }
+	OTDF& writeData(OTDF& out) const
+	{
+		out << int(m_strings.size());
+		vector<string>::const_iterator start = m_strings.begin();
+		while(start != m_strings.end())
+		{
+			out << *start;
+			start++;
+		} // while
+		return out << m_data; 
+	} // writeData
+	
+	ITDF& readData(ITDF& in)
+	{
+		int size = 0;
+		in >> size;
+		string entry;
+		for(int i = 0; i < size; i++)
+		{
+			in >> entry;
+			m_strings.push_back(entry);
+		} // for
+	 	in >> m_data;
+		return in;
+	} // readData
+	
+	bool operator==(const HeterogenusEntry& rhs) const
+	{
+		if(m_data != rhs.m_data) return false;
+		if(m_strings.size() != rhs.m_strings.size()) return false;
+		vector<string>::const_iterator start = m_strings.begin();
+		vector<string>::const_iterator rhsStart = rhs.m_strings.begin();
+		while(start != m_strings.end())
+		{
+			if(*start != *rhsStart) return false;
+			start++;
+			rhsStart++;
+		} // while
+		return true;
+	} // operator ==
+
+	void addString(const string& entry)
+	{
+		m_strings.push_back(entry);	
+	} // addString
+
+	vector<string>::iterator begin() 
+	{
+		return m_strings.begin();
+	} // begin
+
+	vector<string>::iterator end()
+	{
+		m_strings.end();
+	} // end
+
+	const string& getName() { return m_className; }
+private:
+	vector<string> m_strings;
+	string m_data;
+	const static string m_className;
+	static FactoryRegistrar<HeterogenusEntry> CFR;
+}; // HeterogenusEntry
+
+FactoryRegistrar<HeterogenusEntry> HeterogenusEntry::CFR("HeterogenusEntry");
+const string HeterogenusEntry::m_className = "HeterogenusEntry"; 
+
 } // archendale
 
 using namespace archendale;
@@ -102,73 +177,108 @@ IEntry* entryFactory(ITDF& in)
 	return dynamic_cast<IEntry*>(static_cast<IEntry*>(ptr));
 } // entryFactory
 
-// TODO: Add an entry that uses multiple types, something hard to do
 // TODO: Try it with a Templatized Entry
 
 int main(void)
 {
-	IntEntry ia(3);
-	StringEntry sa("Hello World");
-	
-	stringstream iostr;
-	OTDF otdf(iostr);	
+	try 
+	{
+		IntEntry ia(3);
+		StringEntry sa("Hello World");
+		HeterogenusEntry hsa("HelloHetero World");
 
-	otdf << ia.getName() << ia << sa.getName() << sa;
+		hsa.addString("One");
+		hsa.addString("Two");
+		hsa.addString("Three");
+		hsa.addString("Four");
+		
+		stringstream iostr;
+		OTDF otdf(iostr);	
 
-	ITDF itdf(iostr);
-	IEntry* tib = entryFactory(itdf);	// get the IntEntry
+		otdf << ia.getName() << ia << sa.getName() << sa << hsa.getName() << hsa;
 
-	// Test the types:
-	if(0 == tib)
-	{
-		cout << "null pointers, tib is not valid" << endl;
-		cout << "Test FAILED" << endl;
-		return -1;
-	} // if
-	IntEntry* ib = dynamic_cast<IntEntry*>(tib);
+		ITDF itdf(iostr);
+		IEntry* tib = entryFactory(itdf);	// get the IntEntry
 
-	// I have no idea on earth why this could be wrong here, and right above, but
-	// since this is a unit test, I will do it again
-	// Test the types:
-	if(0 == ib)
+		// Test the types:
+		if(0 == tib)
+		{
+			cout << "null pointers, tib is not valid" << endl;
+			cout << "Test FAILED" << endl;
+			return -1;
+		} // if
+		IntEntry* ib = dynamic_cast<IntEntry*>(tib);
+
+		// I have no idea on earth why this could be wrong here, and right above, but
+		// since this is a unit test, I will do it again
+		// Test the types:
+		if(0 == ib)
+		{
+			cout << "null pointers, tib is not valid" << endl;
+			cout << "Test FAILED" << endl;
+			return -1;
+		} // if
+		
+		// Finally, read the object
+		itdf >> *ib;
+		
+		IEntry* tsb = entryFactory(itdf);	// get the StringEntry
+		if(0 == tsb)
+		{
+			cout << "null pointers, tsb is not valid" << endl;
+			cout << "Test FAILED" << endl;
+			return -1;
+		} // if
+		
+		StringEntry* sb = dynamic_cast<StringEntry*>(tsb);
+		if(0 == sb)
+		{
+			cout << "null pointers, tsb is not valid" << endl;
+			cout << "Test FAILED" << endl;
+			return -1;
+		} // if
+		
+		// Read the string object
+		itdf >> *sb;
+		
+		IEntry* htsb = entryFactory(itdf);	// get the HeterogenusEntry
+		if(0 == htsb)
+		{
+			cout << "null pointers, htsb is not valid" << endl;
+			cout << "Test FAILED" << endl;
+			return -1;
+		} // if
+		
+		HeterogenusEntry* hsb = dynamic_cast<HeterogenusEntry*>(htsb);
+		if(0 == hsb)
+		{
+			cout << "null pointers, hsb is not valid" << endl;
+			cout << "Test FAILED" << endl;
+			return -1;
+		} // if
+		
+		// Read the string object
+		itdf >> *hsb;
+		
+
+		if( (ia == *ib) && (sa == *sb) && (hsa == *hsb)) 
+		{
+			cout << "Test SUCCEEDED!" << endl;
+		} else 
+		{
+			cout << "Test FAILED!" << endl;
+		} // if
+		delete ib;
+		delete sb;
+		delete hsb;
+		tib = ib = 0;
+		tsb = sb = 0;
+		htsb = hsb = 0;
+	} catch (ObjectNotFoundException exp)
 	{
-		cout << "null pointers, tib is not valid" << endl;
-		cout << "Test FAILED" << endl;
+		cerr << "Caught ObjectNotFoundException on object: " << exp.why() << endl;
 		return -1;
-	} // if
-	
-	// Finally, read the object
-	itdf >> *ib;
-	
-	IEntry* tsb = entryFactory(itdf);	// get the StringEntry
-	if(0 == tsb)
-	{
-		cout << "null pointers, tsb is not valid" << endl;
-		cout << "Test FAILED" << endl;
-		return -1;
-	} // if
-	
-	StringEntry* sb = dynamic_cast<StringEntry*>(tsb);
-	if(0 == sb)
-	{
-		cout << "null pointers, tsb is not valid" << endl;
-		cout << "Test FAILED" << endl;
-		return -1;
-	} // if
-	
-	// Read the string object
-	itdf >> *sb;
-	
-	if( (ia == *ib) && (sa == *sb) ) 
-	{
-		cout << "Test SUCCEEDED!" << endl;
-	} else 
-	{
-		cout << "Test FAILED!" << endl;
-	} // if
-	delete ib;
-	delete sb;
-	tib = ib = 0;
-	tsb = sb = 0;
+	} // try
+	return 0;
 } // main
 

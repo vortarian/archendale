@@ -16,10 +16,12 @@ bool ITDFRead()
 	stringstream istr(testString);
 	double dInput = 0;
 	int iInput = 0;
+	size_t size_tInput = 0;
 	string sInput = "";
 
 	OTDF otdf(istr);
 
+	otdf << 33;
 	otdf << 32.5;
 	otdf << "Hello World";
 	otdf << 48;
@@ -31,6 +33,14 @@ bool ITDFRead()
 
 	try 
 	{ 
+
+		itdf >> size_tInput;
+		cout << size_tInput << endl;
+		if(size_tInput != 33)
+		{
+			cout << "test failed:if(size_tInput != 33) " << endl;
+			return false;
+		} // if
 
 		itdf >> dInput;
 		cout << dInput << endl;
