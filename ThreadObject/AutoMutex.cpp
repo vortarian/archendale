@@ -11,9 +11,7 @@ namespace archendale
 	
 	AutoMutex::~AutoMutex()
 	{
-		cerr << "~AutoMutex()" << endl;
 		m_mutex.release();
-		cerr << "Leaving ~AutoMutex()" << endl;
 	} // ~AutoMutex
 
 } // archendale

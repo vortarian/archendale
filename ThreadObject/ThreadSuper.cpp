@@ -84,10 +84,8 @@ namespace archendale
 		m_running = false;
 		if(pthread_equal(pthread_self(), m_threadHandle))
 		{
-			cerr << endl << "Calling pthread_exit" << endl;
 			pthread_exit(0);
 		} else {
-			cerr << endl << "Calling pthread_cancel" << endl;
 			switch(pthread_cancel(m_threadHandle))
 			{
 				case ESRCH:
