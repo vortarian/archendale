@@ -33,13 +33,19 @@ namespace archendale
 	{
 	} // ITDF
 
-
 	ITDF& ITDF::operator>>(double& out)
 	{
 		eatwhite(m_inputStream);
 		if(!m_inputStream.eof() && m_inputStream.good())
 		{
 			m_inputStream >> out;
+			// remove trailing tab if it exists
+			char c;
+			m_inputStream.get(c);
+			if(c != '\t')
+			{
+				m_inputStream.putback(c);
+			} // if
 		} else
 		{
 			EOFException exp("End of file reached");
@@ -48,13 +54,20 @@ namespace archendale
 		return *this;
 	} // ITDF
 
-
 	ITDF& ITDF::operator>>(int& out)
 	{
 		eatwhite(m_inputStream);
 		if(!m_inputStream.eof() && m_inputStream.good())
 		{
 			m_inputStream >> out;
+
+			// remove trailing tab if it exists
+			char c;
+			m_inputStream.get(c);
+			if(c != '\t')
+			{
+				m_inputStream.putback(c);
+			} // if
 		} else
 		{
 			EOFException exp("End of file reached");
@@ -79,7 +92,6 @@ namespace archendale
 				EOFException exp("End of file reached");
 				throw exp;
 			} // if
-			getline(m_inputStream, out, '\t');
 		} else 
 		{
 				EOFException exp("End of file reached");

@@ -41,7 +41,7 @@ private:
 }; // IntEntry
 
 FactoryRegistrar<IntEntry> IntEntry::CFR("IntEntry");
-const string IntEntry::m_className("IntEntry");
+const string IntEntry::m_className = "IntEntry";
 
 class StringEntry : public IEntry
 {
@@ -73,33 +73,99 @@ private:
 }; // StringEntry
 
 FactoryRegistrar<StringEntry> StringEntry::CFR("StringEntry");
-const string StringEntry::m_className("StringEntry");
+const string StringEntry::m_className = "StringEntry";
 
 } // archendale
 
 using namespace archendale;
 
+stringstream iostr;
+
+// entryFactory:
+//	returns the next IEntry type object from the ITDF stream
+IEntry* entryFactory(ITDF& in)
+{
+	string name;
+cout << iostr.str().c_str() << endl;
+	in >> name;
+cout << iostr.str().c_str() << endl;
+cout << name << endl;
+	void *ptr = 0;
+	try
+	{
+		ptr = Factory::createInstance(name);
+	} catch (ClassNotFoundException exp)
+	{
+		cout << "ClassNotFoundException: " << exp.why() << endl << "File: " __FILE__ << ":" << __LINE__ << endl;
+	} // try
+	// So, you have to wonder why the static cast , and then the dynamic cast
+	//	Let me tell you, dynamic_cast can not accept void*, and static_cast can
+	//	by casting to what I think it is with static, I get to a class pointer,
+	//	which dynamic_cast can take.  Then, the dynamic_cast checks to be sure the
+	//	type is correct, if it is not, then 0 is returned here.  Keep in mind that
+	//	static_cast has no runtime overhead
+	return dynamic_cast<IEntry*>(static_cast<IEntry*>(ptr));
+} // entryFactory
+
 int main(void)
 {
 	IntEntry ia(3);
-	IntEntry ib(0);
 	StringEntry sa("Hello World");
-	StringEntry sb("");
 	
-	stringstream iostr;
 	OTDF otdf(iostr);	
 
-	otdf << ia << sa;
+	otdf << ia.getName() << ia << sa.getName() << sa;
 
 	ITDF itdf(iostr);
-	itdf >> ib >> sb;
+	IEntry* tib = entryFactory(itdf);	// get the IntEntry
 	
-	if( (ia == ib) && (sa == sb) ) 
+	// Test the types:
+	if(0 == tib)
+	{
+		cout << "null pointers, tib is not valid" << endl;
+		cout << "Test FAILED" << endl;
+		return -1;
+	} // if
+	IntEntry* ib = dynamic_cast<IntEntry*>(tib);
+
+	// I have no idea on earth why this could be wrong here, and right above, but
+	// since this is a unit test, I will do it again
+	// Test the types:
+	if(0 == ib)
+	{
+		cout << "null pointers, tib is not valid" << endl;
+		cout << "Test FAILED" << endl;
+		return -1;
+	} // if
+	itdf >> *ib;
+	
+	IEntry* tsb = entryFactory(itdf);	// get the StringEntry
+	if(0 == tsb)
+	{
+		cout << "null pointers, tsb is not valid" << endl;
+		cout << "Test FAILED" << endl;
+		return -1;
+	} // if
+	
+	StringEntry* sb = dynamic_cast<StringEntry*>(tsb);
+	if(0 == sb)
+	{
+		cout << "null pointers, tsb is not valid" << endl;
+		cout << "Test FAILED" << endl;
+		return -1;
+	} // if
+	itdf >> *sb;
+	
+	if( (ia == *ib) && (sa == *sb) ) 
 	{
 		cout << "Test SUCCEEDED!" << endl;
 	} else 
 	{
 		cout << "Test FAILED!" << endl;
 	} // if
+	delete ib;
+	delete sb;
+	tib = ib = 0;
+	tsb = sb = 0;
 } // main
 
