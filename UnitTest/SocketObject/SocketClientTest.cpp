@@ -26,32 +26,41 @@ using namespace archendale;
 
 main(char** argv, int argc)
 {
-        int port = 5000;
+	try 
+	{
+		int port = 5000;
 
-        if(2 == argc)
+		if(2 == argc)
+		{
+			int port = atoi(argv[1]);
+			if(0 >= port)
+			{
+				cerr << "Invalid port number specified" << endl;
+			} // if
+		} // if
+
+		InternetAddress addr = NameResolver::getAddress("localhost");
+		string data, rdata;
+		INETSocket socket(addr, port);
+
+		cout << "Getting connection" << endl;
+		socket.connect();
+
+		cout << "Have Connection, enter data: " << endl;
+		getline(cin, data);
+		cout << "Sending: " << data << endl;
+		socket << data << SocketObject::transmit;
+		socket >> rdata;
+		cout << "Recieved: " << rdata << endl;
+		if(rdata == data) cout << "Succeeded!!!!!!!" << endl;
+		else cout << "Failed!" << endl;
+        } catch (SocketException& exp)
         {
-                int port = atoi(argv[1]);
-                if(0 >= port)
-                {
-                        cerr << "Invalid port number specified" << endl;
-                } // if
-        } // if
-
-	InternetAddress addr = NameResolver::getAddress("localhost");
-	string data, rdata;
-	INETSocket socket(addr, port);
-	char input[50];
-
-	cout << "Getting connection" << endl;
-	socket.connect();
-
-	cout << "Have Connection, enter data: " << endl;
-	cin.getline(input, 50);
-	data = input;
-	socket << data << SocketObject::transmit;
-	cout << "Sending: " << data << endl;
-	socket >> rdata;
-	cout << "Recieved: " << rdata << endl;
-	if(rdata == data) cout << "Succeeded!!!!!!!" << endl;
-	else cout << "Failed!" << endl;
+               std::cerr << "Unknown SocketException caught: " << endl
+                        << "type: " << typeid(exp).name() << endl
+                        << "why: " << exp.why() << endl;
+        } catch (...)
+        {
+                cerr << "Caught Unknown Exception, aborting" << endl;
+        } // try
 } // main

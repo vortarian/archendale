@@ -6,6 +6,7 @@
 #include <errno.h>
 #include <vector>
 #include <string>
+#include <typeinfo>
 
 #include <SocketObject/NameResolver.h>
 #include <SocketObject/InternetAddress.h>
@@ -175,6 +176,12 @@ bool testSocketObjectRead()
 	} catch (OutOfMemoryException exp) {
 		cerr << exp.why() << endl;
 		return false;
+	} catch (Exception& exp) 
+	{
+		// Catch any exceptions, report and swallow them
+		std::cerr << "Unknown Exception caught: " << endl
+			<< "type: " << typeid(exp).name() << endl
+			<< "why: " << exp.why() << endl;
 	} catch (...) {
 		cerr << "Unknown Exception caught in testSocketObject" << endl;
 		return false;
@@ -187,57 +194,62 @@ bool testSocketObjectLargeReadWrite()
 {
 	try {
 		InternetAddress addr = NameResolver::getAddress("localhost");
-		INETSocket obj(addr, 5000);
-		obj.connect();
-
-		const int DATASIZE = 400000;
-		int* sendData = new int[DATASIZE]; 
-		int* recieveData = new int[DATASIZE]; 
-		if(!sendData && !recieveData)
+		int port = 5000;
+		INETSocket obj(addr, port);
+		try
 		{
-			cerr << "Not enough memory for test" << endl;	
+			obj.connect();
+		} catch (ConnectionRefusedException exp)
+		{
+			cerr << "Connection to port " << port << " was refused, is the SocketServerTest running?" << endl;
 			return false;
-		} // if
-		for(int i = 0; i < DATASIZE; i++)
+		} // try
+
+		unsigned int DATASIZE = 40000;
+		string sendData;
+		string receiveData;
+
+		for(unsigned int i = 0; i < DATASIZE; i++)
 		{
-			sendData[i] = i;
+			if(i%100000 == 0) std::cout << "size: " << i << endl;
+			// Can't send char == 0, as that is the delimiter for strings
+			if(char(i) == char(0))
+			{
+				sendData += char(i+1);
+			} else
+			{
+				sendData += char(i);
+			} // if
 		} // for
 			
 		try {
 			cout 	<< "Sending "
-				<< float(DATASIZE) / 100000
+				<< float(sendData.size()) / 100000
 				<< "K bytes of data" 
 				<< endl;
-			for(int i = 0; i < DATASIZE; i++)
-			{
-				obj << sendData[i];
-			} // for
 
-			obj << SocketObject::transmit;
+			obj << sendData << SocketObject::transmit;
 
-			for(int i = 0; i < DATASIZE; i++)
-			{
-				obj >> recieveData[i];
-			} // for
-		} catch (OutOfMemoryException exp) {
+			obj >> receiveData;
+
+		} catch (OutOfMemoryException exp) 
+		{
 			cerr << exp.why() << endl;
 			return false;
 		} // try 
 
-		for(int i = 0; i < DATASIZE; i++)
+		if(sendData != receiveData) 
 		{
-			if(sendData[i] != recieveData[i]) 
-			{	
-				cerr << "Data not equal: " << endl;
-				cerr << "sendData[" << i << "] = " << sendData[i] << endl;
-				cerr << "recieveData[" << i << "] = " << recieveData[i] << endl;
-				return false;
-			} // if
-		} // for
-		delete sendData;
-		delete recieveData;
-	} catch (...) {
-		cerr << "Caught Unknown exception in testSocketObjectLargeReadWrite" << endl;
+			std::cerr << "sendData != receiveData" << endl;
+			return false;
+		} // if
+	} catch (Exception& exp) 
+	{
+		// Catch any exceptions, report and swallow them
+		std::cerr << "Unknown Exception caught: " << endl
+			<< "type: " << typeid(exp).name() << endl
+			<< "why: " << exp.why() << endl;
+
 		return false;
 	}
 	return true;
@@ -259,7 +271,7 @@ int main(void)
 		cout << endl << "Please input Command:" << endl <<
 			"1: NameResolver\n"
 			"2: SocketObject(Reads & Writes)\n"
-			"3: SocketObject(Large Reads & Writes)\n"
+			"3: SocketObject(Large Reads & Writes - requires SocketServerTest to be running on port 5000)\n"
 			"Q: Quit\n"
 			"?: ";
 		cin.getline(input, 4);
@@ -282,7 +294,14 @@ int main(void)
 			default:
 				cout << endl << "Unknown Command" << endl;
 			} // switch
-		} catch (...) {
+		} catch (Exception& exp) 
+		{
+			// Catch any exceptions, report and swallow them
+			std::cerr << "Unknown Exception caught: " << endl
+				<< "type: " << typeid(exp).name() << endl
+				<< "why: " << exp.why() << endl;
+		} catch (...) 
+		{
 			cerr << "caught unknown exception in MAIN" << endl;
 		} // try
 	} while(input[0] != 'q' && input[0] != 'Q');

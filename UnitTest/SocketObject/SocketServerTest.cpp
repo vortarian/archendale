@@ -41,37 +41,52 @@ main(char** argv, int argc )
 		InternetAddress addr = NameResolver::getAddress("localhost");
 		SocketServer sserver(addr, port, 1);
 
-		cout << "Waiting for connection" << endl;
-		INETSocket socket = sserver.getWaitingConnection();
-		string data;
-		cout << "Waiting for data" << endl;	
-		try 
+		while(1)
 		{
-			socket >> data;
-		} catch (InvalidSocketDescriptorException exp) 
-		{
-			cerr << "InvalidSocketDescriptorException	caught: " << exp.why() << endl;
-		} catch (SocketNotConnectedException exp) 
-		{
-			cerr << "SocketNotConnectedException exp: " << exp.why() << endl;
-		} catch (OperationWillBlockException exp) 
-		{
-			cerr << "OperationWillBlockException exp: " << exp.why() << endl;
-		} catch (SignalException exp) 
-		{
-			cerr << "SignalException exp: " << exp.why() << endl;
-		} catch (InvalidArgumentException exp) 
-		{
-			cerr << "InvalidArgumentException exp: " << exp.why() << endl;
-		} catch (Exception exp) 
-		{
-			cerr << "Exception exp: " << exp.why() << endl;
-		} // try
+			cout << "Waiting for connection" << endl;
+			INETSocket socket = sserver.getWaitingConnection();
+			string data;
+			cout << "Waiting for data" << endl;	
+			try 
+			{
+				socket >> data;
+			} catch (InvalidDescriptorException exp) 
+			{
+				cerr << "InvalidDescriptorException	caught: " << exp.why() << endl;
+			} catch (NotConnectedException exp) 
+			{
+				cerr << "NotConnectedException exp: " << exp.why() << endl;
+			} catch (OperationWillBlockException exp) 
+			{
+				cerr << "OperationWillBlockException exp: " << exp.why() << endl;
+			} catch (SignalException exp) 
+			{
+				cerr << "SignalException exp: " << exp.why() << endl;
+			} catch (InvalidArgumentException exp) 
+			{
+				cerr << "InvalidArgumentException exp: " << exp.why() << endl;
+			} catch (SocketException exp) 
+			{
+				cerr << "SocketException exp: " << exp.why() << endl;
+			} // try
 
-		cout << "Recieved string data: " << data << endl;
-		cout << "Returning: " << data << endl;
-		socket << data << SocketObject::transmit;
-		cout << "Done!" << endl;
+			if(data.size() < 255) 
+			{
+				cout << "Returning: " << data << endl;
+			} else
+			{
+				string tempData(data, 0, 255);
+				cout << "Data too large for display, size is " << data.size() / 4 << " bytes" << endl;
+				cout << "Only displaying first 255 bytes of data!" << endl;
+				cout << "Returning: " << tempData << endl;
+			} // if
+			socket << data << SocketObject::transmit;
+		} // while
+	} catch (SocketException& exp)
+	{
+	       std::cerr << "Unknown SocketException caught: " << endl
+			<< "type: " << typeid(exp).name() << endl
+			<< "why: " << exp.why() << endl;
 	} catch (...) 
 	{
 		cerr << "Caught Unknown Exception, aborting" << endl;
