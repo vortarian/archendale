@@ -18,7 +18,6 @@ namespace archendale
 	{
 		if(0 != m_socket) 
 		{
-			std::cerr << "Shutting down socket: " << m_socket << std::endl;
 			::shutdown(m_socket, SHUT_RDWR);
 		} // if
 	} // ~SocketHandle

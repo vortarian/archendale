@@ -16,7 +16,7 @@ namespace archendale
 {
 	// TODO:
 	//	Need to define exceptions
-	// 	Need to have it use getprotoent instead of hard coding protocal into socket
+	// 	Need to have it use getprotoent instead of hard coding protocol into socket
 
 	// INETSocket:
 	//	Default constructor for use by SocketServer

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SocketObject/SocketObject.h>
+#include <unistd.h>
 #include <typeinfo>
 #include <errno.h>
 
@@ -94,9 +95,13 @@ namespace archendale
 	void SocketObject::send()
 	{
 		if(m_sendDataBuffer.size() <= 0) return;
-		int retValue = ::send(m_socketHandle->getSocket(), m_sendDataBuffer.c_str(), m_sendDataBuffer.size(), MSG_NOSIGNAL);
-		// have sent the data, clear it so it doesn't send twice!
-		if(retValue >= 0) m_sendDataBuffer.erase(0, retValue);
+		int retValue = 0;
+		while(m_sendDataBuffer.size() > 0 && retValue >= 0)
+		{
+			retValue = ::send(m_socketHandle->getSocket(), m_sendDataBuffer.c_str(), m_sendDataBuffer.size(), MSG_NOSIGNAL);
+			// have sent the data, clear it so it doesn't send twice!
+			if(retValue >= 0) m_sendDataBuffer.erase(0, retValue);
+		} // while
 		if(-1 == retValue)
 		{
 			switch(errno)
@@ -182,12 +187,11 @@ namespace archendale
 	//
 	void SocketObject::recieve()
 	{
-		int count = ::recv(m_socketHandle->getSocket(), m_readBuffer, m_readBufferSize, MSG_NOSIGNAL );
-		if(count > 0) 
+		int count = ::recv(m_socketHandle->getSocket(), m_readBuffer, m_readBufferSize, MSG_NOSIGNAL);
+		if(count >= 0 )
 		{
 			m_readDataBuffer.append(m_readBuffer, count);
-		} // if
-		if(-1 == count)
+		} else
 		{
 			switch(errno)
 			{
@@ -234,7 +238,7 @@ namespace archendale
 					throw exp;
 				}
 			} // switch
-		} // if(recieve . . .)
+		} // if(-1 != ...
 	} // recieve
 	
 	///////////////////////
