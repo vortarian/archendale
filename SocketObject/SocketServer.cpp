@@ -1,0 +1,99 @@
+
+#include <SocketObject/SocketServer.h>
+#include <ThreadObject/AutoMutex.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <errno.h>
+
+namespace archendale
+{
+
+        // TODO:
+        //      Need to define exceptions
+        //      Need to have it use getprotoent instead of hard coding protocal into socket
+        //      Need to update for binding & listening & accepting, perhaps in a socket server
+	//	Add in support for reading client information after ::bind()
+
+	// SocketServer:
+	//
+	SocketServer::SocketServer(const InternetAddress& addr, int port, int backlog) : SocketObject(1)
+	{
+                m_address = addr;
+                m_port = port;
+		m_backlog = backlog;
+                setSocket(socket(m_address.getType(), SOCK_STREAM, 6));
+                if(-1 == getSocket())
+                {
+                        cerr << "Unknown erro trying to create socket" << endl;
+                } // if
+		bind();
+		listen();
+	} // SocketServer
+
+	// ~SocketServer:
+	//
+	SocketServer::~SocketServer()
+	{
+	} // ~SocketServer
+
+        // isWaiting:
+        //      RET number of waiting connetions if there is a connection waiting
+        int SocketServer::isWaiting()
+        {
+		AutoMutex mut(m_serverMutex);
+		NotImplementedException exp;
+		throw exp;
+        } // isWaiting
+
+        // getWaitingConnection:
+        //      
+        INETSocket SocketServer::getWaitingConnection()
+        {
+		AutoMutex mut(m_serverMutex);
+		INETSocket inetsocket;
+		sockaddr_in clientInformation;
+		socklen_t len = sizeof(clientInformation);
+		int socket = (accept(getSocket(), (sockaddr*) &clientInformation, &len));
+		if(-1 == socket)
+		{
+			cerr << "SocketServer::getWaitingConnection - unknown error:" << errno << endl;
+		} // if
+		cerr << "SocketServer::getWC - socket: " << socket << endl;
+		InternetAddress addr;
+		addr.addAddress(inet_ntoa(clientInformation.sin_addr));
+		inetsocket.setSocket(socket);
+		inetsocket.setPort(ntohs(clientInformation.sin_port));
+		inetsocket.setAddress(addr);
+
+		return inetsocket;
+        } // isWaiting
+
+        // bind:
+        //      binds the current socket
+        void SocketServer::bind()
+        {
+                sockaddr_in socketAttribute;
+                socketAttribute.sin_family = m_address.getType();
+                socketAttribute.sin_port  = htons(m_port);
+                cerr << "Port: " << ntohs(socketAttribute.sin_port) << endl;
+                cerr << "IP: " << m_address.getAddress() << endl;
+                cerr << "Host: " << m_address.getHostName() << endl;
+                inet_aton(m_address.getAddress().c_str(), &socketAttribute.sin_addr);
+                if(::bind(getSocket(), (sockaddr*) &socketAttribute, sizeof(socketAttribute)))
+                {
+                        cerr << "SocketServer::bind caused an error: " << errno << endl;
+                }  // if
+        } // bind 
+
+        // listen:
+        //      binds the current socket
+        void SocketServer::listen()
+        {
+		if(-1 == ::listen(getSocket(), m_backlog)) 
+		{
+			cerr << "SocketServer::listen error: " << errno << endl;	
+		} // if
+        } // listen
+
+} // namespace archendale

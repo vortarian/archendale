@@ -84,14 +84,14 @@ namespace archendale
 	} // getHostNames
 
 	// addAddress:
-	//      returns a string of the Address
+	//      adds a string of the Address
 	void INetworkAddress::addAddress(const string& addr)
 	{
 		m_addresses.push_back(addr);
 	} // addAddress
 
 	// addHostName:
-	//      returns a string of the Address
+	//      adds a string of the host
 	void INetworkAddress::addHostName(const string& host)
 	{
 		m_hosts.push_back(host);

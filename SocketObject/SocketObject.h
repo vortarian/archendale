@@ -9,6 +9,8 @@
 #include <queue>
 #include <string>
 #include <SocketObject/SocketException.h>
+#include <SocketObject/SocketHandle.h>
+#include <ThreadObject/Mutex.h>
 
 using std::vector;
 using std::queue;
@@ -50,7 +52,12 @@ namespace archendale
 	// Transmit Notifier:
 	struct Transmit { };
 
-	class SocketObject 
+	// SocketObject:
+	//	PRE: Clients acquire before use, and release after, if in a MT environment	
+	//	Each SocketObject keeps it's own copy of data buffers,
+	//		e.g. if you have data in the buffer, and get a copy (assign)
+	//		you will now have two copies of the buffer, one in each class
+	class SocketObject : public Mutex
 	{
 	public:
 		SocketObject(unsigned int = 10000);
@@ -73,7 +80,7 @@ namespace archendale
 		// writeToBuffer:
 		//	write raw data to a buffer
 		//	writeToBuffer(iterator start, iterator end);
-		void writeToBuffer(const unsigned char*, const unsigned char*);
+		inline void writeToBuffer(const unsigned char*, const unsigned char*);
 		inline void writeToBuffer(const char* beg, const char* end); // defers to unsigned version
 
 		SocketObject& operator<<(char); 
@@ -104,7 +111,13 @@ namespace archendale
 		SocketObject& operator<<(const Transmit&); 
 
 	protected:
-		int m_socket; // The socket itself
+		// getSocket:
+		//
+		int getSocket();
+		
+		// setSocket:
+		//
+		void setSocket(int);
 
 	private:
 		string m_sendDataBuffer;
@@ -119,6 +132,8 @@ namespace archendale
 		SocketDataConverter<unsigned long>       ulConverter;
 		SocketDataConverter<double>              dConverter;
 		SocketDataConverter<float>               fConverter;
+
+		SocketHandle* m_socketHandle;
 	}; // SocketObject
 } // archendale
 

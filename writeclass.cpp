@@ -26,9 +26,14 @@ void printHeader(String file)
 		<< "\t" << "\t" << name.data() << "();" << endl
 		<< endl
 
+		<< "\t" << "\t" << "// " << name.data() << ":" << endl
+		<< "\t" << "\t" << "//" << endl
+		<< "\t" << "\t" << name.data() << "(const " << name.data() << "&);" << endl
+		<< endl
+
 		<< "\t" << "\t" << "// ~" << name.data() << ":" << endl
 		<< "\t" << "\t" << "//" << endl
-		<< "\t" << "\t" << "~" << name.data() << "();" << endl
+		<< "\t" << "\t" << "virtual ~" << name.data() << "();" << endl
 		<< endl
 		<< "\t" << "private:" << endl
 		
@@ -54,6 +59,12 @@ void printSource(String file)
 		<< "\t" << "// " << name.data() << ":" << endl
 		<< "\t" << "//" << endl
 		<< "\t" << name.data() << "::" << name.data() << "()" << endl
+		<< "\t" << "{" << endl
+		<< "\t" << "} // " << name.data() << endl << endl
+
+		<< "\t" << "// " << name.data() << ":" << endl
+		<< "\t" << "//" << endl
+		<< "\t" << name.data() << "::" << name.data() << "(const " << name.data() << "& in)" << endl
 		<< "\t" << "{" << endl
 		<< "\t" << "} // " << name.data() << endl << endl
 

@@ -34,7 +34,8 @@ namespace archendale
 		virtual vector < string > getAddresses() const;
 
 		// getAddress:
-		//      returns the address of the official host
+		//      returns the address of the official host, a
+		//	string of the Address, in human readable form
 		virtual string getAddress() const;
 
 		// getHostNames:
@@ -48,7 +49,7 @@ namespace archendale
 		virtual string getHostName() const;
 
 		// addAddress:
-		//	returns a string of the Address	
+		//	returns a string of the Address, in human readable form
 		virtual void addAddress(const string&);
 
 		// addHostName:

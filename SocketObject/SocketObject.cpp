@@ -19,7 +19,8 @@ namespace archendale
 
 	SocketObject::SocketObject(unsigned int readBufferLength = 10000)
 	{
-		m_socket 	 = 0;
+		m_socketHandle 	 = new SocketHandle;
+		m_socketHandle->increment();
 		m_readBuffer 	 = 0;
 		m_readBufferSize = readBufferLength;
 		m_readBuffer	 = new char[m_readBufferSize];
@@ -27,9 +28,11 @@ namespace archendale
 	
 	SocketObject::SocketObject(const SocketObject& rhs)
 	{
+		cerr << "SocketObject CC" << endl;
 		delete m_readBuffer;
 		m_readBuffer 	 = 0;
-		m_socket 	 = rhs.m_socket;
+		m_socketHandle 	 = rhs.m_socketHandle;
+		m_socketHandle->increment();
 		m_sendDataBuffer = rhs.m_sendDataBuffer;
 		m_readDataBuffer = rhs.m_readDataBuffer;
 		m_readBufferSize = rhs.m_readBufferSize;
@@ -40,6 +43,8 @@ namespace archendale
 	{
 		if(m_sendDataBuffer.size() > 0) send();
 		delete m_readBuffer;
+		if(m_socketHandle->decrement() == 0)
+			delete m_socketHandle;
 	} // ~SocketObject
 
 	///////////////////////////////
@@ -71,7 +76,7 @@ namespace archendale
 	void SocketObject::send()
 	{
 		if(m_sendDataBuffer.size() <= 0) return;
-		int retValue = ::send(m_socket, m_sendDataBuffer.c_str(), m_sendDataBuffer.size(), MSG_NOSIGNAL);
+		int retValue = ::send(m_socketHandle->getSocket(), m_sendDataBuffer.c_str(), m_sendDataBuffer.size(), MSG_NOSIGNAL);
 		// have sent the data, clear it so it doesn't send twice!
 		if(retValue >= 0) m_sendDataBuffer.erase(0, retValue);
 		if(-1 == retValue)
@@ -159,7 +164,8 @@ namespace archendale
 	//
 	void SocketObject::recieve()
 	{
-		int count = ::recv(m_socket, m_readBuffer, m_readBufferSize, MSG_NOSIGNAL );
+		cerr << "socket in recieve: " << m_socketHandle->getSocket() << endl;
+		int count = ::recv(m_socketHandle->getSocket(), m_readBuffer, m_readBufferSize, MSG_NOSIGNAL );
 		if(count > 0) 
 		{
 			m_readDataBuffer.append(m_readBuffer, count);
@@ -369,4 +375,17 @@ namespace archendale
 		return *this;
 	} //  operator>>(float)
 
+	int SocketObject::getSocket()
+	{
+		return m_socketHandle->getSocket();
+	} // getSocket
+
+	void SocketObject::setSocket(int socket)
+	{	
+		if(m_socketHandle->decrement() == 0)
+			delete m_socketHandle;
+		m_socketHandle = new SocketHandle;
+		m_socketHandle->setSocket(socket);
+		m_socketHandle->increment();
+	} // setSocket
 } // archendale

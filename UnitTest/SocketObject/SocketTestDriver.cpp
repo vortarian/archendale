@@ -23,40 +23,24 @@ using namespace archendale;
 //
 //////////////////////////////////////////////////////////////
 
-union inetaddr
-{
-	char name[6];
-	unsigned char uname[6];
-	unsigned int i;
-} test;
-
 bool testNameResolver()
 {
 	char input[500];
 	cout << "Enter HostName: ";
 	cin.getline(input, 500);
 	string hostName(input);
-	InternetAddress address;
-	address.addHostName(hostName);
 	cerr << "Testing host: " << hostName << endl;	
 
 	try
 	{
-		address = NameResolver::getAddress(address);
+		InternetAddress address = NameResolver::getAddress(hostName);
 		vector < string > vec = address.getAddresses();
 		vector < string >::const_iterator start = vec.begin();
 		vector < string >::const_iterator end = vec.end();
 		while(start != end)
 		{
-			test.uname[0] = start->data()[0];
-			test.uname[1] = start->data()[1];
-			test.uname[2] = start->data()[2];
-			test.uname[3] = start->data()[3];
 			cout << "Inet Address: ";
-			cout << (int) test.uname[0] << ".";
-			cout << (int) test.uname[1] << ".";
-			cout << (int) test.uname[2] << ".";
-			cout << (int) test.uname[3] << endl;
+			cout << *start << endl;
 			start++;
 		} // while
 		
@@ -85,7 +69,8 @@ bool testNameResolver()
 
 bool testSocketObjectRead()
 {
-	INETSocket obj;
+	InternetAddress addr = NameResolver::getAddress("localhost");
+	INETSocket obj(addr, 7);
 	obj.connect();
 
 	try {
@@ -200,8 +185,10 @@ bool testSocketObjectRead()
 
 bool testSocketObjectLargeReadWrite()
 {
-	INETSocket obj;
+	InternetAddress addr = NameResolver::getAddress("localhost");
+	INETSocket obj(addr, 7);
 	obj.connect();
+
 	int sendData[4000]; 
 	const int DATASIZE = sizeof(sendData) / sizeof(int);
 	int recieveData[DATASIZE]; 
