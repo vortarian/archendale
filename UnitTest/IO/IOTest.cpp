@@ -12,9 +12,10 @@ bool ITDFRead()
 {
 	cout << "Running ITDFRead" << endl;
 
-	string testString; //  = "32.5\tHello World\t48\t33\tHowdy";
+	string testString;
 	stringstream istr(testString);
 	double dInput = 0;
+	int iInput = 0;
 	string sInput = "";
 
 	OTDF otdf(istr);
@@ -46,11 +47,11 @@ bool ITDFRead()
 			return false;
 		} // if
 
-		itdf >> dInput;
-		cout << dInput << endl;
-		if(dInput != 48)
+		itdf >> iInput;
+		cout << iInput << endl;
+		if(iInput != 48)
 		{
-			cout << "test failed:if(dInput != 48) " << endl;
+			cout << "test failed:if(iInput != 48) " << endl;
 			return false;
 		} // if
 
