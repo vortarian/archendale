@@ -24,7 +24,7 @@ using namespace archendale;
 //
 //////////////////////////////////////////////////////////////
 
-main(char** argv, int argc )
+main(int argc, char** argv)
 {
 	try {
 		int port = 5000;

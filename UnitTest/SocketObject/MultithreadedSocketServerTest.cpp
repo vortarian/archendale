@@ -108,7 +108,7 @@ unsigned int getNextWorkerNumber()
 	return workerNumber;
 } // getNextWorker
 
-main(char** argv, int argc )
+main(int argc, char** argv)
 {
 
 	Worker *workers = new Worker[4];

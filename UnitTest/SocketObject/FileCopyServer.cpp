@@ -124,23 +124,35 @@ unsigned int getNextWorkerNumber()
 	return workerNumber;
 } // getNextWorker
 
-int main(char** argv, int argc )
+int main(int argc, char** argv)
 {
-
 	Worker *workers = new Worker[4];
 
 	try {
 		int port = 8000;
-		
-		if(2 == argc)
+		string hostName = "localhost";	
+		if(argc > 2)
 		{
-			int port = atoi(argv[1]);
+			if(argv[1][0] > '0' && argv[1][0] < '9') 
+			{
+				cerr << "Invalid host name specified: " << argv[1] << endl;
+				cerr << "Usage: " << argv[0] << " <host> <port>" << endl;
+				Exception exp("Invalid Host Name specified" + hostName);
+				throw exp;
+			} // if
+			hostName = argv[1];
+		} // if
+		if(3 == argc)
+		{
+			int port = atoi(argv[2]);
 			if(0 >= port) 
 			{
-				cerr << "Invalid port number specified" << endl;
+				cerr << "Invalid port number specified: " << argv[2] << endl;
+				cerr << "Usage: " << argv[0] << " <host> <port>" << endl;
+				Exception exp("Invalid port specified");
+				throw exp;
 			} // if
 		} // if
-		string hostName = "localhost";
 		InternetAddress addr = NameResolver::getAddress(hostName);
 		SocketServer sserver(addr, port, 1);
 		cout << "Server listening on " << hostName << ":" << port << endl;
