@@ -140,10 +140,10 @@ int main(char** argv, int argc )
 				cerr << "Invalid port number specified" << endl;
 			} // if
 		} // if
-
-		InternetAddress addr = NameResolver::getAddress("localhost");
+		string hostName = "localhost";
+		InternetAddress addr = NameResolver::getAddress(hostName);
 		SocketServer sserver(addr, port, 1);
-		cout << "Server listening on localhost:" << port << endl;
+		cout << "Server listening on " << hostName << ":" << port << endl;
 		while(1)
 		{
 			cout << "Waiting for connection" << endl;
