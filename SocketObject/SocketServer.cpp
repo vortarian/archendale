@@ -63,7 +63,7 @@ namespace archendale
 					break;
 				default:
 					{
-						Exception exp("Unknown Exception in SocketServer() : " __FILE__);
+						SocketException exp("Unknown Exception in SocketServer() : " __FILE__);
 						throw exp;
 					}
 			} // switch
@@ -108,13 +108,13 @@ namespace archendale
 				break;	
 			case EBADF:
 				{	
-					InvalidSocketDescriptorException exp(__FILE__);
+					InvalidDescriptorException exp(__FILE__);
 					throw exp;
 				}
 				break;	
 			case ENOTSOCK:
 				{	
-					NotSocketDescriptorException exp(__FILE__);
+					NotDescriptorException exp(__FILE__);
 					throw exp;
 				}
 				break;	
@@ -126,7 +126,7 @@ namespace archendale
 				break;	
 			case EFAULT:
 				{	
-					Exception exp(__FILE__ " - Address out of user space");
+					SocketException exp(__FILE__ " - Address out of user space");
 					throw exp;
 				}
 				break;	
@@ -138,7 +138,7 @@ namespace archendale
 				break;	
 			default:
 				{
-					Exception exp("Unknown error in SocketServer::getWaitingConnection");
+					SocketException exp("Unknown error in SocketServer::getWaitingConnection");
 					throw exp;
 				}
 			} // switch
@@ -166,13 +166,13 @@ namespace archendale
 			{
 			case EBADF:
 				{	
-					NotSocketDescriptorException exp(__FILE__);
+					NotDescriptorException exp(__FILE__);
 					throw exp;
 				}
 				break;	
 			case EINVAL:
 				{	
-					SocketBoundException exp(__FILE__);
+					BoundException exp(__FILE__);
 					throw exp;
 				}
 				break;	
@@ -184,13 +184,13 @@ namespace archendale
 				break;	
 			case ENOTSOCK:
 				{	
-					NotSocketDescriptorException exp("Argument is a file descriptor, not a socket descriptor : " __FILE__);
+					NotDescriptorException exp("Argument is a file descriptor, not a socket descriptor : " __FILE__);
 					throw exp;
 				}
 				break;	
 			default:
 				{
-					Exception exp("Unknown error in SocketServer::bind() : " __FILE__);
+					SocketException exp("Unknown error in SocketServer::bind() : " __FILE__);
 				}
 				break;
 			} // switch
@@ -207,13 +207,13 @@ namespace archendale
 			{
 			case EBADF:
 				{
-					InvalidSocketDescriptorException exp(__FILE__);
+					InvalidDescriptorException exp(__FILE__);
 					throw exp;
 				}
 				break;
 			case ENOTSOCK:
 				{
-					NotSocketDescriptorException exp(__FILE__);
+					NotDescriptorException exp(__FILE__);
 					throw exp;
 				}
 				break;
@@ -225,7 +225,7 @@ namespace archendale
 				break;	
 			default:
 				{
-					Exception exp("SocketServer::listen() - Unknown error");
+					SocketException exp("SocketServer::listen() - Unknown error");
 					throw exp;
 				}
 				break;	

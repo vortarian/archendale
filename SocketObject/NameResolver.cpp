@@ -68,7 +68,7 @@ namespace archendale
 					}
 					break;
 				default:
-					Exception exp(hostName + ": Unknown error occured");
+					SocketException exp(hostName + ": Unknown error occured");
 					throw exp;
 					break;
 			} // switch

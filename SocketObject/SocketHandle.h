@@ -17,14 +17,6 @@ namespace archendale
 		//
 		~SocketHandle();
 
-		// increment:
-		//
-		void increment();	
-			
-		// decrement:
-		//
-		int decrement();	
-			
 		// getSocket:
 		//
 		int& getSocket();
@@ -35,10 +27,9 @@ namespace archendale
 
 	private:
 		// SocketHandle:
-		//
+		//	Don't let SocketHandle's be copied
 		SocketHandle(const SocketHandle&) { ; }
 
-		unsigned int m_referenceCount; 
 		int m_socket;
 	}; // SocketHandle
 } // namespace archendale

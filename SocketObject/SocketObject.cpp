@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SocketObject/SocketObject.h>
+#include <typeinfo>
 #include <errno.h>
 
 using namespace std;
@@ -19,8 +20,6 @@ namespace archendale
 
 	SocketObject::SocketObject(unsigned int readBufferLength = 10000)
 	{
-		m_socketHandle 	 = new SocketHandle;
-		m_socketHandle->increment();
 		m_readBuffer 	 = 0;
 		m_readBufferSize = readBufferLength;
 		m_readBuffer	 = new char[m_readBufferSize];
@@ -31,7 +30,6 @@ namespace archendale
 	{
 		m_readBuffer 	 = 0;
 		m_socketHandle 	 = rhs.m_socketHandle;
-		m_socketHandle->increment();
 		m_sendDataBuffer = rhs.m_sendDataBuffer;
 		m_readDataBuffer = rhs.m_readDataBuffer;
 		m_readBufferSize = rhs.m_readBufferSize;
@@ -40,10 +38,18 @@ namespace archendale
 
 	SocketObject::~SocketObject()
 	{
-		if(m_sendDataBuffer.size() > 0) send();
+		// Send remaining Data if possible
+		try 
+		{
+			if(m_sendDataBuffer.size() > 0) send();
+		} catch (Exception& exp)
+		{
+			// Catch any exceptions, report and swallow them
+			std::cerr << "Unknown Exception caught: " << endl
+				<< "type: " << typeid(exp).name() << endl
+				<< "why: " << exp.why() << endl;
+		} // try
 		delete m_readBuffer;
-		if(m_socketHandle->decrement() == 0)
-			delete m_socketHandle;
 	} // ~SocketObject
 
 	// This is a private member, as it is bad to share a handle	
@@ -52,7 +58,6 @@ namespace archendale
 		delete m_readBuffer;
 		m_readBuffer 	 = 0;
 		m_socketHandle 	 = rhs.m_socketHandle;
-		m_socketHandle->increment();
 		m_sendDataBuffer = rhs.m_sendDataBuffer;
 		m_readDataBuffer = rhs.m_readDataBuffer;
 		m_readBufferSize = rhs.m_readBufferSize;
@@ -98,13 +103,13 @@ namespace archendale
 			{
 				case EBADF:
 				{
-					InvalidSocketDescriptorException exp(__FILE__);
+					InvalidDescriptorException exp(__FILE__);
 					throw exp;
 				}		
 				break;
 				case ENOTSOCK:
 				{
-					NotSocketDescriptorException exp(__FILE__);
+					NotDescriptorException exp(__FILE__);
 					throw exp;
 				}		
 				break;
@@ -150,13 +155,13 @@ namespace archendale
 				break;
 				case EPIPE:
 				{
-					SocketClosedException exp(__FILE__);
+					ClosedException exp(__FILE__);
 					throw exp;
 				}		
 				break;
 				default:
 				{
-					Exception exp("Failed to send in SocketObject");
+					SocketException exp("Failed to send in SocketObject");
 					throw exp;
 				}
 			} // switch
@@ -189,13 +194,13 @@ namespace archendale
 				case EBADF:
 				case ENOTSOCK:
 				{
-					InvalidSocketDescriptorException exp(__FILE__);
+					InvalidDescriptorException exp(__FILE__);
 					throw exp;
 				}		
 				break;
 				case ENOTCONN:
 				{
-					SocketNotConnectedException exp(__FILE__);
+					NotConnectedException exp(__FILE__);
 					throw exp;
 				}		
 				break;
@@ -225,7 +230,7 @@ namespace archendale
 				break;
 				default:
 				{
-					Exception exp("Failed to read in SocketObject");
+					SocketException exp("Failed to read in SocketObject");
 					throw exp;
 				}
 			} // switch
@@ -394,10 +399,6 @@ namespace archendale
 
 	void SocketObject::setSocket(int socket)
 	{	
-		if(m_socketHandle->decrement() == 0)
-			delete m_socketHandle;
-		m_socketHandle = new SocketHandle;
 		m_socketHandle->setSocket(socket);
-		m_socketHandle->increment();
 	} // setSocket
 } // archendale

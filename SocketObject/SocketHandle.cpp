@@ -9,7 +9,6 @@ namespace archendale
 	//
 	SocketHandle::SocketHandle()
 	{
-		m_referenceCount++;
 		m_socket = 0;
 	} // SocketHandle
 
@@ -17,11 +16,10 @@ namespace archendale
 	//
 	SocketHandle::~SocketHandle()
 	{
-		m_referenceCount--;
-		if(0 == m_referenceCount)
+		if(0 != m_socket) 
 		{
 			std::cerr << "Shutting down socket: " << m_socket << std::endl;
-			if(0 != m_socket) ::shutdown(m_socket, SHUT_RDWR);
+			::shutdown(m_socket, SHUT_RDWR);
 		} // if
 	} // ~SocketHandle
 
@@ -38,19 +36,4 @@ namespace archendale
 	{
 		m_socket = socket;
 	} // setSocket
-
-	// increment:
-	//
-	void SocketHandle::increment()
-	{
-		m_referenceCount++;
-	} // increment
-
-	// decrement:
-	//
-	int SocketHandle::decrement()
-	{
-		m_referenceCount--;
-		return m_referenceCount;
-	} // getReference
 } // namespace archendale

@@ -11,6 +11,7 @@
 #include <SocketObject/SocketException.h>
 #include <SocketObject/SocketHandle.h>
 #include <ThreadObject/Mutex.h>
+#include <Util/ReferenceCounter.h>
 
 using std::vector;
 using std::queue;
@@ -47,7 +48,7 @@ namespace archendale
 		} m_data;
 	private:
 		unsigned int m_size;
-	}; //SocketDataConverter 
+	}; // SocketDataConverter 
 
 	// Transmit Notifier:
 	struct Transmit { };
@@ -111,11 +112,11 @@ namespace archendale
 
 	protected:
 		// getSocket:
-		//
+		//	Only usable by subclasses
 		int getSocket();
 		
 		// setSocket:
-		//
+		//	Only usable by subclasses
 		void setSocket(int);
 
 		// Can't have people sharing SocketHandles
@@ -136,7 +137,7 @@ namespace archendale
 		SocketDataConverter<double>              dConverter;
 		SocketDataConverter<float>               fConverter;
 
-		SocketHandle* m_socketHandle;
+		ReferenceCounter<SocketHandle> m_socketHandle;
 	}; // SocketObject
 } // archendale
 

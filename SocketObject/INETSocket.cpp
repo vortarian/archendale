@@ -38,43 +38,43 @@ namespace archendale
 			{
                                 case EPROTONOSUPPORT:
                                         {
-                                                ProtocolNotSupportedException exp(__FILE__);
+                                                ProtocolNotSupportedException exp(__FILE__ ": INETSocket::INETSocket()");
                                                 throw exp;
                                         }
                                         break;
                                 case ENFILE:
                                         {
-                                                OutOfMemoryException exp("Kernel Memory Exhausted : " __FILE__);
+                                                OutOfMemoryException exp("Kernel Memory Exhausted : " __FILE__ ": INETSocket::INETSocket()");
                                                 throw exp;
                                         }
                                         break;
                                 case EMFILE:
                                         {
-                                                Exception exp("Process File Table Overflow in : " __FILE__);
+                                                SocketException exp("Process File Table Overflow in : " __FILE__ ": INETSocket::INETSocket()");
                                                 throw exp;
                                         }
                                         break;
                                 case EACCES:
                                         {
-                                                AccessDeniedException exp(__FILE__ ":" + __LINE__);
+                                                AccessDeniedException exp(__FILE__ ": INETSocket::INETSocket()" ":");
                                                 throw exp;
                                         }
                                         break;
                                 case ENOMEM:
                                         {
-                                                OutOfMemoryException exp(__FILE__);
+                                                OutOfMemoryException exp(__FILE__ ": INETSocket::INETSocket()");
                                                 throw exp;
                                         }
                                         break;
                                 case EINVAL:
                                         {
-                                                InvalidArgumentException exp(__FILE__);
+                                                InvalidArgumentException exp(__FILE__ ": INETSocket::INETSocket()");
                                                 throw exp;
                                         }
                                         break;
                                 default:
                                         {
-                                                Exception exp("Unknown Exception in SocketServer() : " __FILE__);
+                                                SocketException exp(__FILE__ ": INETSocket::INETSocket()");
                                                 throw exp;
                                         }
                         } // switch
@@ -105,7 +105,87 @@ namespace archendale
 		inet_aton(m_address.getAddress().c_str(), &socketAttribute.sin_addr);
 		if(::connect(getSocket(), (sockaddr*) &socketAttribute, sizeof(socketAttribute)))
 		{	
-			std::cerr << "connect caused an error: " << errno << std::endl;
+			switch(errno)
+			{
+				case EBADF:
+					{
+						InvalidDescriptorException exp(__FILE__ ": INETSocket::connect()");
+						throw exp;
+					}
+					break;
+				case ENOTSOCK:
+					{
+						NotDescriptorException exp(__FILE__ ": INETSocket::connect()");
+						throw exp;
+					}
+					break;
+				case EISCONN:
+					{
+						ConnectedException exp(__FILE__ ": INETSocket::connect()");
+						throw exp;
+					}
+					break;
+				case ECONNREFUSED:
+					{
+						ConnectionRefusedException exp(__FILE__ ": INETSocket::connect()");
+						throw exp;
+					}
+					break;
+				case ETIMEDOUT:
+					{
+						TimeOutException exp(__FILE__ ": INETSocket::connect()");
+						throw exp;
+					}
+					break;
+				case ENETUNREACH:
+					{
+						NetworkUnreachableException exp(__FILE__ ": INETSocket::connect()");
+						throw exp;
+					}
+					break;
+				case EADDRINUSE:
+					{
+						AddressInUseException exp(__FILE__ ": INETSocket::connect()");
+						throw exp;
+					}
+					break;
+				case EINPROGRESS:
+					{
+						OperationWillBlockException exp(__FILE__ ": INETSocket::connect()");
+						throw exp;
+					}
+					break;
+				case EALREADY:
+					{
+						OperationWillBlockException exp("Previous Connection has not completed: " __FILE__ ": INETSocket::connect()");
+						throw exp;
+					}
+					break;
+				case EAGAIN:
+					{
+						RetryException exp("Previous Connection has not completed: " __FILE__ ": INETSocket::connect()");
+						throw exp;
+					}
+					break;
+				case EAFNOSUPPORT:
+					{
+						TypeNotSupportedException exp("Previous Connection has not completed: " __FILE__ ": INETSocket::connect()");
+						throw exp;
+					}
+					break;
+				case EACCES:
+				case EPERM:
+					{
+						SystemDenyException exp("Previous Connection has not completed: " __FILE__ ": INETSocket::connect()");
+						throw exp;
+					}
+				break;
+				default:
+					{
+						SocketException exp("Unknown Exception in SocketServer() : " __FILE__ ": INETSocket::connect()");
+						throw exp;
+					}
+                        } // switch
 		}  // if
 	} // connect
 
