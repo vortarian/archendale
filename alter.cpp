@@ -12,6 +12,7 @@ void printHeader(String file)
 	ostr << endl 
 		<< "#ifndef " << file << endl
 		<< "#define " << file << endl
+		<< endl
 		
 		<< "namespace archendale" << endl
 		<< "{" << endl
