@@ -17,12 +17,12 @@ public:
 	IntEntry(int data) { m_data = data; }
 	~IntEntry() { ; }
 	static void* newInstance() { return new IntEntry; }
-	ostream& writeData(ostream& out) const
+	OTDF& writeData(OTDF& out) const
 	{
 		return out << m_data; 
 	} // writeData
 	
-	istream& readData(istream& in)
+	ITDF& readData(ITDF& in)
 	{
 		return in >> m_data;
 	} // readData
@@ -31,12 +31,17 @@ public:
 	{
 		return m_data == rhs.m_data;
 	} // operator ==
+	
+	const string& getName() { return m_className; }
+	
 private:
 	int m_data;
+	const static string m_className;
 	static FactoryRegistrar<IntEntry> CFR;
 }; // IntEntry
 
 FactoryRegistrar<IntEntry> IntEntry::CFR("IntEntry");
+const string IntEntry::m_className("IntEntry");
 
 class StringEntry : public IEntry
 {
@@ -45,26 +50,30 @@ public:
 	StringEntry(string data) { m_data = data; }
 	~StringEntry() { ; }
 	static void* newInstance() { return new StringEntry; }
-	ostream& writeData(ostream& out) const
+	OTDF& writeData(OTDF& out) const
 	{
 		return out << m_data; 
 	} // writeData
 	
-	istream& readData(istream& in)
+	ITDF& readData(ITDF& in)
 	{
-		return getline(in, m_data);
+		return in >> m_data;
 	} // readData
 	
 	bool operator==(const StringEntry& rhs) const
 	{
 		return m_data == rhs.m_data;
 	} // operator ==
+	
+	const string& getName() { return m_className; }
 private:
 	string m_data;
+	const static string m_className;
 	static FactoryRegistrar<StringEntry> CFR;
 }; // StringEntry
 
-FactoryRegistrar<StringEntry> StringEntry::CFR("IntEntry");
+FactoryRegistrar<StringEntry> StringEntry::CFR("StringEntry");
+const string StringEntry::m_className("StringEntry");
 
 } // archendale
 
@@ -77,24 +86,20 @@ int main(void)
 	StringEntry sa("Hello World");
 	StringEntry sb("");
 	
-	string storedData;
-	stringstream iostr(storedData);
+	stringstream iostr;
+	OTDF otdf(iostr);	
 
-	cout << "Stored Data: " << storedData << endl;
+	otdf << ia << sa;
 
-	cout << "Writing to Storage Data: ia:\"" << ia << "\" and sa:\"" << sa << "\"" << endl << endl;
-	iostr << ia << sa;
-	
-	cout << "Stored Data: " << storedData << endl;
-	cout << "Reading from Storage Data" << endl << endl;
-	iostr >> ib >> sb;
+	ITDF itdf(iostr);
+	itdf >> ib >> sb;
 	
 	if( (ia == ib) && (sa == sb) ) 
 	{
-		cout << "Test SUCCEEDED! ib == \"" << ib << "\" and sb == \"" << sb << "\"" << endl;
+		cout << "Test SUCCEEDED!" << endl;
 	} else 
 	{
-		cout << "Test FAILED! ib == \"" << ib << "\" and sb == \"" << sb << "\"" << endl;
+		cout << "Test FAILED!" << endl;
 	} // if
 } // main
 

@@ -5,24 +5,21 @@
 #include <string>
 #include <istream>
 
-using std::string;
-using std::istream;
-
 namespace archendale 
 {
 
 	class ITDF
 	{
 	public:
-		ITDF(istream&);
+		ITDF(std::istream&);
 		ITDF(const ITDF&);
 		virtual ~ITDF();
 
 		ITDF& operator>>(int&);
 		ITDF& operator>>(double&);
-		ITDF& operator>>(string&);
+		ITDF& operator>>(std::string&);
 	private:
-		istream& m_inputStream;
+		std::istream& m_inputStream;
 	}; // ITDF
 
 } // archendale

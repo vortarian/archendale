@@ -5,24 +5,21 @@
 #include <string>
 #include <ostream>
 
-using std::string;
-using std::ostream;
-
 namespace archendale 
 {
 
 	class OTDF
 	{
 	public:
-		OTDF(ostream&);
+		OTDF(std::ostream&);
 		OTDF(const OTDF&);
 		virtual ~OTDF();
 
 		OTDF& operator<<(const int&);
 		OTDF& operator<<(const double&);
-		OTDF& operator<<(const string&);
+		OTDF& operator<<(const std::string&);
 	private:
-		ostream& m_outputStream;
+		std::ostream& m_outputStream;
 	}; // OTDF
 
 } // archendale
