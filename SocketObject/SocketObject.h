@@ -115,6 +115,36 @@ namespace archendale
 		static Transmit transmit;
 		SocketObject& operator<<(const Transmit&); 
 
+		// getline functionality
+
+		// getline:	
+		//	Takes a SocketObject to read from, 
+		//	pointer to the data buffer to fill,
+		//	size of the buffer,
+		//	and a char delimiter to stop reading at
+		void getline(char*, unsigned int, char);
+
+		// getline:	
+		//	Takes a SocketObject to read from, 
+		//	pointer to the data buffer to fill,
+		//	size of the buffer
+		//	Reads until it finds whitespace
+		void getline(char*, unsigned int);
+
+		// getline:	
+		//	Takes a SocketObject to read from, 
+		//	reference to the string to append to
+		//	delimiter to stop reading at
+		//	Reads until it finds the delimiter
+		void getline(std::string&, char);
+
+		// getline:	
+		//	Takes a SocketObject to read from, 
+		//	reference to the string to append to
+		//	delimiter to stop reading at
+		//	Reads until it finds whitespace
+		void getline(std::string&);
+
 		// getBytesSent:
 		//
 		unsigned int getBytesSent() { return m_socketHandle->getBytesSent(); }

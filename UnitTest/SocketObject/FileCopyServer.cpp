@@ -52,20 +52,20 @@ public:
 		{
 			string filename;
 
-			m_socket >> filename;
+			m_socket.getline(filename, '\0');
 			ofstream ostr(filename.c_str());
 			if(!ostr)
 			{
 				string error = "Could not open ";
 				error += filename;
 				error += " for writing";
-				m_socket << error;
+				m_socket << error << '\0';
 
 				Exception exp(error);
 				throw exp;
 			} else
 			{
-				m_socket << "SendData" 
+				m_socket << "SendData" << '\0' 
 					<< SocketObject::transmit;
 
 				cout << "(Worker # " 
@@ -86,7 +86,7 @@ public:
 				ch = m_socket.get();
 				ostr.put(ch);
 			} // for
-			m_socket << "SendGood" << SocketObject::transmit;
+			m_socket << "SendGood" << '\0' << SocketObject::transmit;
 			cout 	<< "Received " 
 				<< m_socket.getBytesReceived() 
 				<< " bytes, returning" 
@@ -103,7 +103,7 @@ public:
 				<< exp.why() 
 				<< endl;
 			cerr << error.str() << endl;
-			m_socket << error.str() << SocketObject::transmit;
+			m_socket << error.str() << '\0' << SocketObject::transmit;
 			m_socketSet = false;
 		} // try
 		m_socketSet = false;

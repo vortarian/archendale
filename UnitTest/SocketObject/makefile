@@ -8,8 +8,9 @@ SOCKETCLIENTOBJECTS =  SocketClientTest.o
 MULTITHREADEDSOCKETSERVEROBJECTS =  MultithreadedSocketServerTest.o
 FILECOPYCLIENTOBJECTS =  FileCopyClient.o
 FILECOPYSERVEROBJECTS =  FileCopyServer.o
+SENDEMAILCLIENTOBJECTS =  SendEmailClient.o
 
-EXES = SocketTestDriver SocketServerTest SocketClientTest  MultithreadedSocketServerTest FileCopyClient FileCopyServer
+EXES = SocketTestDriver SocketServerTest SocketClientTest  MultithreadedSocketServerTest FileCopyClient FileCopyServer SendEmailClient
 
 .SUFFIXES = .cpp .h .c .o
 
@@ -39,6 +40,9 @@ FileCopyClient: $(FILECOPYCLIENTOBJECTS)
 
 FileCopyServer: $(FILECOPYSERVEROBJECTS) 
 	$(CPP) $(CPP_FLAGS) -o $@ $(FILECOPYSERVEROBJECTS) $(LINKEROPTIONS)
+
+SendEmailClient: $(SENDEMAILCLIENTOBJECTS) 
+	$(CPP) $(CPP_FLAGS) -o $@ $(SENDEMAILCLIENTOBJECTS) $(LINKEROPTIONS)
 
 .cpp.o:	$<
 	$(CPP) $(CPP_FLAGS) -c $<

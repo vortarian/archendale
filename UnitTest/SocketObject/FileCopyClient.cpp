@@ -53,9 +53,9 @@ int main(void)
 				return -1;
 		} // if
 		char ch;
-		socket << remoteFileName << SocketObject::transmit;
+		socket << remoteFileName << '\0' << SocketObject::transmit;
 		string remoteReply;
-		socket >> remoteReply;
+		socket.getline(remoteReply, '\0');
 		if(remoteReply == "SendData")
 		{
 			cout << "Reading input file . . ." << endl;
@@ -63,12 +63,12 @@ int main(void)
 			while(istr.get(ch)) sostr.put(ch);
 			size_t fileSize = sostr.str().size();
 			cout << "Sending file of size " << fileSize << endl;
-			socket << fileSize << sostr.str() << SocketObject::transmit;	
+			socket << fileSize << sostr.str() << '\0' << SocketObject::transmit;	
 		} else
 		{
 			cerr << "Error on file Server: " << remoteReply << endl;
 		} // if
-		socket >> remoteReply;
+		socket.getline(remoteReply, '\0');
 		if(remoteReply == "SendGood")
 		{
 			cout << "File sent, exiting" << endl;	

@@ -304,13 +304,12 @@ namespace archendale
 	SocketObject& SocketObject::operator<<(const string& data)
 	{
 		m_sendDataBuffer += data;
-		m_sendDataBuffer += '\0';
 		return *this;
 	} //  operator<<(string)
 
 	SocketObject& SocketObject::operator>>(string& input)
 	{	
-		get(input);
+		getline(input);
 		return *this;
 	} //  operator>>(string)
 
@@ -425,4 +424,125 @@ namespace archendale
 	{	
 		m_socketHandle->setSocket(socket);
 	} // setSocket
+
+	/////////////////////////
+	//
+	//	Static's
+	//
+	/////////////////////////
+
+        // getline:
+        //      Takes a SocketObject to read from,
+        //      pointer to the data buffer to fill,
+        //      size of the buffer,
+        //      and a char delimiter to stop reading at
+	//	leaves the delimiter in the socket stream
+        void SocketObject::getline(char* buffer, unsigned int length, char delim)
+	{
+		if(m_readDataBuffer.size() <= 0) receive();
+		unsigned int i = 0;
+		// Read until we find that delimiter
+		do
+		{
+			i = m_readDataBuffer.find(delim);
+			if(i == string::npos) receive();
+		} while(i == string::npos);
+		unsigned int copyLength = i;
+		if(copyLength > length) copyLength = length;
+		strncpy(buffer, m_readDataBuffer.c_str(), copyLength);
+		m_readDataBuffer.erase(0, copyLength);
+	} // getline
+
+        // getline:
+        //      Takes a SocketObject to read from,
+        //      pointer to the data buffer to fill,
+        //      size of the buffer
+        //      Reads until it finds whitespace
+	//	leaves the delimiter in the socket stream
+        void SocketObject::getline(char* buffer, unsigned int length)
+	{
+		if(m_readDataBuffer.size() <= 0) receive();
+		unsigned int i = 0;
+		// Read until we find that delimiter
+		string::const_iterator beg = m_readDataBuffer.begin();
+		string::const_iterator end = m_readDataBuffer.end();
+		do
+		{
+			beg = m_readDataBuffer.begin() + i;
+			end = m_readDataBuffer.end();
+			while(beg != end)
+			{
+				if(isspace(*beg))
+				{
+					break;
+				} // if
+				i++;
+				beg++;
+			} // while
+			if(beg == end) receive();
+			// can not use end in the next statement,
+			// as receive changes it, have to make new function 
+			// call
+		} while(beg != m_readDataBuffer.end());
+		unsigned int copyLength = i;
+		if(copyLength > length) copyLength = length;
+		strncpy(buffer, m_readDataBuffer.c_str(), copyLength);
+		m_readDataBuffer.erase(0, copyLength);
+	} // getline
+
+        // getline:     
+        //      Takes a SocketObject to read from, 
+        //      reference to the string to append to
+        //      delimiter to stop reading at
+        //      Reads until it finds the delimiter, 
+	//	delimiter is removed from the string
+        void SocketObject::getline(string& input, char delim)
+	{
+		if(m_readDataBuffer.size() <= 0) receive();
+		string::size_type i = 0;
+		// Read until we find that delimiter
+		do
+		{
+			i = m_readDataBuffer.find(delim);
+			if(i == string::npos) receive();
+		} while(i == string::npos);
+                input = m_readDataBuffer.substr(0, i);
+                m_readDataBuffer.erase(0, i + 1);
+	} // getline
+
+        // getline:
+        //      Takes a SocketObject to read from,
+        //      reference to the string to append to
+        //      delimiter to stop reading at
+        //      Reads until it finds whitespace, removes
+	//	final piece of whitespace
+        void SocketObject::getline(string& input)
+	{
+		if(m_readDataBuffer.size() <= 0) receive();
+		string::size_type i = 0;
+		// Read until we find whitespace
+		string::const_iterator beg = m_readDataBuffer.begin();
+		string::const_iterator end = m_readDataBuffer.end();
+		do
+		{
+			beg = m_readDataBuffer.begin() + i;
+			end = m_readDataBuffer.end();
+			while(beg != end)
+			{
+				if(isspace(*beg))
+				{
+					break;
+				} // if
+				i++;
+				beg++;
+			} // while
+			if(beg == end) receive();
+			// can not use end in the next statement,
+			// as receive changes it, have to make new function 
+			// call
+		} while(beg != m_readDataBuffer.end());
+                input = m_readDataBuffer.substr(0, i);
+                m_readDataBuffer.erase(0, i + 1);
+	} // getline
+
 } // archendale

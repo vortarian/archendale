@@ -10,11 +10,8 @@
 
 namespace archendale
 {
-
-	// TODO:
-	//	Need to define & add exceptions for all these classes
-
 	// Implementation class	
+	// TODO: verfiy that this works on BigEndian & LittleEndian Systems
 	union dataconverter 
 	{
 		char cdata[16];

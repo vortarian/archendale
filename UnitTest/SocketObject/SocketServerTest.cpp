@@ -49,7 +49,7 @@ main(int argc, char** argv)
 			cout << "Waiting for data" << endl;	
 			try 
 			{
-				socket >> data;
+				socket.getline(data, '\0');
 			} catch (InvalidDescriptorException& exp) 
 			{
 				cerr << "InvalidDescriptorException	caught: " << exp.why() << endl;
@@ -86,7 +86,7 @@ main(int argc, char** argv)
 				cout << "(Only displaying first 255 bytes of data!)" << endl;
 				cout << "Returning: " << tempData << endl;
 			} // if
-			socket << data << SocketObject::transmit;
+			socket << data << '\0' << SocketObject::transmit;
 			cout << "Total bytes sent on this socket: " << socket.getBytesSent() << endl;
 			cout << "Total bytes received on this socket: " << socket.getBytesReceived() << endl;
 		} // while
