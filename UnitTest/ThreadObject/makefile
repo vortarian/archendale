@@ -3,7 +3,7 @@ CC = g++
 INCLUDE = -I../..
 CCOPTIONS = $(GLOBALCCOPTIONS) $(INCLUDE) -D_REENTRANT
 LINKEROPTIONS = -L../../lib -lpthread -lException -lString -lThreadObject
-THREADSUPERTESTDRIVEROBJECTS = ThreadSuperTestDriver.o
+THREADSUPERTESTDRIVEROBJECTS =  DetachedThreadRunner.o ThreadSuperTestDriver.o ThreadCounter.o
 
 .SUFFIXES = .cpp .h .c .o
 

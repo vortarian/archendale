@@ -8,69 +8,93 @@
 #include <ThreadObject/ThreadAttribute.h>
 #include <ThreadObject/ThreadSuper.h>
 #include <ThreadObject/ThreadException.h>
+#include <ThreadObject/AutoMutex.h>
+#include <ThreadObject/AutoMutexTry.h>
+#include "ThreadCounter.h"
+#include <UnitTest/ThreadObject/DetachedThreadRunner.h>
 
 using namespace std;
 using namespace archendale;
 
-class ThreadCounter : public ThreadSuper
-{
-public:
-	ThreadCounter( const char* output, ThreadAttribute, int iterations = 1000);
-	void count(); 
-	void run();
-private:
-	int m_counter, m_iterations;
-	char m_output[100];
-}; // class ThreadCounter
+//////////////////////////////////////////////////////////////
+//
+// Globals
+//
+//////////////////////////////////////////////////////////////
 
-void ThreadCounter::run()
+void displayWidth(unsigned int width = 0)
 {
-	count();
-} // run
+	cout << "Output Width:" << endl;	
+	for(int i = 0; i < width; i++) cout << "-";
+	cout << endl;
 
-ThreadCounter::ThreadCounter(const char* output, ThreadAttribute attr, int iterations = 1000)
-{
-	setAttribute(attr);
-	m_counter = 0;
-	m_iterations = iterations;
-	strcpy(m_output, output);
-} // ThreadCounter Constructor
+} // displayWidth
 
-void ThreadCounter::count()
+// testDetached:
+//	In a nutshell, the concept of detached is to create a
+//	thread, and let it run to completion, not having
+//	any resources cleaned up, even after the calling thread
+//	has exited, thus, as long as the calling thread is
+//	not the main thread, it should run to completion
+//	without losing resources.  In this case, a thread is 
+//	created by DetachedThreadRunner, and is run by the 
+//	DetachedThreadRunner::run().  If this can happen, 
+//	and the DetachedThreadRunner goes out of scope (is 
+//	destroyed), and the thread created by DetachedThreadRunner
+//	continues to operate, then we have accomplished the task
+//	of a detached thread.  The way this works, is we give the 
+//	pointer that will point to the new thread, and 
+//	DetachedThreadRunner will create the new thread using
+//	this pointer as a handle.  This is so we can be sure to 
+//	do memory cleanup before exiting main.
+//	In the future, this should be changed to use a 
+//	strstream, so we can check the actual output and be sure 
+//	the thread runs to completion.
+ThreadCounter* pGlobalThreadCounter;
+void runDetached(bool* finished)
 {
-	for(m_counter; m_counter < m_iterations; m_counter++)
+	DetachedThreadRunner runner(pGlobalThreadCounter, finished);
+	runner.run();
+} // runDetached
+
+bool testDetached()
+{
+	char input[4];
+	bool isFinished = false;
+	cout << "You should see 10 lines stating, \"Detached\" " << endl;
+	runDetached(&isFinished);
+	while(!isFinished);
+	do	
 	{
-		sleep(rand() % 4);
-		cout << m_output << std::flush;
-	}
-} // count
+		cout << "Did you see the line 10 times? (Y/N):";
+		cin.getline(input, 4);
+		switch(input[0])
+		{
+			case 'y':
+			case 'Y':
+				return true;
+				break;		
+			case 'n':
+			case 'N':
+				return false;
+				break;
+		}
+	} while (1);
+} // testDetached
 
-bool testCreateDetached()
+bool testJoinable()
 {
-	// If the threads are created detached, then when they are joined, the 
-	// they will throw an exception, if an exception is thrown, good :)
-
-	int firstCount = 3;
-	int secondCount = 3;
-	int thirdCount = 3;
-	int fourthCount = 3;
-	int fifthCount = 3;
+	int count = 3;
 
 	ThreadAttribute attr;
-	attr.setCreateDetached();
-	ThreadCounter first("E", attr, firstCount);
-	ThreadCounter second("U", attr, secondCount);
-	ThreadCounter third("G", attr, thirdCount);
-	ThreadCounter forth("T", attr, fourthCount);
-	ThreadCounter fifth("Z", attr, fifthCount);
+	attr.setCreateJoinable();
+	ThreadCounter first("E", attr, count);
+	ThreadCounter second("U", attr, count);
+	ThreadCounter third("G", attr, count);
+	ThreadCounter forth("T", attr, count);
+	ThreadCounter fifth("Z", attr, count);
 
-	cout << "Output Width:" << endl;	
-	int totalCount = firstCount + secondCount + thirdCount + fourthCount + fifthCount;
-	for(int i = 0; i < totalCount; i++)
-	{
-		cout << "-";
-	} // for
-	cout << endl;
+	displayWidth(count * 5);
 
 	first.start();
 	second.start();
@@ -78,155 +102,18 @@ bool testCreateDetached()
 	forth.start();
 	fifth.start();
 
-	// We have to be sure to exit without any of the threads actually being able to finish
-	//  their work. If we do, then the thread exits, and it is not there, causing a
-	//  ThreadNotFoundException 
-
-	sleep(2);	
 	int numberOfExceptionsCaught = 0;
 	try
 	{
 		first.join();
-	} catch (ThreadDetachedException exp)
-	{
-		numberOfExceptionsCaught++; 
-	} // try
-	try
-	{
 		second.join();
-	} catch (ThreadDetachedException exp)
-	{
-		numberOfExceptionsCaught++; 
-	} // try
-	try
-	{
 		third.join();
-	} catch (ThreadDetachedException exp)
-	{
-		numberOfExceptionsCaught++; 
-	} // try
-	try
-	{
 		forth.join();
-	} catch (ThreadDetachedException exp)
-	{
-		numberOfExceptionsCaught++; 
-	} // try
-	try
-	{
 		fifth.join();
 	} catch (ThreadDetachedException exp)
 	{
 		numberOfExceptionsCaught++; 
-	} // try
-	if(numberOfExceptionsCaught != 5) return false;
-	
-	// Now we need to sleep long enought for the above 5 threads to exit
-	sleep(10);	
-	cout << flush << endl << "Testing stop in ThreadDetached!" << endl;
-	
-	// Now we need to test that the thread exits as excepted
-	try
-	{
-		first.stop();
-	} catch (ThreadNotFoundException exp) 
-	{
-		// Chances are that the thread from above has already stopped
-		// and exited, if so, this is not a problem, we can safely start
-		// a new one
-		// Honestly, if we get this far, we know it worked ;)
-	}
-
-	cout << endl << endl;
-	first.start();
-
-	// should give it plenty of time to execute and then exit	
-	sleep(firstCount * 2);
-	try
-	{
-		first.stop();
-	} catch (ThreadNotFoundException exp) 
-	{
-		// Catching this exception is exactly what we want in this case
-	}
-
-	// Now to test that stop stops the thread, calling it twice in successtion should
-	// work
-	first.start();
-
-	try
-	{
-		first.stop();
-	} catch (ThreadNotFoundException exp) 
-	{
-		// We should not catch it here, as we should actually be cancelling the thread
-		cerr << endl << "ThreadNotFoundException caught in :" << __FILE__ << ":" << __LINE__ << endl;
-		return false;
-	}
-	try
-	{
-		cerr << "last stop" << endl;
-		first.stop();
-	} catch (ThreadNotFoundException exp) 
-	{
-		// Catching this exception is exactly what we want in this case
-	}
-	return true;
-} // testCreateDetached
-
-bool testJoinable()
-{
-	int firstCount = 3;
-	int secondCount = 3;
-	int thirdCount = 3;
-	int fourthCount = 3;
-	int fifthCount = 3;
-
-	ThreadAttribute attr;
-	attr.setCreateJoinable();
-	ThreadCounter first("E", attr, firstCount);
-	ThreadCounter second("U", attr, secondCount);
-	ThreadCounter third("G", attr, thirdCount);
-	ThreadCounter forth("T", attr, fourthCount);
-	ThreadCounter fifth("Z", attr, fifthCount);
-
-	cout << "Output Width:" << endl;	
-	int totalCount = firstCount + secondCount + thirdCount + fourthCount + fifthCount;
-	for(int i = 0; i < totalCount; i++)
-	{
-		cout << "-";
-	} // for
-	cout << endl;
-
-	//first.start();
-	//second.start();
-	//third.start();
-	//forth.start();
-	//fifth.start();
-
-	// No need to sleep here, if things work right, the first call will block
-	int numberOfExceptionsCaught = 0;
-	try
-	{
-		cerr << "1" << endl;
-		//first.join();
-		cerr << "2" << endl;
-		//second.join();
-		cerr << "3" << endl;
-		//third.join();
-		cerr << "4" << endl;
-		//forth.join();
-		cerr << "5" << endl;
-		//fifth.join();
-		cerr << "6" << endl;
-	} catch (ThreadDetachedException exp)
-	{
-		numberOfExceptionsCaught++; 
-	} catch (...) 
-	{
-		cerr << "Unknown exception: " << __FILE__ << ":" << __LINE__ << endl;
-	} // try
-	cerr << "returning" << endl;
+	} 
 	if(numberOfExceptionsCaught != 0) return false;
 	else return true;
 } // testCreateJoinable
@@ -237,19 +124,23 @@ bool testPriority()
 		cout << "Setting priority before creation, starting in 3 seconds" << endl;
 		ThreadAttribute attr;
 		attr.setScheduleRoundRobin(8);
-		ThreadCounter midPriority("E", attr, 12);
-		sleep(3);
+		ThreadCounter midPriority("E", attr, 40);
+		displayWidth(40);
 		midPriority.start();
-		sleep(3);
+		ThreadSuper::wait(2);
 		cout << endl << "Chaning Priority In Process" << endl;
 		midPriority.scheduleRoundRobin(80);
-		sleep(18);
+		ThreadSuper::wait(2);
+		cout << endl << "Joining" << endl;
 		midPriority.join();
 	} catch (ThreadScheduleInsufficientPermission exp) {
 		cerr << exp.why() << endl;
 		return false;
 	} catch (ThreadDetachedException exp) {
 		cerr << "Caught ThreadDetachedException" << endl;
+		return false;
+	} catch (ThreadNotFoundException exp) {
+		cerr << "Caught ThreadNotFoundException" << endl;
 		return false;
 	} catch (ThreadParameterOutsideOfMemorySpaceException exp) {
 		cerr << "Caught ThreadParameterOutsideOfMemorySpaceException" << endl;
@@ -261,6 +152,36 @@ bool testPriority()
 	return true;
 } // testPriority
 
+// testConstructionDestruction:
+//	test the constructor of the thread and the various thread related classes
+//	very simply, build all of them, and then call each destructor
+bool testConstructionDestruction(void)
+{
+	try 
+	{
+
+		ThreadAttribute attr;
+		ThreadCounter first("E", attr, 1);
+		Mutex mutex, mutex2;
+		AutoMutex amutex(mutex);
+		AutoMutexTry atmutex(mutex2);
+
+		atmutex.~AutoMutexTry();	
+		amutex.~AutoMutex();
+		mutex2.~Mutex();
+		mutex.~Mutex();
+		first.~ThreadCounter();
+		attr.~ThreadAttribute();
+	} catch (ThreadDetachedException exp) {
+		cerr << "testConstructionDestruction: Caught ThreadDetachedException as Expected" << endl;
+	} catch(...)
+	{
+		cerr << "testConstructionDestructionDetached: Caught Unknown Exception" << endl;
+		return false;
+	}
+	return true;
+}
+
 void outputStatus(bool status) 
 {
 	if(!status)
@@ -271,18 +192,46 @@ void outputStatus(bool status)
 
 void main(void)
 {
-	try 
+	char input[4];
+	do	
 	{
-		cout << "Testing Joinable Threads" << endl << endl;
-		outputStatus(testJoinable());
-
-		//cout << "Testing Priority" << endl << endl;
-		//outputStatus(testPriority());
-
-		cout << "Testing Detached Threads" << endl << endl;
-		outputStatus(testCreateDetached());
-	} catch (...) {
-		cerr << "caught unknown exception in MAIN" << endl;
-	}
-	exit(0);
+		cout << endl << "Please input Command:" << endl <<
+			"1: JoinableTest\n"
+			"2: DetachedTest\n"
+			"3: PriorityTest (Must be root)\n"		
+			"4: Construction/DestructionTest\n"		
+			"Q: Quit\n"
+			"?:";
+		cin.getline(input, 4);
+		try 
+		{
+			switch(input[0]) 
+			{
+			case '1':	
+				cout << endl << "Testing Joinable Threads" << endl << endl;
+				outputStatus(testJoinable());
+				break;
+			case '2':
+				cout << endl << "Testing Detached Threads" << endl << endl;
+				outputStatus(testDetached());
+				break;
+			case '3':
+				cout << endl << "Testing Priority" << endl << endl;
+				outputStatus(testPriority());
+				break;
+			case '4':
+				cout << endl << "Testing Construction/Destruction" << endl << endl;
+				outputStatus(testConstructionDestruction());
+				break;
+			case 'q':
+			case 'Q':
+				break;
+			default:
+				cout << endl << "Unknown Command" << endl;
+			}
+		} catch (...) {
+			cerr << "caught unknown exception in MAIN" << endl;
+		} // try
+	} while(input[0] != 'q' && input[0] != 'Q');
+	delete pGlobalThreadCounter;
 } // main
