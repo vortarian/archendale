@@ -1,10 +1,10 @@
 
 export GLOBALCCOPTIONS = -d
 
-all: lib writeclass 
+all: libraries writeclass 
 	make -C UnitTest -j
 
-lib:
+libraries: 
 	make -C Exception -j
 	make -C ThreadObject -j
 	make -C String -j
@@ -32,8 +32,8 @@ CPP_FLAGS = $(GLOBALCCOPTIONS) -D_REENTRANT
 CPP_INCLUDES = -I. -I../
 CPP_DEFINES = 
 
- writeclass:  writeclass.o 
-	$(CPP) -o  writeclass  writeclass.o lib/libString.so lib/libException.so
+writeclass:  writeclass.o libraries  
+	$(CPP) -o  writeclass  writeclass.o -L./lib -lString -lException
 	
 .cpp.o:
 	$(CPP) -c $< $(CPP_FLAGS) $(CPP_DEFINES) $(CPP_INCLUDES)

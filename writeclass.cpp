@@ -19,6 +19,7 @@ void printHeader(String file)
 		<< "{" << endl
 		<< "\t" << "class " << name.data() << endl 
 		<< "\t" << "{" << endl
+		<< "\t" << "public:" << endl
 
 		<< "\t" << "\t" << "// " << name.data() << ":" << endl
 		<< "\t" << "\t" << "//" << endl
@@ -29,6 +30,7 @@ void printHeader(String file)
 		<< "\t" << "\t" << "//" << endl
 		<< "\t" << "\t" << "~" << name.data() << "();" << endl
 		<< endl
+		<< "\t" << "private:" << endl
 		
 		<< "\t" << "}; // " << name.data() << endl
 		<< "} // namespace archendale" << endl
@@ -45,6 +47,7 @@ void printSource(String file)
 	ostr << endl 
 	
 		<< "#include <SocketObject/" << name.data() << ".h>" << endl	
+		<< endl
 		<< "namespace archendale" << endl
 		<< "{" << endl
 
