@@ -7,11 +7,12 @@ using namespace archendale;
 
 void printHeader(String file)
 {
-	String name = file.subString(file.find(".h"));
+	String name = file;
+	file = file + ".h";
 	ofstream ostr(file.data());
 	ostr << endl 
-		<< "#ifndef " << file << endl
-		<< "#define " << file << endl
+		<< "#ifndef " << name << "_H" << endl
+		<< "#define " << name << "_H" << endl
 		<< endl
 		
 		<< "namespace archendale" << endl
@@ -30,13 +31,16 @@ void printHeader(String file)
 		<< endl
 		
 		<< "\t" << "}; // " << name.data() << endl
-		<< "} // namespace archendale" << endl;
+		<< "} // namespace archendale" << endl
+		<< endl
+		<< "#endif " << "// "<< name << "_H" << endl;
 		
 }
 
 void printSource(String file)
 {
-	String name = file.subString(file.find(".cpp"));
+	String name = file;
+	file = file + ".cpp";
 	ofstream ostr(file.data());
 	ostr << endl 
 	
@@ -71,8 +75,8 @@ void main(unsigned int arguementCount, char **argumentArray)
 		for(int i = 1; i < arguementCount; i++) 
 		{
 			file = argumentArray[i];
-			printHeader(file + ".h");
-			printSource(file + ".cpp");
+			printHeader(file);
+			printSource(file);
 		} // for
 	} catch (IndexOutOfBoundsException exp)
 	{
@@ -81,6 +85,7 @@ void main(unsigned int arguementCount, char **argumentArray)
 	{
 		cerr << "Caught unknown Exception" << endl;
 	}
+	cerr << "exiting" << endl;
 } // main
 
 
