@@ -57,6 +57,14 @@ namespace archendale
 		~InvalidArgumentException() { ; }
 	}; // InvalidArgumentException
 
+	class InvalidDataException : public Exception
+	{
+	public:
+		InvalidDataException() : Exception() { ; }
+		InvalidDataException(const string& msg) : Exception(msg) { ; }
+		~InvalidDataException() { ; }
+	}; // InvalidDataException
+
 	class OutOfMemoryException : public Exception
 	{
 	public:
@@ -80,6 +88,15 @@ namespace archendale
 		AccessDeniedException(const string& msg) : Exception(msg) { ; }
 		~AccessDeniedException() { ; }
 	}; // AccessDeniedException
+
+
+	class ObjectNotFoundException : public Exception
+	{
+	public:
+		ObjectNotFoundException () : Exception() { ; }
+		ObjectNotFoundException (const string& msg) : Exception(msg) { ; }
+		~ObjectNotFoundException () { ; }
+	}; // ObjectNotFoundException 
 
 } // archendale
 

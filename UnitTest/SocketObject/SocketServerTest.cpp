@@ -24,43 +24,58 @@ using namespace archendale;
 //
 //////////////////////////////////////////////////////////////
 
-main(void)
+main(char** argv, int argc )
 {
-	InternetAddress addr = NameResolver::getAddress("localhost");
-	SocketServer sserver(addr, 5000, 1);
+	try {
+		int port = 5000;
+		
+		if(2 == argc)
+		{
+			int port = atoi(argv[1]);
+			if(0 >= port) 
+			{
+				cerr << "Invalid port number specified" << endl;
+			} // if
+		} // if
 
-	cout << "Waiting for connection" << endl;
-	INETSocket socket = sserver.getWaitingConnection();
-	cout << "Waiting for connection" << endl;
-	string data;
-	cout << "Waiting for data" << endl;	
-	try 
+		InternetAddress addr = NameResolver::getAddress("localhost");
+		SocketServer sserver(addr, port, 1);
+
+		INETSocket socket = sserver.getWaitingConnection();
+		cout << "Waiting for connection" << endl;
+		string data;
+		cout << "Waiting for data" << endl;	
+		try 
+		{
+			socket >> data;
+		} catch (InvalidSocketDescriptorException exp) 
+		{
+			cerr << "InvalidSocketDescriptorException	caught: " << exp.why() << endl;
+		} catch (SocketNotConnectedException exp) 
+		{
+			cerr << "SocketNotConnectedException exp: " << exp.why() << endl;
+		} catch (Exception exp) 
+		{
+			cerr << "Exception exp: " << exp.why() << endl;
+		} catch (OperationWillBlockException exp) 
+		{
+			cerr << "OperationWillBlockException exp: " << exp.why() << endl;
+		} catch (SignalException exp) 
+		{
+			cerr << "SignalException exp: " << exp.why() << endl;
+		} catch (InvalidArgumentException exp) 
+		{
+			cerr << "InvalidArgumentException exp: " << exp.why() << endl;
+		} // try
+
+		cout << "Recieved string data: " << data << endl;
+		cout << "Returning: " << data << endl;
+		socket << data << SocketObject::transmit;
+		cout << "Done!" << endl;
+	} catch (...) 
 	{
-		socket >> data;
-	} catch (InvalidSocketDescriptorException exp) 
-	{
-		cerr << "InvalidSocketDescriptorException	caught: " << exp.why() << endl;
-	} catch (SocketNotConnectedException exp) 
-	{
-		cerr << "SocketNotConnectedException exp: " << exp.why() << endl;
-	} catch (Exception exp) 
-	{
-		cerr << "Exception exp: " << exp.why() << endl;
-	} catch (OperationWillBlockException exp) 
-	{
-		cerr << "OperationWillBlockException exp: " << exp.why() << endl;
-	} catch (SignalException exp) 
-	{
-		cerr << "SignalException exp: " << exp.why() << endl;
-	} catch (InvalidArgumentException exp) 
-	{
-		cerr << "InvalidArgumentException exp: " << exp.why() << endl;
+		cerr << "Caught Unknown Exception, aborting" << endl;
 	} // try
-
-	cout << "Recieved string data: " << data << endl;
-	cout << "Returning: " << data << endl;
-	socket << data << SocketObject::transmit;
-	cout << "Done!" << endl;
 } // main
 
 

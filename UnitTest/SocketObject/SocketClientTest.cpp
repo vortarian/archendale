@@ -24,11 +24,22 @@ using namespace archendale;
 //
 //////////////////////////////////////////////////////////////
 
-main(void)
+main(char** argv, int argc)
 {
+        int port = 5000;
+
+        if(2 == argc)
+        {
+                int port = atoi(argv[1]);
+                if(0 >= port)
+                {
+                        cerr << "Invalid port number specified" << endl;
+                } // if
+        } // if
+
 	InternetAddress addr = NameResolver::getAddress("localhost");
 	string data, rdata;
-	INETSocket socket(addr, 5000);
+	INETSocket socket(addr, port);
 	char input[50];
 
 	cout << "Getting connection" << endl;

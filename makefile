@@ -8,6 +8,7 @@ libraries:
 	make -C Exception -j
 	make -C ThreadObject -j
 	make -C String -j
+	make -C CGI -j
 	make -C SocketObject -j
 
 run:
@@ -18,6 +19,7 @@ clean:
 	make -C Exception clean
 	make -C String clean
 	make -C ThreadObject clean
+	make -C CGI clean
 	make -C UnitTest clean
 	make -C SocketObject clean
 
@@ -26,6 +28,7 @@ touch:
 	touch ./Exception/makefile
 	touch ./String/makefile
 	touch ./ThreadObject/makefile
+	touch ./CGI/makefile
 	touch ./SocketObject/makefile
 
 .SUFFIXES: .cc .class .java .cxx .C .cpp .o .c .l .y

@@ -185,57 +185,61 @@ bool testSocketObjectRead()
 
 bool testSocketObjectLargeReadWrite()
 {
-	InternetAddress addr = NameResolver::getAddress("localhost");
-	INETSocket obj(addr, 7);
-	obj.connect();
-
-	int sendData[4000]; 
-	const int DATASIZE = sizeof(sendData) / sizeof(int);
-	int recieveData[DATASIZE]; 
-	if(sizeof(recieveData) != sizeof(sendData))
-	{
-		cerr << "Data Size is not equal, can not complete large send" << endl;
-		return false;
-	} // if
-	for(int i = 0; i < DATASIZE; i++)
-	{
-		sendData[i] = i;
-	} // for
-		
 	try {
-		cout 	<< "Sending "
-			<< float(sizeof(sendData)) / 100000
-			<< "K bytes of data" 
-			<< endl;
-		for(int i; i < DATASIZE; i++)
+		InternetAddress addr = NameResolver::getAddress("localhost");
+		INETSocket obj(addr, 5000);
+		obj.connect();
+
+		const int DATASIZE = 400000;
+		int* sendData = new int[DATASIZE]; 
+		int* recieveData = new int[DATASIZE]; 
+		if(!sendData && !recieveData)
 		{
-			obj << sendData[i];
-		} // for
-
-		obj << SocketObject::transmit;
-
-		for(int i; i < DATASIZE; i++)
-		{
-			obj >> recieveData[i];
-		} // for
-	} catch (OutOfMemoryException exp) {
-		cerr << exp.why() << endl;
-		return false;
-	} catch (...) {
-		cerr << "Unknown Exception caught in testSocketObject" << endl;
-		return false;
-	} // try 
-
-	for(int i = 0; i < DATASIZE; i++)
-	{
-		if(sendData[i] != recieveData[i]) 
-		{	
-			cerr << "Data not equal: " << endl;
-			cerr << "sendData[" << i << "] = " << sendData[i] << endl;
-			cerr << "recieveData[" << i << "] = " << recieveData[i] << endl;
+			cerr << "Not enough memory for test" << endl;	
 			return false;
 		} // if
-	} // for
+		for(int i = 0; i < DATASIZE; i++)
+		{
+			sendData[i] = i;
+		} // for
+			
+		try {
+			cout 	<< "Sending "
+				<< float(DATASIZE) / 100000
+				<< "K bytes of data" 
+				<< endl;
+			for(int i = 0; i < DATASIZE; i++)
+			{
+				obj << sendData[i];
+			} // for
+
+			obj << SocketObject::transmit;
+
+			for(int i = 0; i < DATASIZE; i++)
+			{
+				obj >> recieveData[i];
+			} // for
+		} catch (OutOfMemoryException exp) {
+			cerr << exp.why() << endl;
+			return false;
+		} // try 
+
+		for(int i = 0; i < DATASIZE; i++)
+		{
+			if(sendData[i] != recieveData[i]) 
+			{	
+				cerr << "Data not equal: " << endl;
+				cerr << "sendData[" << i << "] = " << sendData[i] << endl;
+				cerr << "recieveData[" << i << "] = " << recieveData[i] << endl;
+				return false;
+			} // if
+		} // for
+		delete sendData;
+		delete recieveData;
+	} catch (...) {
+		cerr << "Caught Unknown exception in testSocketObjectLargeReadWrite" << endl;
+		return false;
+	}
 	return true;
 } // testSocketObjectLargeReadWrite
 
