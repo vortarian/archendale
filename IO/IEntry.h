@@ -16,18 +16,25 @@ namespace archendale
 	 */
 	class IEntry 
 	{
+	friend OTDF& operator<<(OTDF&, const IEntry&);
+	friend ITDF& operator>>(ITDF&, IEntry&);
+
 	public:
-		IEntry() { ; }
-		IEntry(const IEntry&) { ; }
-		virtual ~IEntry() { ; }
+		IEntry();
+		IEntry(const IEntry&);
+		virtual ~IEntry();
 		
 		virtual OTDF& writeData(OTDF&) const = 0;
 		virtual ITDF& readData(ITDF&) = 0;
 		virtual const std::string& getName() = 0;
+		virtual const IEntry& operator=(const IEntry&);
+		virtual bool operator==(const IEntry&) const;
+	protected:
+		int m_id;
 	}; // IEntry
 
-	OTDF& operator<<(OTDF& ostr, const IEntry& data);
-	ITDF& operator>>(ITDF& istr, IEntry& data);
+	OTDF& operator<<(OTDF&, const IEntry&);
+	ITDF& operator>>(ITDF&, IEntry&);
 
 } // namespace
 

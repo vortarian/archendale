@@ -30,6 +30,7 @@ namespace archendale
 	
 		// delete
 		// 	Remove an entry from the table
+		//	Relies on operator== of T
 		virtual void remove(const T&);
 
 	private:
