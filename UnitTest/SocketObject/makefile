@@ -6,8 +6,10 @@ SOCKETDRIVEROBJECTS =  SocketTestDriver.o
 SOCKETSERVEROBJECTS =  SocketServerTest.o
 SOCKETCLIENTOBJECTS =  SocketClientTest.o
 MULTITHREADEDSOCKETSERVEROBJECTS =  MultithreadedSocketServerTest.o
+FILECOPYCLIENTOBJECTS =  FileCopyClient.o
+FILECOPYSERVEROBJECTS =  FileCopyServer.o
 
-EXES = SocketTestDriver SocketServerTest SocketClientTest  MultithreadedSocketServerTest
+EXES = SocketTestDriver SocketServerTest SocketClientTest  MultithreadedSocketServerTest FileCopyClient FileCopyServer
 
 .SUFFIXES = .cpp .h .c .o
 
@@ -31,6 +33,12 @@ SocketClientTest: $(SOCKETCLIENTOBJECTS)
 
 MultithreadedSocketServerTest: $(MULTITHREADEDSOCKETSERVEROBJECTS) 
 	$(CPP) $(CPP_FLAGS) -o $@ $(MULTITHREADEDSOCKETSERVEROBJECTS) $(LINKEROPTIONS)
+
+FileCopyClient: $(FILECOPYCLIENTOBJECTS) 
+	$(CPP) $(CPP_FLAGS) -o $@ $(FILECOPYCLIENTOBJECTS) $(LINKEROPTIONS)
+
+FileCopyServer: $(FILECOPYSERVEROBJECTS) 
+	$(CPP) $(CPP_FLAGS) -o $@ $(FILECOPYSERVEROBJECTS) $(LINKEROPTIONS)
 
 .cpp.o:	$<
 	$(CPP) $(CPP_FLAGS) -c $<
