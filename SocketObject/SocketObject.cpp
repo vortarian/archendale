@@ -202,7 +202,7 @@ namespace archendale
 			if(i == string::npos) receive();
 		} while(i == string::npos);
 		input = m_readDataBuffer.substr(0, i);
-		m_readDataBuffer.erase(0, i);
+		m_readDataBuffer.erase(0, i + 1);
 	} // get
 
 	// receive:
