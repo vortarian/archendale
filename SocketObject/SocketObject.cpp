@@ -48,14 +48,14 @@ namespace archendale
 			int i = 0;
 			vector < unsigned char >::const_iterator beg = m_dataBuffer.begin();
 			vector < unsigned char >::const_iterator end = m_dataBuffer.end();
+			cerr << "data[0-" << end - beg << "]: { "; // For Debugging
 			for(unsigned int i = 0; beg != end; i++)
 			{	
 				data[i] = *beg;
 				beg++;
-//////For Debugging
-				cerr << "data[" << i << "]: " << int(data[i]) << endl;
-//////End For Debugging
+				cerr << (unsigned int)(data[i]) << "  "; // For Debugging
 			} // while
+			cerr << "}" << endl; // For Debugging
 
 			// have the data, clear it so it doesn't send twice!
 			m_dataBuffer.clear();
@@ -200,7 +200,7 @@ namespace archendale
 	SocketObject& SocketObject::operator<<(char* data)
 	{
 		int len = strlen(data);
-		writeToBuffer(data, data + len);
+		writeToBuffer(data, data + len + 1);
 		return *this;
 	} //  operator<<(char* data)
 
@@ -212,7 +212,7 @@ namespace archendale
 	SocketObject& SocketObject::operator<<(unsigned char* data)
 	{
 		int len = strlen((char *)data);
-		writeToBuffer(data, data + len);
+		writeToBuffer(data, data + len + 1);
 		return *this;
 	} //  operator<<(unsigned char*) data 
 
