@@ -46,7 +46,6 @@ namespace archendale
 
 	void ThreadSuper::start()
 	{
-		int returnValue = 0;
 		pthread_attr_t attr = m_threadAttribute.getAttribute();
 		switch(pthread_create(&m_threadHandle, &attr, &_run, this))
 		{
@@ -59,7 +58,6 @@ namespace archendale
 
 	void ThreadSuper::stop()
 	{
-		int returnValue = 0;
 		switch(pthread_cancel(m_threadHandle))
 		{
 			case ESRCH:
@@ -72,7 +70,6 @@ namespace archendale
 
 	void ThreadSuper::join()
 	{
-		int returnValue = 0;
 		switch(pthread_join(m_threadHandle, 0))
 		{
 			case ESRCH:
