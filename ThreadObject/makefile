@@ -18,15 +18,19 @@ JAVA_DEFINES =
 CC_DEFINES = 
 CPP_DEFINES = 
 threadobject_LIBS = 
-LINKER = ar
+LINKER = ar cru 
+SHLINKER = g++ -shared
 LINKER_FLAGS = 
 LINKER_ENTRY = 
 threadobject_OBJECTS = ThreadSuper.o ThreadAttribute.o Mutex.o 
 
-all: ../lib/libThreadObject.a
+all: ../lib/libThreadObject.a ../lib/libThreadObject.so
 
 ../lib/libThreadObject.a: $(threadobject_OBJECTS)
-	$(LINKER) cru ../lib/libThreadObject.a $(LINKER_ENTRY) $(LINKER_FLAGS) $(threadobject_OBJECTS) $(threadobject_LIBS)
+	$(LINKER) ../lib/libThreadObject.a $(LINKER_ENTRY) $(LINKER_FLAGS) $(threadobject_OBJECTS) $(threadobject_LIBS)
+
+../lib/libThreadObject.so: $(threadobject_OBJECTS)
+	$(SHLINKER) -o ../lib/libThreadObject.so $(LINKER_ENTRY) $(LINKER_FLAGS) $(threadobject_OBJECTS) $(threadobject_LIBS)
 
 .java.o:
 	$(JAVA) -c $< $(JAVA_FLAGS) $(JAVA_DEFINES) $(JAVA_INCLUDES)
@@ -41,5 +45,6 @@ all: ../lib/libThreadObject.a
 
 clean:
 	-rm -f *.o
-	rm -f ../lib/libThreadObject.a
+	-rm -f ../lib/libThreadObject.a
+	-rm -f ../lib/libThreadObject.so
 
