@@ -18,15 +18,19 @@ JAVA_DEFINES =
 CC_DEFINES = 
 CPP_DEFINES = 
 string_LIBS = 
-LINKER = ar
+LINKER = ar cru
+SHLINKER = g++ -shared
 LINKER_FLAGS = 
 LINKER_ENTRY = 
 string_OBJECTS = String.o
 
-all: ../lib/libString.a
+all: ../lib/libString.a ../lib/libString.so
 
 ../lib/libString.a: $(string_OBJECTS)
-	$(LINKER) cru ../lib/libString.a $(LINKER_ENTRY) $(LINKER_FLAGS) $(string_OBJECTS) $(string_LIBS)
+	$(LINKER) ../lib/libString.a $(LINKER_ENTRY) $(LINKER_FLAGS) $(string_OBJECTS) $(string_LIBS)
+
+../lib/libString.so: $(string_OBJECTS)
+	$(SHLINKER) -o ../lib/libString.so $(LINKER_ENTRY) $(LINKER_FLAGS) $(string_OBJECTS) $(string_LIBS)
 
 .java.o:
 	$(JAVA) -c $< $(JAVA_FLAGS) $(JAVA_DEFINES) $(JAVA_INCLUDES)
@@ -41,5 +45,6 @@ all: ../lib/libString.a
 
 clean:
 	-rm -f *.o
-	rm -f ../lib/libString.a
+	-rm -f ../lib/libString.a
+	-rm -f ../lib/libString.so
 

@@ -31,15 +31,19 @@ JAVA_DEFINES =
 CC_DEFINES = 
 CPP_DEFINES = 
 exception_LIBS = 
-LINKER = ar
+LINKER = ar cru 
+SHLINKER = g++ -shared
 LINKER_FLAGS = 
 LINKER_ENTRY = 
 exception_OBJECTS = Exception.o
 
-all: ../lib/libException.a
+all: ../lib/libException.a ../lib/libException.so
 
 ../lib/libException.a: $(exception_OBJECTS)
-	$(LINKER) cru ../lib/libException.a $(LINKER_ENTRY) $(LINKER_FLAGS) $(exception_OBJECTS) $(exception_LIBS)
+	$(LINKER) ../lib/libException.a $(LINKER_ENTRY) $(LINKER_FLAGS) $(exception_OBJECTS) $(exception_LIBS)
+
+../lib/libException.so: $(exception_OBJECTS)
+	$(SHLINKER) -o ../lib/libException.so $(LINKER_ENTRY) $(LINKER_FLAGS) $(exception_OBJECTS) $(exception_LIBS)
 
 .y.c:
 	$(YACC) $< $(YACC_FLAGS) $(YACC_DEFINES) $(YACC_INCLUDES)
@@ -72,5 +76,6 @@ all: ../lib/libException.a
 
 clean:
 	-rm -f *.o
-	rm -f ../lib/libException.a
+	-rm -f ../lib/libException.a
+	-rm -f ../lib/libException.so
 

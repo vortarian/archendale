@@ -135,6 +135,16 @@ public:
 		//	Note: Only processes running as root can do this
 		void scheduleRoundRobin(int = 1);
 
+		///////////////////////////////////////////////////////////////
+		//
+		// 	Static Utility Methods, methods that can be called
+		//	from any instance at any time
+		//
+		///////////////////////////////////////////////////////////////
+		
+		// wait:
+		//	Pause the calling thread for some number of seconds
+		static void wait(unsigned int = 0);
 	private:	
 		// run:
 		//	function that is defined by the subclass to

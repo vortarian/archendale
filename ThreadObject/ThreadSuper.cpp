@@ -24,16 +24,21 @@
 #include <ThreadObject/ThreadSuper.h>
 #include <ThreadObject/AutoMutex.h>
 #include <ThreadObject/AutoMutexTry.h>
+#include <unistd.h> // for sleep()
 
 /*
 	TODO:
 		Need to add support for cancellation beyond just stop (see man pthread_cancel)
 		Need to add support for test_cancel 
+		Need to add support for pthread_rwlock
+		Need to add supper for pthread_yield, or change wait to not use sleep()
+		Need to add functionality to lookup the ThreadSuper object which is currently executing
 		Detached Threads are seg faulting because their object handle goes out of scope
 			before the thread destructor's call to pthread_cancel exits.
 			This happens because pthread_cancel does not block.
 			This could possibly be fixed by setting all detached
 			ThreadSuper's to use PTHREAD_CANCEL_ASYNCHRONOUS
+			Current workaround would be to create the threaded object as a pointer, and keep it in scope
 			The preferred method is to switch to a handle/body reference counted
 			implemententation so the Object is in Scope until actual cleanup can be performed
 			FOR NOW, detach() IS BEING MADE PRIVATE, SO IT CAN NOT BE CALLED
@@ -273,5 +278,19 @@ namespace archendale
 				break;
 		} // switch
 	} // scheduleRoundRobin
+
+
+	///////////////////////////////////////////////////////////////
+	//
+	// 	Static Utility Methods, methods that can be called
+	//	from any instance at any time
+	//
+	///////////////////////////////////////////////////////////////
+		
+	// wait:
+	void ThreadSuper::wait(unsigned int delay = 0)
+	{
+		sleep(delay);
+	} // wait
 
 } // archendale
