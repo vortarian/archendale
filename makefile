@@ -8,6 +8,7 @@ libraries:
 	make -C Exception -j
 	make -C ThreadObject -j
 	make -C String -j
+	make -C SocketObject -j
 
 run:
 	make -C UnitTest run
@@ -18,12 +19,14 @@ clean:
 	make -C String clean
 	make -C ThreadObject clean
 	make -C UnitTest clean
+	make -C SocketObject clean
 
 touch:
 	touch ./makefile
 	touch ./Exception/makefile
 	touch ./String/makefile
 	touch ./ThreadObject/makefile
+	touch ./SocketObject/makefile
 
 .SUFFIXES: .cc .class .java .cxx .C .cpp .o .c .l .y
 
