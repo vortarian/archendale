@@ -53,12 +53,24 @@ namespace archendale {
 		// setCreateJoinable:
 		//	Create Thread so that it's resources are not freed until parent Thread calls join()
 		void setCreateJoinable();
-		
+               
+private: 
+/* TODO
+		Detached Threads are seg faulting because their object handle goes out of scope
+                        before the thread destructor's call to pthread_cancel exits.
+                        This happens because pthread_cancel does not block.
+                        This could possibly be fixed by setting all detached
+                        ThreadSuper's to use PTHREAD_CANCEL_ASYNCHRONOUS
+                        The preferred method is to switch to a handle/body reference counted
+                        implemententation so the Object is in Scope until actual cleanup can be performed
+                        FOR NOW, setCreateDetached() IS BEING MADE PRIVATE, SO IT CAN NOT BE CALLED
+*/
 		// setCreateDetached:
 		//	Create the Thread so that it's resources and execution are independent
 		//	of Parent Thread
 		void setCreateDetached();
 	
+public:		
 		// getDetachState:
 		//	returns true if state is set to PTHREAD_CREATE_DETACHED
 		bool getDetachState() const;
