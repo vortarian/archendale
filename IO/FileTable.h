@@ -46,6 +46,6 @@ namespace archendale
 } // namespace FantasyRealm
 
 // Template clas
-#include <FileTable.cc>
+#include <IO/FileTable.cc>
 
 #endif // FileTable_H
