@@ -9,7 +9,7 @@ using namespace archendale;
 
 int main(void)
 {
-	int port = 6000;
+	int port = 8000;
 	try
 	{
 		string filename, remoteFileName, remoteHostName;
@@ -52,13 +52,30 @@ int main(void)
 				<< endl;
 				return -1;
 		} // if
-		stringstream sostr;
 		char ch;
-		while(istr.get(ch)) sostr.put(ch);
-		size_t fileSize = sostr.str().size();
-		cout << "Sending file of size " << fileSize << endl;
-		socket << remoteFileName << fileSize << sostr.str() << SocketObject::transmit;	
-		cout << "File sent, exiting" << endl;	
+		socket << remoteFileName << SocketObject::transmit;
+		string remoteReply;
+		socket >> remoteReply;
+		if(remoteReply == "SendData")
+		{
+			cout << "Reading input file . . ." << endl;
+			stringstream sostr;
+			while(istr.get(ch)) sostr.put(ch);
+			size_t fileSize = sostr.str().size();
+			cout << "Sending file of size " << fileSize << endl;
+			socket << fileSize << sostr.str() << SocketObject::transmit;	
+		} else
+		{
+			cerr << "Error on file Server: " << remoteReply << endl;
+		} // if
+		socket >> remoteReply;
+		if(remoteReply == "SendGood")
+		{
+			cout << "File sent, exiting" << endl;	
+		} else
+		{
+			cerr << "File send failed, error: " << remoteReply << ", exiting" << endl;	
+		} // if
 	} catch (Exception& exp)
 	{
 		cerr	<< "Exception caught: " 
