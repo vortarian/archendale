@@ -190,7 +190,7 @@ void outputStatus(bool status)
 		cout << endl << "***********************************TEST SUCCEEDED********************************" << endl;
 } // testFunction
 
-void main(void)
+int main(void)
 {
 	char input[4];
 	do	

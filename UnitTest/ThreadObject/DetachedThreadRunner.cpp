@@ -1,3 +1,4 @@
+#include <iostream>
 #include <UnitTest/ThreadObject/DetachedThreadRunner.h>
 
 DetachedThreadRunner::DetachedThreadRunner(ThreadCounter*& pThreadCounter, bool* bFinished) : m_pThreadCounter(pThreadCounter), mp_finished(bFinished)
@@ -6,7 +7,7 @@ DetachedThreadRunner::DetachedThreadRunner(ThreadCounter*& pThreadCounter, bool*
 
 DetachedThreadRunner::~DetachedThreadRunner()
 {
-	cerr << endl << "DetachedThreadRunner going out of scope" << endl;
+	std::cerr << std::endl << "DetachedThreadRunner going out of scope" << std::endl;
 } // ~DetachedThreadRunner
 
 void DetachedThreadRunner::run() 

@@ -1,5 +1,6 @@
-#include "ThreadCounter.h"
+#include <iostream>
 #include <pthread.h>
+#include "ThreadCounter.h"
 
 ThreadCounter::ThreadCounter(const char* output, ThreadAttribute attr, int iterations = 1000, bool* finished = 0)
 {
@@ -22,7 +23,7 @@ void ThreadCounter::count()
         for(m_counter; m_counter < m_iterations; m_counter++)
         {
 		ThreadSuper::wait(1);
-                cout << m_output << std::flush;
+                std::cout << m_output << std::flush;
 		pthread_testcancel();
         }
 	if(mp_finished) *mp_finished = true;
