@@ -25,6 +25,12 @@
 #include <ThreadObject/AutoMutex.h>
 #include <ThreadObject/AutoMutexTry.h>
 
+/*
+	TODO:
+		Need to add support for cancellation beyond just stop (see man pthread_cancel)
+		Need to add support for test_cancel 
+*/
+
 namespace archendale 
 {
 
@@ -41,7 +47,14 @@ namespace archendale
 
 	ThreadSuper::~ThreadSuper()
 	{
-		if(!m_running) stop();
+		try 
+		{
+			m_running = false;
+			stop();
+		} catch (ThreadNotFoundException exp) 
+		{
+			// No need to do anything the thread isn't running!
+		} // try
 	} // ~ThreadSuper
 
 	void ThreadSuper::start()
@@ -69,13 +82,20 @@ namespace archendale
 		// exit without telling the thread it is no longer
 		// running!
 		m_running = false;
-		switch(pthread_cancel(m_threadHandle))
+		if(pthread_equal(pthread_self(), m_threadHandle))
 		{
-			case ESRCH:
-				ThreadNotFoundException exp;
-				throw exp;
-				break;
-		} // switch
+			cerr << endl << "Calling pthread_exit" << endl;
+			pthread_exit(0);
+		} else {
+			cerr << endl << "Calling pthread_cancel" << endl;
+			switch(pthread_cancel(m_threadHandle))
+			{
+				case ESRCH:
+					ThreadNotFoundException exp;
+					throw exp;
+					break;
+			} // switch
+		}
 	} // stop
 
 	void ThreadSuper::join()
@@ -169,6 +189,8 @@ namespace archendale
 		// killed between the call of start and run!
 		_this->m_running = true;
 		_this->run();	
+		// one _this->run() returns, we have stopped running
+		_this->m_running = false;
 	} // _run
 
 	void ThreadSuper::setAttribute(const ThreadAttribute& attr)

@@ -56,8 +56,12 @@ namespace archendale
 		//	Begin execution of thread
 		void start();
 
-		// Stop:
-		// Stop execution of thread as quickly as possible
+		// stop:
+		// 	Stop execution of thread as quickly as possible
+		//	If the calling thread is requesting to stop itself
+		//	Then the thread will exit immediately
+		//	NOTE: If the calling thread is the *this thread,
+		//		then this function will not return!
 		void stop();
 	
 		// Join:
