@@ -18,9 +18,6 @@ SOCKETOBJECTS = SocketObject.o SocketAttribute.o APPLETALKAttribute.o ATMPVCAttr
 
 all: ../lib/libSocketObject.a ../lib/libSocketObject.so
 
-alter: alter.o 
-	$(CPP) -o alter alter.o ../lib/libString.so ../lib/libException.so
-	
 ../lib/libSocketObject.a: $(SOCKETOBJECTS)
 	$(LINKER) ../lib/libSocketObject.a $(LINKER_ENTRY) $(LINKER_FLAGS) $(SOCKETOBJECTS) $(SOCKETLIBS)
 

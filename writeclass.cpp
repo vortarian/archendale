@@ -61,11 +61,6 @@ void printSource(String file)
 		
 		<< "\t" << "} // ~" << name.data() << endl << endl
 		<< "} // namespace archendale" << endl;
-	cerr << "destroying ostr" << endl;
-	ostr.~ofstream();
-	cerr << "destroying name" << endl;
-	name.~String();
-	cerr << "leaving printSource" << endl;
 }
 
 void main(unsigned int arguementCount, char **argumentArray)
@@ -85,7 +80,6 @@ void main(unsigned int arguementCount, char **argumentArray)
 	{
 		cerr << "Caught unknown Exception" << endl;
 	}
-	cerr << "exiting" << endl;
 } // main
 
 
