@@ -1,3 +1,5 @@
+#ifndef CGI_h
+#define CGI_h
 
 #include <iostream>
 #include <string>
@@ -5,6 +7,7 @@
 #include <map>
 
 using std::ostream;
+using std::cout;
 using std::string;
 using std::map;
 using std::vector;
@@ -134,3 +137,5 @@ namespace archendale {
 	}; // CGI
 
 } // archendale
+
+#endif // CGI_h

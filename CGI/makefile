@@ -14,7 +14,7 @@ LINKER = ar cru
 SHLINKER = g++ -shared
 LINKER_FLAGS = 
 LINKER_ENTRY = 
-CGIOBJECTS = CGI.o
+CGIOBJECTS = CGI.o CGICommand.o
 
 all: ../lib/libCGIObject.a ../lib/libCGIObject.so
 
