@@ -14,10 +14,13 @@ LINKER = ar cru
 SHLINKER = g++ -shared
 LINKER_FLAGS = 
 LINKER_ENTRY = 
-SOCKETOBJECTS = SocketObject.o SocketAttribute.o
+SOCKETOBJECTS = SocketObject.o SocketAttribute.o APPLETALKAttribute.o ATMPVCAttribute.o AX25Attribute.o INET6Attribute.o INETAttribute.o IPXAttribute.o NETLINKAttribute.o PACKETAttribute.o SocketAttribute.o SocketObject.o SocketTestDriver.o UNIXAttribute.o X25Attribute.o
 
 all: ../lib/libSocketObject.a ../lib/libSocketObject.so
 
+alter: alter.o 
+	$(CPP) -o alter alter.o ../lib/libString.so ../lib/libException.so
+	
 ../lib/libSocketObject.a: $(SOCKETOBJECTS)
 	$(LINKER) ../lib/libSocketObject.a $(LINKER_ENTRY) $(LINKER_FLAGS) $(SOCKETOBJECTS) $(SOCKETLIBS)
 
@@ -31,4 +34,3 @@ clean:
 	-rm -f *.o
 	-rm -f ../lib/libSocketObject.a
 	-rm -f ../lib/libSocketObject.so
-

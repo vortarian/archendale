@@ -3,6 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include <String/String.h>
+#include <Exception/Exception.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -43,6 +44,7 @@ namespace archendale
 		} else {
 			setSize(length + 1);
 			strncpy(m_data, data, length);
+			m_data[length] = '\0';
 		}
 	}
 
@@ -239,21 +241,36 @@ namespace archendale
 		throw exp;
 	}
 
-	String String::subString(const unsigned int subStringLength) const
+	String String::subString(unsigned int subStringLength) const
 	{
-		String sub;
-		throw -1;
-	
+		return subString(0, subStringLength);	
 	}
 
-	String String::subString(const unsigned int startIndex, const unsigned int subStringLength) const
+	String String::subString(unsigned int startIndex, unsigned int subStringLength) const
 	{
-		throw -1;
+		if(startIndex > m_length)
+		{
+			IndexOutOfBoundsException exp;
+			throw exp;
+		} // if
+		if(subStringLength > m_length - startIndex) subStringLength = m_length - startIndex;
+		//char *temp = new char[subStringLength + 1];
+		//strncpy(temp, data() + startIndex, subStringLength);
+		//temp[subStringLength + 1] = '\0';
+		cerr << "startIndex: " << startIndex << endl;
+		cerr << "m_length: " << m_length << endl;
+		cerr << "m_data: " << m_data << endl;
+		cerr << "subStringLength: " << subStringLength << endl;
+		String newStr(data() + startIndex, subStringLength);
+		cout << newStr.data() << endl;
+		//delete temp;
+		return newStr;
 	}
 
 	String String::subString(const String token) const
 	{
-		throw -1;
+		NotImplementedException exp;
+		throw exp;
 	}
 
 	bool String::setSize(const unsigned int size)

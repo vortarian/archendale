@@ -18,8 +18,8 @@ namespace archendale
 		//	SocketAttribute(port, host)
 		//	SocketAttribute(portName, host)
 		//
-		SocketAttribute(int, const String& = "localhost");
-		SocketAttribute(const String&, const String& = "localhost");
+		SocketAttribute(unsigned int, String = "localhost");
+		SocketAttribute(String, String = "localhost");
 		virtual ~SocketAttribute();
 
 		// setHostName:
@@ -29,7 +29,7 @@ namespace archendale
 		// setPort
 		//	sets the port the host will listen on
 		void setPort(unsigned int);
-		void setPort(const String&);
+		void setPort(String);
 	private:
 		String m_hostName;
 		unsigned int m_portNumber;

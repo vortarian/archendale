@@ -5,17 +5,17 @@ using namespace std;
 
 namespace archendale 
 {
-	SocketAttribute::SocketAttribute(unsigned int port, const String& host = "localhost")
+	SocketAttribute::SocketAttribute(unsigned int port, String host = "localhost")
 	{
 		cout << "SocketAttribute(port, host) Constructor Stub" << endl;
 	} // SocketAttribute
 
-	SocketAttribute::SocketAttribute(const String& portName, const String& host = "localhost")
+	SocketAttribute::SocketAttribute(String portName, String host = "localhost")
 	{
 		cout << "SocketAttribute(portName, host) Constructor Stub" << endl;
 	} // SocketAttribute(portName, host)
 
-	~SocketAttribute::SocketAttribute() 
+	SocketAttribute::~SocketAttribute() 
 	{
 		cout << "~SocketAttribute" << endl;
 	} // ~SocketAttribute
@@ -29,7 +29,7 @@ namespace archendale
 
 	// setPort
 	//      sets the port the host will listen on by a port name
-	void setPort(const String& portName)
+	void setPort(String portName)
 	{
 		cout << "setPort" << endl;
 	} // setPort

@@ -24,7 +24,6 @@ namespace archendale
 	{
 	};
 
-
 	class String  
 	{
 		friend ostream& operator<<(ostream&, const String&);
