@@ -64,6 +64,23 @@ namespace archendale
 		OutOfMemoryException(const string& msg) : Exception(msg) { ; }
 		~OutOfMemoryException() { ; }
 	}; // OutOfMemoryException
+
+	class NotSupportedException : public Exception
+	{
+	public:
+		NotSupportedException() : Exception() { ; }
+		NotSupportedException(const string& msg) : Exception(msg) { ; }
+		~NotSupportedException() { ; }
+	}; // NotSupportedException
+
+	class AccessDeniedException : public Exception
+	{
+	public:
+		AccessDeniedException() : Exception() { ; }
+		AccessDeniedException(const string& msg) : Exception(msg) { ; }
+		~AccessDeniedException() { ; }
+	}; // AccessDeniedException
+
 } // archendale
 
 #endif // EXCEPTION_H

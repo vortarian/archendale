@@ -6,7 +6,7 @@ using archendale::Exception;
 
 void throwException(void)
 {
-	Exception exp("plain Exception");	
+	Exception exp("plain Exception : " __FILE__);	
 	throw exp;
 } // throwException
 
@@ -17,7 +17,7 @@ void throwNestedException()
 		throwException();
 	} catch (Exception exp) 
 	{
-		Exception nexp("nested exception");
+		Exception nexp("nested exception : " __FILE__);
 		nexp.setNestedException(exp);	
 		throw nexp;
 	} // try

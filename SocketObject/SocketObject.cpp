@@ -28,7 +28,6 @@ namespace archendale
 	
 	SocketObject::SocketObject(const SocketObject& rhs)
 	{
-		cerr << "SocketObject CC" << endl;
 		delete m_readBuffer;
 		m_readBuffer 	 = 0;
 		m_socketHandle 	 = rhs.m_socketHandle;
@@ -85,13 +84,13 @@ namespace archendale
 			{
 				case EBADF:
 				{
-					InvalidSocketDescriptorException exp;
+					InvalidSocketDescriptorException exp(__FILE__);
 					throw exp;
 				}		
 				break;
 				case ENOTSOCK:
 				{
-					NotSocketDescriptorException exp;
+					NotSocketDescriptorException exp(__FILE__);
 					throw exp;
 				}		
 				break;
@@ -101,49 +100,49 @@ namespace archendale
 				break;
 				case EMSGSIZE:
 				{
-					MessageToLargeException exp;
+					MessageToLargeException exp(__FILE__);
 					throw exp;
 				}		
 				break;
 				case EWOULDBLOCK:
 				{
-					OperationWillBlockException exp;
+					OperationWillBlockException exp(__FILE__);
 					throw exp;
 				}		
 				break;
 				case ENOBUFS:
 				{
-					NetworkInterfaceOverflowException exp;
+					NetworkInterfaceOverflowException exp(__FILE__);
 					throw exp;
 				}		
 				break;
 				case EINTR:
 				{
-					SignalException exp;
+					SignalException exp(__FILE__);
 					throw exp;
 				}		
 				break;
 				case ENOMEM:
 				{
-					OutOfMemoryException exp;
+					OutOfMemoryException exp(__FILE__);
 					throw exp;
 				}		
 				break;
 				case EINVAL:
 				{
-					InvalidArgumentException exp;
+					InvalidArgumentException exp(__FILE__);
 					throw exp;
 				}		
 				break;
 				case EPIPE:
 				{
-					SocketClosedException exp;
+					SocketClosedException exp(__FILE__);
 					throw exp;
 				}		
 				break;
 				default:
 				{
-					Exception exp("Faild to send in SocketObject");
+					Exception exp("Failed to send in SocketObject");
 					throw exp;
 				}
 			} // switch
@@ -164,7 +163,6 @@ namespace archendale
 	//
 	void SocketObject::recieve()
 	{
-		cerr << "socket in recieve: " << m_socketHandle->getSocket() << endl;
 		int count = ::recv(m_socketHandle->getSocket(), m_readBuffer, m_readBufferSize, MSG_NOSIGNAL );
 		if(count > 0) 
 		{
@@ -177,13 +175,13 @@ namespace archendale
 				case EBADF:
 				case ENOTSOCK:
 				{
-					InvalidSocketDescriptorException exp;
+					InvalidSocketDescriptorException exp(__FILE__);
 					throw exp;
 				}		
 				break;
 				case ENOTCONN:
 				{
-					SocketNotConnectedException exp;
+					SocketNotConnectedException exp(__FILE__);
 					throw exp;
 				}		
 				break;
@@ -195,25 +193,25 @@ namespace archendale
 				break;
 				case EAGAIN:
 				{
-					OperationWillBlockException exp;
+					OperationWillBlockException exp(__FILE__);
 					throw exp;
 				}		
 				break;
 				case EINTR:
 				{
-					SignalException exp;
+					SignalException exp(__FILE__);
 					throw exp;
 				}		
 				break;
 				case EINVAL:
 				{
-					InvalidArgumentException exp;
+					InvalidArgumentException exp(__FILE__);
 					throw exp;
 				}		
 				break;
 				default:
 				{
-					Exception exp("Faild to read in SocketObject");
+					Exception exp("Failed to read in SocketObject");
 					throw exp;
 				}
 			} // switch

@@ -29,12 +29,14 @@ main(void)
 	InternetAddress addr = NameResolver::getAddress("localhost");
 	string data, rdata;
 	INETSocket socket(addr, 5000);
+	char input[50];
 
 	cout << "Getting connection" << endl;
 	socket.connect();
 
 	cout << "Have Connection, enter data: " << endl;
-	cin >> data;
+	cin.getline(input, 50);
+	data = input;
 	socket << data << SocketObject::transmit;
 	cout << "Sending: " << data << endl;
 	socket >> rdata;

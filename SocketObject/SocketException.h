@@ -108,6 +108,38 @@ namespace archendale
 		SocketClosedException(const string& msg) : Exception(msg) { ; }
 	}; // SocketClosedException
 
+	// FirewallDeniedConnectionException :
+        //	EPERM   The Firewall is denying this connection
+        //       	
+	class FirewallDeniedConnectionException : public Exception
+	{
+	public:
+		FirewallDeniedConnectionException() { ; }
+		FirewallDeniedConnectionException(const string& msg) : Exception(msg) { ; }
+	}; // FirewallDeniedConnectionException
+
+	// ProtocolNotSupportedException :
+        //	EPROTONOSUPPORT 
+	//		The Protocol is not supported in the domain	
+        //       	
+	class ProtocolNotSupportedException : public Exception
+	{
+	public:
+		ProtocolNotSupportedException() { ; }
+		ProtocolNotSupportedException(const string& msg) : Exception(msg) { ; }
+	}; // ProtocolNotSupportedException
+
+	// SocketBoundException :
+        //	EINVAL
+	//		The socket has already been bound	
+        //       	
+	class SocketBoundException : public Exception
+	{
+	public:
+		SocketBoundException() { ; }
+		SocketBoundException(const string& msg) : Exception(msg) { ; }
+	}; // SocketBoundException
+
 } // archendale
 
 #endif // SocketException_h

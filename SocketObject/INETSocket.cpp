@@ -35,7 +35,50 @@ namespace archendale
 		setSocket(socket(m_address.getType(), SOCK_STREAM, 6));
 		if(-1 == getSocket())
 		{
-			cerr << "Unknown erro trying to create socket" << endl;
+			switch(errno)
+			{
+                                case EPROTONOSUPPORT:
+                                        {
+                                                ProtocolNotSupportedException exp(__FILE__);
+                                                throw exp;
+                                        }
+                                        break;
+                                case ENFILE:
+                                        {
+                                                OutOfMemoryException exp("Kernel Memory Exhausted : " __FILE__);
+                                                throw exp;
+                                        }
+                                        break;
+                                case EMFILE:
+                                        {
+                                                Exception exp("Process File Table Overflow in : " __FILE__);
+                                                throw exp;
+                                        }
+                                        break;
+                                case EACCES:
+                                        {
+                                                AccessDeniedException exp(__FILE__ ":" + __LINE__);
+                                                throw exp;
+                                        }
+                                        break;
+                                case ENOMEM:
+                                        {
+                                                OutOfMemoryException exp(__FILE__);
+                                                throw exp;
+                                        }
+                                        break;
+                                case EINVAL:
+                                        {
+                                                InvalidArgumentException exp(__FILE__);
+                                                throw exp;
+                                        }
+                                        break;
+                                default:
+                                        {
+                                                Exception exp("Unknown Exception in SocketServer() : " __FILE__);
+                                                throw exp;
+                                        }
+                        } // switch
 		} // if 
 	} // INETSocket
 
@@ -43,7 +86,6 @@ namespace archendale
 	//
 	INETSocket::INETSocket(const INETSocket& in) : SocketObject(in)
 	{
-		cerr << "INETSocketCC" << endl;
 		m_address = in.m_address;
 		m_port = in.m_port;
 	} // INETSocket
@@ -61,9 +103,6 @@ namespace archendale
 		sockaddr_in socketAttribute;
 		socketAttribute.sin_family = m_address.getType();
 		socketAttribute.sin_port  = htons(m_port);
-		cerr << "Port: " << ntohs(socketAttribute.sin_port) << endl;
-		cerr << "IP: " << m_address.getAddress() << endl;
-		cerr << "Host: " << m_address.getHostName() << endl;
 		inet_aton(m_address.getAddress().c_str(), &socketAttribute.sin_addr);
 		if(::connect(getSocket(), (sockaddr*) &socketAttribute, sizeof(socketAttribute)))
 		{	

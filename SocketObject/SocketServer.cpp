@@ -1,4 +1,3 @@
-
 #include <SocketObject/SocketServer.h>
 #include <ThreadObject/AutoMutex.h>
 #include <sys/socket.h>
@@ -10,7 +9,6 @@ namespace archendale
 {
 
         // TODO:
-        //      Need to define exceptions
         //      Need to have it use getprotoent instead of hard coding protocal into socket
         //      Need to update for binding & listening & accepting, perhaps in a socket server
 	//	Add in support for reading client information after ::bind()
@@ -25,8 +23,51 @@ namespace archendale
                 setSocket(socket(m_address.getType(), SOCK_STREAM, 6));
                 if(-1 == getSocket())
                 {
-                        cerr << "Unknown erro trying to create socket" << endl;
-                } // if
+			switch(errno)
+			{
+				case EPROTONOSUPPORT: 
+					{
+						ProtocolNotSupportedException exp(__FILE__);
+						throw exp;
+					}
+					break;
+				case ENFILE:
+					{
+						OutOfMemoryException exp("Kernel Memory Exhausted : " __FILE__);
+						throw exp;
+					}
+					break;
+				case EMFILE:
+					{
+						Exception exp("Process File Table Overflow in : " __FILE__);
+						throw exp;
+					}
+					break;
+				case EACCES:
+					{
+						AccessDeniedException exp(__FILE__ ":" + __LINE__);
+						throw exp;
+					}
+					break;
+				case ENOMEM:
+					{
+						OutOfMemoryException exp(__FILE__);
+						throw exp;
+					}
+					break;
+				case EINVAL:
+					{
+						InvalidArgumentException exp(__FILE__);
+						throw exp;
+					}
+					break;
+				default:
+					{
+						Exception exp("Unknown Exception in SocketServer() : " __FILE__);
+						throw exp;
+					}
+			} // switch
+		} // if
 		bind();
 		listen();
 	} // SocketServer
@@ -54,12 +95,54 @@ namespace archendale
 		INETSocket inetsocket;
 		sockaddr_in clientInformation;
 		socklen_t len = sizeof(clientInformation);
-		int socket = (accept(getSocket(), (sockaddr*) &clientInformation, &len));
+		int socket = accept(getSocket(), (sockaddr*) &clientInformation, &len);
 		if(-1 == socket)
 		{
-			cerr << "SocketServer::getWaitingConnection - unknown error:" << errno << endl;
+			switch(errno) 
+			{
+			case EAGAIN:
+				{	
+					OperationWillBlockException exp(__FILE__);
+					throw exp;
+				}
+				break;	
+			case EBADF:
+				{	
+					InvalidSocketDescriptorException exp(__FILE__);
+					throw exp;
+				}
+				break;	
+			case ENOTSOCK:
+				{	
+					NotSocketDescriptorException exp(__FILE__);
+					throw exp;
+				}
+				break;	
+			case EOPNOTSUPP:
+				{	
+					NotSupportedException exp("SocketServer::accept() -" __FILE__);
+					throw exp;
+				}
+				break;	
+			case EFAULT:
+				{	
+					Exception exp(__FILE__ " - Address out of user space");
+					throw exp;
+				}
+				break;	
+			case EPERM:
+				{	
+					FirewallDeniedConnectionException exp(__FILE__);
+					throw exp;
+				}
+				break;	
+			default:
+				{
+					Exception exp("Unknown error in SocketServer::getWaitingConnection");
+					throw exp;
+				}
+			} // switch
 		} // if
-		cerr << "SocketServer::getWC - socket: " << socket << endl;
 		InternetAddress addr;
 		addr.addAddress(inet_ntoa(clientInformation.sin_addr));
 		inetsocket.setSocket(socket);
@@ -67,7 +150,7 @@ namespace archendale
 		inetsocket.setAddress(addr);
 
 		return inetsocket;
-        } // isWaiting
+        } // getWaitingConnection
 
         // bind:
         //      binds the current socket
@@ -76,13 +159,41 @@ namespace archendale
                 sockaddr_in socketAttribute;
                 socketAttribute.sin_family = m_address.getType();
                 socketAttribute.sin_port  = htons(m_port);
-                cerr << "Port: " << ntohs(socketAttribute.sin_port) << endl;
-                cerr << "IP: " << m_address.getAddress() << endl;
-                cerr << "Host: " << m_address.getHostName() << endl;
                 inet_aton(m_address.getAddress().c_str(), &socketAttribute.sin_addr);
                 if(::bind(getSocket(), (sockaddr*) &socketAttribute, sizeof(socketAttribute)))
                 {
-                        cerr << "SocketServer::bind caused an error: " << errno << endl;
+			switch(errno) 
+			{
+			case EBADF:
+				{	
+					NotSocketDescriptorException exp(__FILE__);
+					throw exp;
+				}
+				break;	
+			case EINVAL:
+				{	
+					SocketBoundException exp(__FILE__);
+					throw exp;
+				}
+				break;	
+			case EACCES:
+				{	
+					AccessDeniedException exp("User is not Super User : " __FILE__);
+					throw exp;
+				}
+				break;	
+			case ENOTSOCK:
+				{	
+					NotSocketDescriptorException exp("Argument is a file descriptor, not a socket descriptor : " __FILE__);
+					throw exp;
+				}
+				break;	
+			default:
+				{
+					Exception exp("Unknown error in SocketServer::bind() : " __FILE__);
+				}
+				break;
+			} // switch
                 }  // if
         } // bind 
 
@@ -92,7 +203,33 @@ namespace archendale
         {
 		if(-1 == ::listen(getSocket(), m_backlog)) 
 		{
-			cerr << "SocketServer::listen error: " << errno << endl;	
+			switch(errno)
+			{
+			case EBADF:
+				{
+					InvalidSocketDescriptorException exp(__FILE__);
+					throw exp;
+				}
+				break;
+			case ENOTSOCK:
+				{
+					NotSocketDescriptorException exp(__FILE__);
+					throw exp;
+				}
+				break;
+			case EOPNOTSUPP:
+				{
+					NotSupportedException exp("SocketServer::listen() Listen not supported - " __FILE__);
+					throw exp;
+				}
+				break;	
+			default:
+				{
+					Exception exp("SocketServer::listen() - Unknown error");
+					throw exp;
+				}
+				break;	
+			} // switch
 		} // if
         } // listen
 
