@@ -25,6 +25,7 @@ bool ITDFRead()
 	otdf << 48;
 	otdf << 33;
 	otdf << "Howdy";
+	otdf << 44;
 
 	ITDF itdf(istr);
 
@@ -68,6 +69,14 @@ bool ITDFRead()
 		if(sInput != "Howdy")
 		{
 			cout << "test failed:if(sInput != Howdy) " << endl;
+			return false;
+		} // if
+
+		itdf >> dInput;
+		cout << dInput << endl;
+		if(dInput != 44)
+		{
+			cout << "test failed:if(dInput != 33) " << endl;
 			return false;
 		} // if
 	} catch (EOFException exp)
