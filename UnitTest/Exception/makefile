@@ -1,7 +1,7 @@
 
 CC = g++
 INCLUDE = -I../..
-CCOPTIONS = $(GLOBALCCOPTIONS) $(INCLUDE) -d
+CCOPTIONS = $(GLOBALCCOPTIONS) $(INCLUDE)
 LINKEROPTIONS = -L../../lib -lException
 ExceptionTestDriverObjects = ExceptionTestDriver.o
 

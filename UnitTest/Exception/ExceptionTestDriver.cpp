@@ -30,9 +30,9 @@ void testExceptions(void)
 		throwException();
 	} catch (Exception exp)
 	{
-		cout << "Caught Exception from throwException - why: " << exp.why() << endl;
-		if(exp.hasNested()) cout << "It has a nested exception (BAD)" << endl;
-		else cout << "It does not have a nested exception (GOOD)" << endl;
+		std::cout << "Caught Exception from throwException - why: " << exp.why() << std::endl;
+		if(exp.hasNested()) std::cout << "It has a nested exception (BAD)" << std::endl;
+		else std::cout << "It does not have a nested exception (GOOD)" << std::endl;
 	} // try
 
 	try
@@ -40,21 +40,22 @@ void testExceptions(void)
 		throwNestedException();
 	} catch (Exception nexp)
 	{
-		cout << "Caught Exception from throwException - why: " << nexp.why() << endl;
-		if(nexp.hasNested()) cout << "It has a nested exception (GOOD)" << endl;
-		else cout << "It does not have a nested exception (BAD)" << endl;
-		cout << "Nested Exception says - why: " << nexp.getNestedException().why() << endl;
+		std::cout << "Caught Exception from throwException - why: " << nexp.why() << std::endl;
+		if(nexp.hasNested()) std::cout << "It has a nested exception (GOOD)" << std::endl;
+		else std::cout << "It does not have a nested exception (BAD)" << std::endl;
+		std::cout << "Nested Exception says - why: " << nexp.getNestedException().why() << std::endl;
 	} // try
 } // testExceptions
 
-void main(void)
+int main(void)
 {
-	cout << "----------Output should be:------------\n" 
-		<< "Caught Exception from throwException - why: plain Exception" << endl
-		<< "It does not have a nested exception (GOOD)" << endl
-		<< "Caught Exception from throwException - why: nested exception" << endl
-		<< "It has a nested exception (GOOD)" << endl
-		<< "Nested Exception says - why: plain Exception" << endl;
-	cout << "--------------Running Test--------------" << endl;
+	std::cout << "----------Output should be:------------\n" 
+		<< "Caught Exception from throwException - why: plain Exception" << std::endl
+		<< "It does not have a nested exception (GOOD)" << std::endl
+		<< "Caught Exception from throwException - why: nested exception" << std::endl
+		<< "It has a nested exception (GOOD)" << std::endl
+		<< "Nested Exception says - why: plain Exception" << std::endl;
+	std::cout << "--------------Running Test--------------" << std::endl;
 	testExceptions();
+	return 0;
 } // main

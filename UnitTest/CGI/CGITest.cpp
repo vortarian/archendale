@@ -58,7 +58,7 @@ void printValues(CGI& cgi)
 	cout << "</BODY></HTML>" << endl;
 } // printValues
 
-void main(void)
+int main(void)
 {
 	CGI cgi;
 	vector<string> queryKeys = cgi.getAllKeys();
@@ -76,4 +76,5 @@ void main(void)
 		return -1;
 	} // catch
 	printValues(cgi);
+	return 0;
 } // main
