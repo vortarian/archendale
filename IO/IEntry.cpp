@@ -3,7 +3,7 @@
 
 namespace archendale
 {
-	IEntry::IEntry() : m_id(0) { ; }
+	IEntry::IEntry(int id = 0) : m_id(id) { ; }
 	IEntry::IEntry(const IEntry& rhs) 
 	{ 
 		m_id = rhs.m_id;
