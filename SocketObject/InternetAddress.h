@@ -13,6 +13,10 @@ namespace archendale
 		//
 		InternetAddress();
 
+		// InternetAddress:
+		//
+		InternetAddress(const InternetAddress&);
+
 		// ~InternetAddress:
 		//
 		~InternetAddress();

@@ -5,7 +5,13 @@ namespace archendale
 {
 	// InternetAddress:
 	//
-	InternetAddress::InternetAddress() : INetworkAddress(PF_INET)
+	InternetAddress::InternetAddress() : INetworkAddress(PF_INET, 4)
+	{
+	} // InternetAddress
+
+	// InternetAddress:
+	//
+	InternetAddress::InternetAddress(const InternetAddress& addr) : INetworkAddress(addr)
 	{
 	} // InternetAddress
 

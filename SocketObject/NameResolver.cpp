@@ -1,6 +1,6 @@
 
 #include <SocketObject/NameResolver.h>
-#include <Exception/Exception.h>
+#include <SocketObject/SocketException.h>
 
 namespace archendale
 {
@@ -14,30 +14,8 @@ namespace archendale
 
 	// NameResolver:
 	//	Builds from a hostName
-	NameResolver::NameResolver(const String& hostName)
+	NameResolver::NameResolver()
 	{
-		m_hostName = hostName;
-		struct hostent* hostinfo = gethostbyname(hostName.data());
-		m_aliasList.push_back(hostinfo->h_name);
-		for(int i = 0; hostinfo->h_aliases[i]; i++)
-		{
-			m_aliasList.push_back(hostinfo->h_aliases[i]);
-		} // for
-
-		for(int i = 0; hostinfo->h_addr_list[i]; i++)
-		{
-			m_addressList.push_back(hostinfo->h_addr_list[i]);
-			i++;
-		} // for
-	} // NameResolver
-
-	// NameResolver:
-	// 	Builds from an IP address
-	//
-	NameResolver::NameResolver(unsigned int)
-	{
-		NotImplementedException exp;
-		throw exp;
 	} // NameResolver
 
 	// ~NameResolver:
@@ -50,21 +28,99 @@ namespace archendale
 	//      returns the IP Address of a given name
 	//      takes a string arguement which is the
 	//      server to be looked up
-	vector < String > NameResolver::getAddress()
+	InternetAddress NameResolver::getAddress(const InternetAddress addr)
 	{
-		return m_addressList;
+		struct hostent* hostinfo;
+		hostinfo = gethostbyname(addr.getHostName().data());
+		cerr << hostinfo << endl;
+		if(!hostinfo) 
+		{
+			switch(h_errno)
+			{
+				case HOST_NOT_FOUND:
+					{
+						UnknownHostException uhexp(addr.getHostName());
+						throw uhexp;
+					}
+					break;
+				case TRY_AGAIN:
+					{
+						RetryHostLookupException rhle(addr.getHostName());
+						throw rhle;
+					}
+					break;
+				case NO_DATA:
+					{
+						HostWithNoAddressException hwnae(addr.getHostName());
+						throw hwnae;
+					}
+					break;
+				default:
+					Exception exp(addr.getHostName() + ": Unknown error occured");
+					throw exp;
+					break;
+			} // switch
+		} // if
+		return populateAddress(hostinfo);
 	} // getAddress
 
 	// getName:
 	//      returns the IP Address of a given name
 	//      takes a string arguement which is the
 	//      server to be looked up 
-	//      The first Name in the Iterator is the
-	//      official name of the host, all subsequent names
-	//      are alias's
-	vector < String > NameResolver::getName()
+	InternetAddress NameResolver::getName(const InternetAddress addr)
 	{
-		return m_aliasList;
+		struct hostent* hostinfo = gethostbyaddr(addr.getAddress().data(), addr.getAddressLength(), addr.getType());
+		if(!hostinfo) 
+		{
+			switch(h_errno)
+			{
+				case HOST_NOT_FOUND:
+					{
+						UnknownHostException uhexp(addr.getAddress());
+						throw uhexp;
+					}
+					break;
+				case TRY_AGAIN:
+					{
+						RetryHostLookupException rhle(addr.getAddress());
+						throw rhle;
+					}
+					break;
+				case NO_DATA:
+					{
+						HostWithNoAddressException hwnae(addr.getAddress());
+						throw hwnae;
+					}
+					break;
+				default:
+					Exception exp(addr.getAddress() + ": Unknown error occured");
+					throw exp;
+					break;
+			} // switch
+		} // if
+		return populateAddress(hostinfo);
 	} // getName
 
+	// populateAddress:
+	//
+	InternetAddress NameResolver::populateAddress(hostent* hostinfo)
+	{
+		InternetAddress address;
+		address.addHostName(hostinfo->h_name);
+		for(int i = 0; hostinfo->h_aliases[i]; i++)
+		{
+			address.addHostName(hostinfo->h_aliases[i]);
+		} // for
+
+		for(int i = 0; hostinfo->h_addr_list[i]; i++)
+		{
+			cerr << "Adding address: " << hostinfo->h_addr_list[i] << endl;
+			address.addAddress(hostinfo->h_addr_list[i]);
+			i++;
+		} // for
+		endhostent();
+		return address;
+	} // getName
+	
 } // namespace archendale

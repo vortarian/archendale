@@ -5,6 +5,7 @@
 #include <netdb.h>
 #include <vector>
 #include <String/String.h>
+#include <SocketObject/InternetAddress.h>
 
 using std::vector;
 
@@ -14,22 +15,16 @@ namespace archendale
 	{
 	public:
 		// NameResolver:
-		//	Takes the host name and acquires information
-		NameResolver(const String&);
-
-		// NameResolver:
-		//	Takes a host IP Address and acquires information
-		NameResolver(unsigned int);
+		NameResolver();
 
 		// ~NameResolver:
-		//
 		~NameResolver();
 
 		// getAddress:
 		//	returns the IP Address of a given name	
 		//	takes a string arguement which is the 
 		//	server to be looked up
-		vector < String > getAddress();
+		static InternetAddress getAddress(const InternetAddress);
 
 		// getName:
 		//	returns the IP Address of a given name	
@@ -38,14 +33,10 @@ namespace archendale
 		//	The first Name in the Iterator is the
 		//	official name of the host, all subsequent names
 		//	are alias's
-		vector < String > getName();
+		static InternetAddress getName(const InternetAddress);
 
 	private:
-		String 		  m_hostName;
-		vector < String > m_aliasList;	
-		int		  m_addressType;
-		vector < String > m_addressList;
-
+		static InternetAddress populateAddress(hostent*);
 	}; // NameResolver
 }; // namespace archendale
 

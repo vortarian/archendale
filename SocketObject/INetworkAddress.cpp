@@ -10,8 +10,18 @@ namespace archendale
 	
 	//	Protected constructor to keep
 	// 	direct instantiation from happening	
-	INetworkAddress::INetworkAddress(int addrType) : m_addressType(addrType) 
-	{
+	INetworkAddress::INetworkAddress(int addrType, int addrLength)
+	{ 
+		m_addressType = addrType;
+		m_addressLength = addrLength;
+	} // INetworkAddress
+
+	INetworkAddress::INetworkAddress(const INetworkAddress& addr)
+	{ 
+		m_addressType = addr.m_addressType;
+		m_addressLength = addr.m_addressLength;
+		m_addresses = addr.m_addresses;
+		m_hosts = addr.m_hosts;
 	} // INetworkAddress
 
 	// ~INetworkAddress:
@@ -27,6 +37,13 @@ namespace archendale
 		return m_addressType;
 	} // getType
 
+	// getAddressLength:
+	//	Return the integer type of the address
+	int INetworkAddress::getAddressLength() const
+	{
+		return m_addressLength;
+	} // getAddressLength
+
 	// getAddresses:
 	//	returns a vector of the addresses
 	vector < String > INetworkAddress::getAddresses() const
@@ -41,7 +58,7 @@ namespace archendale
 		String address;
 		vector < String >::const_iterator beg = m_addresses.begin();
 		vector < String >::const_iterator end = m_addresses.end();
-		if(++beg != end) address = *beg;
+		if(beg != end) address = *beg;
 		return address;
 	} // getAddress
 
@@ -54,14 +71,14 @@ namespace archendale
 		return m_hosts;
 	} // getHostNames
 
-	// getHostNam:
+	// getHostName:
 	//	returns the official name of the host
 	String INetworkAddress::getHostName() const
 	{
 		String host;
 		vector < String >::const_iterator beg = m_hosts.begin();
 		vector < String >::const_iterator end = m_hosts.end();
-		if(++beg != end) host = *beg;
+		if(beg != end) host = *beg;
 		return host;
 	} // getHostNames
 

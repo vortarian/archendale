@@ -23,6 +23,10 @@ namespace archendale
 		//	Return the integer type of the address
 		virtual int getType() const;
 
+		// getAddressLength:
+		//	Return the integer length of the address
+		virtual int getAddressLength() const;
+
 		// getAddresses:
 		//      returns a vector of the addresses
 		virtual vector < String > getAddresses() const;
@@ -48,16 +52,21 @@ namespace archendale
 		// addHostName:
 		//	returns a String of the Address	
 		virtual void addHostName(const String&);
-
 	protected:
 		
 		// InetAddress:
 		//	Protected constructor to keep
 		// 	direct instantiation from happening	
-		INetworkAddress(int);
+		INetworkAddress(int, int);
+		
+		// InetAddress:
+		//	Protected constructor to keep
+		// 	direct instantiation from happening	
+		INetworkAddress(const INetworkAddress&);
 
 	private:
-		const int 		m_addressType;
+		int 			m_addressType;
+		int 			m_addressLength;
 		vector < String >	m_addresses;
 		vector < String > 	m_hosts;
 	}; // INetworkAddress
