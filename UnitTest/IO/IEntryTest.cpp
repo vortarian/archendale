@@ -30,6 +30,7 @@ public:
 	
 	bool operator==(const IntEntry& rhs) const
 	{
+		if(!IEntry::operator==(rhs)) return false;
 		return m_data == rhs.m_data;
 	} // operator ==
 	
@@ -63,6 +64,7 @@ public:
 	
 	bool operator==(const StringEntry& rhs) const
 	{
+		if(!IEntry::operator==(rhs)) return false;
 		return m_data == rhs.m_data;
 	} // operator ==
 	
@@ -111,6 +113,7 @@ public:
 	
 	bool operator==(const HeterogenusEntry& rhs) const
 	{
+		if(!IEntry::operator==(rhs)) return false;
 		if(m_data != rhs.m_data) return false;
 		if(m_strings.size() != rhs.m_strings.size()) return false;
 		vector<string>::const_iterator start = m_strings.begin();
@@ -261,13 +264,27 @@ int main(void)
 		itdf >> *hsb;
 		
 
-		if( (ia == *ib) && (sa == *sb) && (hsa == *hsb)) 
+		if( 
+			// Test to see if the Int's are equal
+			(ia == *ib) && 
+
+			// Test to see if the Strings's are equal
+			(sa == *sb) && 
+
+			// Test to see if the Hetero's are equal
+			(hsa == *hsb) && 
+
+			// Test to see if the base class operator==
+			// is working, it should be false
+			!(*tib == *tsb)
+		) 
 		{
 			cout << "Test SUCCEEDED!" << endl;
 		} else 
 		{
 			cout << "Test FAILED!" << endl;
 		} // if
+
 		delete ib;
 		delete sb;
 		delete hsb;
