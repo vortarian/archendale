@@ -7,12 +7,14 @@ template <class T> class _ref
 public:
 	_ref() { 
 		m_count = 0;
+cerr << "newing memory" << endl;
 		m_T = new T; 
 		m_count++; 
 	} // _ref
 
 	_ref(T rhs) { 
 		m_count = 0;
+cerr << "newing memory" << endl;
 		m_T = new T; 
 		*m_T = rhs;
 		m_count++; 
@@ -21,6 +23,7 @@ public:
 	~_ref() {
 		m_count--;
 		if(m_count == 0) {
+cerr << "deleting memory" << endl;
 			delete m_T;
 		} // if
 	} // ~_ref
@@ -30,8 +33,11 @@ public:
 	} // operator*
 
 	const _ref& operator=(const _ref& rhs) {
+cout << "incrementing reference count" << endl;
 		m_count++;
+cout << "assigning pointer" << endl;
 		m_T = rhs.m_T;
+cout << "returning" << endl;
 		return *this;
 	} // _ref
 private:
@@ -60,6 +66,7 @@ public:
 	} // RefCount
 
 	~RefCount() { 
+cerr << "Deleting RefCount" << endl;
 		delete m_pointer; 
 	} // RefCount
 
@@ -73,3 +80,19 @@ public:
 private:
 	_ref<T>* m_pointer;	
 }; // it
+
+int main(void)
+{
+	RefCount<int> a(3);
+	RefCount<int> b = a;
+	RefCount<int> c = b;
+
+cout << "Assignment" << endl;
+	*c = 4;	
+
+	cout << "a: " << *a << endl;
+	cout << "b: " << *b << endl;
+	cout << "c: " << *c << endl;
+
+	return 0;
+}
