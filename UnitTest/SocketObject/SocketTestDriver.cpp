@@ -190,7 +190,7 @@ bool testSocketObjectRead()
 	return true;
 } // testSocketObject
 
-bool testSocketObjectLargeReadWrite()
+bool testSocketObjectLargeReadWrite(unsigned int dataSize = 4000000)
 {
 	try {
 		InternetAddress addr = NameResolver::getAddress("localhost");
@@ -205,7 +205,7 @@ bool testSocketObjectLargeReadWrite()
 			return false;
 		} // try
 
-		unsigned int DATASIZE = 4000000;
+		unsigned int DATASIZE = dataSize;
 
 		char *p_data = new char[DATASIZE];
 
@@ -231,7 +231,7 @@ bool testSocketObjectLargeReadWrite()
 
 		try {
 			cout 	<< "Sending "
-				<< float(sendData.size()) / 100000
+				<< (float(sendData.size()) * sizeof(string::size_type)) / 1024.0
 				<< "K bytes of data" 
 				<< endl;
 
@@ -274,12 +274,14 @@ void outputStatus(bool status)
 int main(void)
 {
 	char input[4];
+	unsigned int datasize = 0;
 	do	
 	{
 		cout << endl << "Please input Command:" << endl <<
 			"1: NameResolver\n"
 			"2: SocketObject(Reads & Writes)\n"
 			"3: SocketObject(Large Reads & Writes - requires SocketServerTest to be running on port 5000)\n"
+			"4: SocketObjectWithDataSpecified(Large Reads & Writes - requires SocketServerTest to be running on port 5000)\n"
 			"Q: Quit\n"
 			"?: ";
 		cin.getline(input, 4);
@@ -295,6 +297,14 @@ int main(void)
 				break;
 			case '3':	
 				outputStatus(testSocketObjectLargeReadWrite());
+				break;
+			case '4':	
+				cout << "Please input number of Kbytes to use: ";
+				cin >> datasize;
+				datasize *= (1024/sizeof(string::size_type));
+				outputStatus(testSocketObjectLargeReadWrite(datasize));
+				// eatwhitespace
+				cin.getline(input, 4);
 				break;
 			case 'q':
 			case 'Q':

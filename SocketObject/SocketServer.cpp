@@ -34,8 +34,11 @@ namespace archendale
                         Exception exp(error);
                         throw exp;
                 } // if
-                setSocket(socket(m_address.getType(), SOCK_STREAM, protocol->p_proto));
-                if(-1 == getSocket())
+		int socketDescriptor = socket(m_address.getType(), SOCK_STREAM, protocol->p_proto);
+                if(-1 != socketDescriptor) 
+		{
+			setSocket(socketDescriptor);
+		} else
                 {
 			switch(errno)
 			{
@@ -174,7 +177,7 @@ namespace archendale
                 socketAttribute.sin_family = m_address.getType();
                 socketAttribute.sin_port  = htons(m_port);
                 inet_aton(m_address.getAddress().c_str(), &socketAttribute.sin_addr);
-                if(::bind(getSocket(), (sockaddr*) &socketAttribute, sizeof(socketAttribute)))
+                if(-1 == ::bind(getSocket(), (sockaddr*) &socketAttribute, sizeof(socketAttribute)))
                 {
 			switch(errno) 
 			{
@@ -205,6 +208,7 @@ namespace archendale
 			default:
 				{
 					SocketException exp("Unknown error in SocketServer::bind() : " __FILE__);
+					throw exp;
 				}
 				break;
 			} // switch

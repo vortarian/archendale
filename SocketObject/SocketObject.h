@@ -115,6 +115,13 @@ namespace archendale
 		static Transmit transmit;
 		SocketObject& operator<<(const Transmit&); 
 
+		// getBytesSent:
+		//
+		unsigned int getBytesSent() { return m_socketHandle->getBytesSent(); }
+
+		// getBytesReceived:
+		//
+		unsigned int getBytesReceived() { return m_socketHandle->getBytesReceived(); }
 	protected:
 		// getSocket:
 		//	Only usable by subclasses

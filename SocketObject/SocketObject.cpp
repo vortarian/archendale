@@ -105,6 +105,7 @@ namespace archendale
 		while(m_sendDataBuffer.size() > 0 && retValue >= 0)
 		{
 			retValue = ::send(m_socketHandle->getSocket(), m_sendDataBuffer.c_str(), m_sendDataBuffer.size(), MSG_NOSIGNAL);
+			m_socketHandle->incrementBytesSent(retValue);
 			// have sent the data, clear it so it doesn't send twice!
 			if(retValue >= 0) m_sendDataBuffer.erase(0, retValue);
 		} // while
@@ -212,6 +213,7 @@ namespace archendale
 		int count = ::recv(m_socketHandle->getSocket(), m_readBuffer, m_readBufferSize, MSG_NOSIGNAL);
 		if(count >= 0 )
 		{
+			m_socketHandle->incrementBytesReceived(count);
 			m_readDataBuffer.append(m_readBuffer, count);
 		} else
 		{

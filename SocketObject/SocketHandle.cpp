@@ -9,6 +9,8 @@ namespace archendale
 	//
 	SocketHandle::SocketHandle()
 	{
+		m_bytesSent = 0;
+		m_bytesReceived = 0;
 		m_socket = 0;
 	} // SocketHandle
 
@@ -33,6 +35,8 @@ namespace archendale
 	//
 	void SocketHandle::setSocket(int socket)
 	{
+		m_bytesSent = 0;
+		m_bytesReceived = 0;
 		m_socket = socket;
 	} // setSocket
 } // namespace archendale

@@ -87,6 +87,8 @@ main(char** argv, int argc )
 				cout << "Returning: " << tempData << endl;
 			} // if
 			socket << data << SocketObject::transmit;
+			cout << "Total bytes sent on this socket: " << socket.getBytesSent() << endl;
+			cout << "Total bytes received on this socket: " << socket.getBytesReceived() << endl;
 		} // while
 	} catch (SocketException& exp)
 	{
