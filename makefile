@@ -17,13 +17,14 @@ run:
 
 clean:
 	-rm -f *.o
-	make -C Exception clean
-	make -C String clean
-	make -C ThreadObject clean
-	make -C CGI clean
-	make -C Factory clean
-	make -C UnitTest clean
-	make -C SocketObject clean
+	-rm writeclass
+	make -C Exception clean -j 
+	make -C String clean -j 
+	make -C ThreadObject clean -j 
+	make -C CGI clean -j 
+	make -C Factory clean -j 
+	make -C UnitTest clean -j 
+	make -C SocketObject clean -j 
 
 touch:
 	touch ./makefile
