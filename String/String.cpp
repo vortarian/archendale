@@ -254,16 +254,7 @@ namespace archendale
 			throw exp;
 		} // if
 		if(subStringLength > m_length - startIndex) subStringLength = m_length - startIndex;
-		//char *temp = new char[subStringLength + 1];
-		//strncpy(temp, data() + startIndex, subStringLength);
-		//temp[subStringLength + 1] = '\0';
-		cerr << "startIndex: " << startIndex << endl;
-		cerr << "m_length: " << m_length << endl;
-		cerr << "m_data: " << m_data << endl;
-		cerr << "subStringLength: " << subStringLength << endl;
 		String newStr(data() + startIndex, subStringLength);
-		cout << newStr.data() << endl;
-		//delete temp;
 		return newStr;
 	}
 
