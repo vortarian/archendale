@@ -2,20 +2,50 @@
 #include <Util/ReferenceCounter.h>
 
 using namespace std;
-
+using namespace archendale;
 
 int main(void)
 {
-	RefCount<int> a(3);
-	RefCount<int> b = a;
-	RefCount<int> c = b;
+	RefCount<int>* rcptr = new RefCount<int>();
 
-cout << "Assignment" << endl;
-	*c = 4;	
+	{
+		RefCount<int> a(3);
 
-	cout << "a: " << *a << endl;
-	cout << "b: " << *b << endl;
-	cout << "c: " << *c << endl;
+		// This block tests destruction
+		{
+			// Test Copy Constructor
+			RefCount<int> b = a;
 
+			if(*b != 3)
+			{
+				cerr << "Test Failed! *b != 3, *b == " << *b << endl;
+			}
+
+			RefCount<int> c;
+			c = b;
+			if(*c != 3)
+			{
+				cerr << "Test Failed! *c != 3, *c == " << *c << endl;
+			}
+
+			// Test operator =
+			*c = 4;	
+		} 
+
+		if(*a != 4)
+		{
+			cerr << "Test Failed! *a != 4, *a == " << *a << endl;
+		}
+
+		// Test through pointer
+		*rcptr = a;
+	}
+
+	if(**rcptr != 4)
+	{
+		cerr << "Test Failed! **rcptr != 4, **rcptr == " << **rcptr << endl;
+	}
+
+	cout << "Test SUCCEEDED" << endl;
 	return 0;
 }
