@@ -1,0 +1,10 @@
+
+CPP             = g++
+CPP_INCLUDES    = -I /home/vortex/project/archendale
+CPP_DEFINES     = -D_REENTRANT
+CPP_FLAGS       = $(GLOBALCCOPTIONS) $(CPP_DEFINES) $(CPP_INCLUDES) -g
+IOLIBS          =
+LINKER          = ar cru
+SHLINKER        = g++ -shared
+LINKER_FLAGS    =
+LINKER_ENTRY    =
