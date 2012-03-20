@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <typeinfo>
 #include <errno.h>
+#include <cstring>
 
 using namespace std;
 
@@ -25,7 +26,7 @@ namespace archendale
 	//
 	/////////////////////////
 
-	SocketObject::SocketObject(unsigned int readBufferLength = 10000)
+	SocketObject::SocketObject(unsigned int readBufferLength)
 	{
 		m_readBuffer 	 = 0;
 		m_readBufferSize = readBufferLength;

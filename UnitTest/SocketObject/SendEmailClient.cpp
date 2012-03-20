@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <typeinfo>
+
 #include <SocketObject/INETSocket.h>
 #include <SocketObject/NameResolver.h>
 

@@ -1,4 +1,3 @@
-#define _GNU_SOURCE
 #include <CGI/CGI.h>
 #include <Exception/Exception.h>
 #include <iostream>

@@ -6,6 +6,7 @@ all:
 	make -C CGI -j
 	make -C IO -j
 	make -C Factory -j
+	make -C Util -j
 
 run:
 	make -C ThreadObject run
@@ -14,6 +15,7 @@ run:
 	make -C SocketObject run
 	make -C IO run
 	make -C Factory run
+	make -C Util run
 
 
 clean:
@@ -23,3 +25,4 @@ clean:
 	make -C SocketObject -j clean
 	make -C IO -j clean
 	make -C Factory -j clean
+	make -C Util -j clean

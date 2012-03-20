@@ -212,7 +212,7 @@ namespace archendale
 	} // setAttribute
 
 	// scheduleFifo:
-	void ThreadSuper::scheduleFifo(int priority = 1)
+	void ThreadSuper::scheduleFifo(int priority)
 	{
 		m_threadAttribute.setScheduleFifo(priority);
 		if(!m_running) return;
@@ -246,7 +246,7 @@ namespace archendale
 	} // scheduleFifo
 	
 	// scheduleRoundRobin:
-	void ThreadSuper::scheduleRoundRobin(int priority = 1)
+	void ThreadSuper::scheduleRoundRobin(int priority)
 	{
 		m_threadAttribute.setScheduleRoundRobin(priority);
 		if(!m_running) return;
@@ -288,7 +288,7 @@ namespace archendale
 	///////////////////////////////////////////////////////////////
 		
 	// wait:
-	void ThreadSuper::wait(unsigned int delay = 0)
+	void ThreadSuper::wait(unsigned int delay)
 	{
 		sleep(delay);
 	} // wait

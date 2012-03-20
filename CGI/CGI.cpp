@@ -167,7 +167,7 @@ namespace archendale {
 		m_responseData[key] = value;
 	} // setValue
 
-	void CGI::writeJavascriptData(ostream& ostr = cout) const
+	void CGI::writeJavascriptData(ostream& ostr) const
 	{
 		map<string, string>::const_iterator data = m_responseData.begin();
 		ostr << "<script type=\"text/javascript\">" << endl;

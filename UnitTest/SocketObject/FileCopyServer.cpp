@@ -1,9 +1,11 @@
 #include <iostream>
 #include <fstream>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #include <vector>
 #include <string>
 #include <sstream>
+#include <typeinfo>
 
 #include <SocketObject/NameResolver.h>
 #include <SocketObject/InternetAddress.h>
@@ -42,7 +44,7 @@ public:
 		if(m_socketSet == false) 
 		{
 			std::cerr << "(Worker # " 
-				<< int(this) 
+				<< this 
 				<< ") Socket Not set before call to run, exiting" 
 				<< endl;
 			return;
@@ -69,7 +71,7 @@ public:
 					<< SocketObject::transmit;
 
 				cout << "(Worker # " 
-					<< int(this) 
+					<< this 
 					<< ") - File open, Waiting for data" 
 					<< endl;	
 			} // if

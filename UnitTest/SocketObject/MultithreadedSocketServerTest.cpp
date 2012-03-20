@@ -1,11 +1,12 @@
 #include <iostream>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
 #include <unistd.h>
 #include <errno.h>
 #include <vector>
 #include <string>
+#include <typeinfo>
 
 #include <SocketObject/NameResolver.h>
 #include <SocketObject/InternetAddress.h>
@@ -37,12 +38,12 @@ public:
 		AutoMutex aMutex(mut);
 		if(m_socketSet == false) 
 		{
-			std::cerr << "(Worker # " << int(this) << ") Socket Not set before call to run, exiting" << endl;
+			std::cerr << "(Worker # " << this << ") Socket Not set before call to run, exiting" << endl;
 			return;
 		} // if
 
 		string data;
-		cout << "(Worker # " << int(this) << ") - Waiting for data" << endl;	
+		cout << "(Worker # " << this << ") - Waiting for data" << endl;	
 		try 
 		{
 			m_socket.getline(data, '\0');

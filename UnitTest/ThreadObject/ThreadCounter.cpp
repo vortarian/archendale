@@ -1,8 +1,9 @@
 #include <iostream>
+#include <cstring>
 #include <pthread.h>
 #include "ThreadCounter.h"
 
-ThreadCounter::ThreadCounter(const char* output, ThreadAttribute attr, int iterations = 1000, bool* finished = 0)
+ThreadCounter::ThreadCounter(const char* output, ThreadAttribute attr, int iterations, bool* finished)
 {
 	mp_finished = finished;
         setAttribute(attr);

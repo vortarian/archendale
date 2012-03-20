@@ -252,7 +252,7 @@ namespace archendale
 
 	// setScheduleRoundRobin:
 	//	real-time, round robin scheduling
-	void ThreadAttribute::setScheduleRoundRobin(int priority = 1)
+	void ThreadAttribute::setScheduleRoundRobin(int priority)
 	{
 		int returnValue = 0;
 		switch(pthread_attr_setschedpolicy(&m_threadAttribute, SCHED_RR))
@@ -286,7 +286,7 @@ namespace archendale
 
 	// setScheduleFifo:
 	//	real-time, First-in First-out scheduling
-	void ThreadAttribute::setScheduleFifo(int priority = 1)
+	void ThreadAttribute::setScheduleFifo(int priority)
 	{
 		int returnValue = 0;
 		switch(pthread_attr_setschedpolicy(&m_threadAttribute, SCHED_FIFO))

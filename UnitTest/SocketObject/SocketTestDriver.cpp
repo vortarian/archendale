@@ -15,7 +15,6 @@
 #include <SocketObject/INETSocket.h>
 
 using namespace std;
-using std::string;
 using namespace archendale;
 
 //////////////////////////////////////////////////////////////

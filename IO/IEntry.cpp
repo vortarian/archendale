@@ -1,9 +1,10 @@
 
-#include <IEntry.h>
+#include <IO/IEntry.h>
+#include <typeinfo>
 
 namespace archendale
 {
-	IEntry::IEntry(int id = 0) : m_id(id) { ; }
+	IEntry::IEntry(int id) : m_id(id) { ; }
 	IEntry::IEntry(const IEntry& rhs) 
 	{ 
 		m_id = rhs.m_id;

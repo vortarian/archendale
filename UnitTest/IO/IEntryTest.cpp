@@ -1,10 +1,12 @@
+#include <iostream>
+#include <sstream>
+#include <typeinfo>
+#include <vector>
+
 #include <IO/ITDF.h>
 #include <IO/OTDF.h>
 #include <IO/IEntry.h>
 #include <Factory/Factory.h>
-#include <iostream>
-#include <sstream>
-#include <typeinfo>
 
 using namespace std;
 

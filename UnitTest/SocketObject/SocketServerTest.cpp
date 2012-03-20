@@ -1,11 +1,13 @@
 #include <iostream>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <errno.h>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
 #include <vector>
 #include <string>
+#include <typeinfo>
+
+#include <unistd.h>
+#include <errno.h>
 
 #include <SocketObject/NameResolver.h>
 #include <SocketObject/InternetAddress.h>
