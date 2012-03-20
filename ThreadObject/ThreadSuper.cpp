@@ -42,6 +42,7 @@
 			The preferred method is to switch to a handle/body reference counted
 			implemententation so the Object is in Scope until actual cleanup can be performed
 			FOR NOW, detach() IS BEING MADE PRIVATE, SO IT CAN NOT BE CALLED
+ * 		Joinable threads are segfaulting the same way detached threads are seg faulting
 */
 
 namespace archendale 
@@ -49,11 +50,13 @@ namespace archendale
 
 	ThreadSuper::ThreadSuper()
 	{
+		m_threadHandle = 0;
 		m_running = false;
 	} // ThreadSuper
 
 	ThreadSuper::ThreadSuper(const ThreadAttribute& attr)
 	{
+		m_threadHandle = 0;
 		m_threadAttribute = attr;
 		m_running = false;
 	} // ThreadSuper
@@ -61,7 +64,7 @@ namespace archendale
 	ThreadSuper::~ThreadSuper()
 	{
 		// TODO: All Joinable threads must be joined, if they are not, 
-		//	Then the destructor should take care of this
+		//	then the destructor should take care of this
 		try 
 		{
 			m_running = false;

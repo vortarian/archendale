@@ -35,10 +35,7 @@ namespace archendale
 		{
 		} // SocketDataConverter~
 
-		inline unsigned int getSize()
-		{
-			return m_size;
-		} // getSize
+		unsigned int getSize();
 
 		union
 		{
@@ -75,18 +72,18 @@ namespace archendale
 		// get
 		//	Return the first character from the read queue
 		//		remove the character from the queue
-		inline char get();
+		char get();
 	
 		// get
 		//	Special function for reading a string, the string
 		//	will be filled until a null terminator is found e.g. '\0'
-		inline void get(string&);
+		void get(string&);
 
 		// writeToBuffer:
 		//	write raw data to a buffer
 		//	writeToBuffer(iterator start, iterator end);
-		inline void writeToBuffer(const unsigned char*, const unsigned char*);
-		inline void writeToBuffer(const char* beg, const char* end); // defers to unsigned version
+		void writeToBuffer(const unsigned char*, const unsigned char*);
+		void writeToBuffer(const char* beg, const char* end); // defers to unsigned version
 
 		SocketObject& operator<<(char); 
 		SocketObject& operator>>(char&); 
@@ -181,6 +178,60 @@ namespace archendale
 
 		ReferenceCounter<SocketHandle> m_socketHandle;
 	}; // SocketObject
+
+	// get:
+	//
+	inline char SocketObject::get()
+	{
+		if(m_readDataBuffer.size() <= 0) receive();
+		char ret = m_readDataBuffer[0];
+		m_readDataBuffer.erase(0, 1);
+		return ret;
+	} // get
+
+	// get:
+	//	special get function for strings saves the looping
+	inline void SocketObject::get(string& input)
+	{
+		if(m_readDataBuffer.size() <= 0) receive();
+		string::size_type i = 0;
+		// Read until we find that terminator
+		do
+		{
+			i = m_readDataBuffer.find('\0');
+			if(i == string::npos) receive();
+		} while(i == string::npos);
+		input = m_readDataBuffer.substr(0, i);
+		m_readDataBuffer.erase(0, i + 1);
+	} // get
+
+
+	// getSize:
+	// return the size of the socket
+	template <class T>
+	inline unsigned int SocketDataConverter<T>::getSize()
+	{
+		return m_size;
+	} // getSize
+				
+	// writeToBuffer:
+	//
+	inline void SocketObject::writeToBuffer(const char* beg, const char* end)
+	{
+		while(beg != end)
+		{
+			m_sendDataBuffer += *beg;
+			beg++;
+		} // for
+	} // writeToBuffer
+
+	// writeToBuffer:
+	//
+	inline void SocketObject::writeToBuffer(const unsigned char* beg, const unsigned char* end)
+	{
+		writeToBuffer((const char*) beg, (const char*) end);
+	} // writeToBuffer
+
 } // archendale
 
 #endif // SOCKETOBJECT_H

@@ -79,24 +79,6 @@ namespace archendale
 	//
 	///////////////////////////////
 
-	// writeToBuffer:
-	//
-	void SocketObject::writeToBuffer(const char* beg, const char* end)
-	{
-		while(beg != end)
-                {
-                        m_sendDataBuffer += *beg;
-			beg++;
-                } // for
-	} // writeToBuffer
-
-	// writeToBuffer:
-	//
-	inline void SocketObject::writeToBuffer(const unsigned char* beg, const unsigned char* end)
-	{
-		writeToBuffer((const char*) beg, (const char*) end);
-	} // writeToBuffer
-
 	// send:
 	//
 	void SocketObject::send()
@@ -180,32 +162,6 @@ namespace archendale
 			} // switch
 		} // if(-1 . . .
 	} // send
-
-	// get:
-	//
-	inline char SocketObject::get()
-	{
-		if(m_readDataBuffer.size() <= 0) receive();
-		char ret = m_readDataBuffer[0];
-		m_readDataBuffer.erase(0, 1);
-		return ret;
-	} // get
-
-	// get:
-	//	special get function for strings saves the looping
-	void SocketObject::get(string& input)
-	{
-		if(m_readDataBuffer.size() <= 0) receive();
-		string::size_type i = 0;
-		// Read until we find that terminator
-		do
-		{
-			i = m_readDataBuffer.find('\0');
-			if(i == string::npos) receive();
-		} while(i == string::npos);
-		input = m_readDataBuffer.substr(0, i);
-		m_readDataBuffer.erase(0, i + 1);
-	} // get
 
 	// receive:
 	//
@@ -542,8 +498,8 @@ namespace archendale
 			// as receive changes it, have to make new function 
 			// call
 		} while(beg != m_readDataBuffer.end());
-                input = m_readDataBuffer.substr(0, i);
-                m_readDataBuffer.erase(0, i + 1);
+		input = m_readDataBuffer.substr(0, i);
+		m_readDataBuffer.erase(0, i + 1);
 	} // getline
 
 } // archendale

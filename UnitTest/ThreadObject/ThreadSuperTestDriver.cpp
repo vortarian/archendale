@@ -26,7 +26,7 @@ void displayWidth(unsigned int width = 0)
 {
 	cout << "Output Width:" << endl;	
 	for(int i = 0; i < width; i++) cout << "-";
-	cout << endl;
+	cout << endl << flush;
 
 } // displayWidth
 

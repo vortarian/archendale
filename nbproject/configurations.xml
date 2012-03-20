@@ -163,13 +163,9 @@
           </ccTool>
         </makeTool>
       </makefileType>
-      <item path="CGI/CGICommand.h" ex="true" tool="3" flavor="0">
-      </item>
       <item path="IO/FileTable.cc" ex="true" tool="1" flavor="0">
       </item>
       <item path="IO/FileTable.h" ex="true" tool="3" flavor="0">
-      </item>
-      <item path="IO/IOException.h" ex="true" tool="3" flavor="0">
       </item>
       <item path="SocketObject/APPLETALKSocket.cpp" ex="true" tool="1" flavor="0">
       </item>
@@ -213,20 +209,7 @@
       </item>
       <item path="SocketObject/X25Socket.h" ex="true" tool="3" flavor="0">
       </item>
-      <item path="String/String.h" ex="true" tool="3" flavor="0">
-      </item>
       <item path="String/StringDriver.cpp" ex="true" tool="1" flavor="0">
-      </item>
-      <item path="UnitTest/ThreadObject/DetachedThreadRunner.h"
-            ex="true"
-            tool="3"
-            flavor="0">
-      </item>
-      <item path="UnitTest/Util/ReferenceCounter.cpp" ex="true" tool="1" flavor="0">
-      </item>
-      <item path="UnitTest/Util/SequenceTest.cpp" ex="true" tool="1" flavor="0">
-      </item>
-      <item path="Util/SequenceGenerator.h" ex="true" tool="3" flavor="0">
       </item>
       <item path="writeclass.cpp" ex="true" tool="1" flavor="0">
       </item>

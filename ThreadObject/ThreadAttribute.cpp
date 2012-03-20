@@ -63,7 +63,7 @@ namespace archendale
 	//
 	ThreadAttribute::ThreadAttribute(const ThreadAttribute& rhs)
 	{
-		pthread_attr_destroy(&m_threadAttribute);
+		pthread_attr_init(&m_threadAttribute);
 		m_scheduleParameter.sched_priority = rhs.m_scheduleParameter.sched_priority;
 		m_threadAttribute = rhs.m_threadAttribute;	
 	} // ThreadAttribute
