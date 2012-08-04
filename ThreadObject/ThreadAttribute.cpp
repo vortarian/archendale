@@ -64,8 +64,17 @@ namespace archendale
 	ThreadAttribute::ThreadAttribute(const ThreadAttribute& rhs)
 	{
 		pthread_attr_init(&m_threadAttribute);
+		if(rhs.isScheduleFifo())
+			this->setScheduleFifo(rhs.getSchedulePriority());
+		if(rhs.isScheduleRegular()) 
+			this->setScheduleRegular();
+		if(rhs.isScheduleRoundRobin()) 
+			this->setScheduleRoundRobin();
+		if(rhs.getDetachState()) 
+			this->setCreateDetached();
+		if(this->isScheduleFifo() || this->isScheduleRoundRobin())
+			setSchedulePriority(rhs.getSchedulePriority());
 		m_scheduleParameter.sched_priority = rhs.m_scheduleParameter.sched_priority;
-		m_threadAttribute = rhs.m_threadAttribute;	
 	} // ThreadAttribute
 
 	////////////////////////////////////////////////////////////////////////////////////////
@@ -166,16 +175,43 @@ namespace archendale
 	const ThreadAttribute& ThreadAttribute::operator=(const ThreadAttribute& rhs)
 	{
 		pthread_attr_destroy(&m_threadAttribute);
-		m_threadAttribute = rhs.m_threadAttribute;
+		pthread_attr_init(&m_threadAttribute);
+		if(rhs.isScheduleFifo())
+			this->setScheduleFifo(rhs.getSchedulePriority());
+		if(rhs.isScheduleRegular()) 
+			this->setScheduleRegular();
+		if(rhs.isScheduleRoundRobin()) 
+			this->setScheduleRoundRobin();
+		if(rhs.getDetachState()) 
+			this->setCreateDetached();
+		if(this->isScheduleFifo() || this->isScheduleRoundRobin())
+			setSchedulePriority(rhs.getSchedulePriority());
+
 		return *this;
 	} // operator=
 
+/**
+ * Pthreads documentation indicates that the thread attribute should be considered opague, so not allowing direct copying here
+ * @see man pthread_attribute_initialize
 	const pthread_attr_t& ThreadAttribute::operator=(const pthread_attr_t& rhs)
 	{
+		// TODO: This should probably call something similar to the copy constructor
 		pthread_attr_destroy(&m_threadAttribute);
-		m_threadAttribute = rhs;
+		pthread_attr_init(&m_threadAttribute);
+		if(rhs.isScheduleFifo())
+			this->setScheduleFifo(rhs.getSchedulePriority());
+		if(rhs.isScheduleRegular()) 
+			this->setScheduleRegular();
+		if(rhs.isScheduleRoundRobin()) 
+			this->setScheduleRoundRobin();
+		if(rhs.getDetachState()) 
+			this->setCreateDetached();
+		if(this->isScheduleFifo() || this->isScheduleRoundRobin())
+			setSchedulePriority(rhs.getSchedulePriority());
+
 		return m_threadAttribute;
 	} // operator=
+*/
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// Thread Creation State
@@ -241,7 +277,7 @@ namespace archendale
 
 	// isScheduleRegular:
 	//	regular, non-realtime scheduling
-	bool ThreadAttribute::isScheduleRegular()
+	bool ThreadAttribute::isScheduleRegular() const
 	{
 		int returnValue = 0;
 		int schedulePolicy = 0;
@@ -275,7 +311,7 @@ namespace archendale
 
 	// isScheduleRoundRobin:
 	//	regular, non-realtime scheduling
-	bool ThreadAttribute::isScheduleRoundRobin()
+	bool ThreadAttribute::isScheduleRoundRobin() const
 	{
 		int returnValue = 0;
 		int schedulePolicy = 0;
@@ -309,7 +345,7 @@ namespace archendale
 
 	// isScheduleFifo:
 	//	regular, non-realtime scheduling
-	bool ThreadAttribute::isScheduleFifo()
+	bool ThreadAttribute::isScheduleFifo() const
 	{
 		int returnValue = 0;
 		int schedulePolicy = 0;

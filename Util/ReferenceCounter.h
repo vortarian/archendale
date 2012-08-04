@@ -3,6 +3,10 @@
 
 #include <Exception/Exception.h>
 
+/**
+ TODO: This class is not thread safe.  The _ref class needs to guarantee atomic operations concerning
+ the accounting of its member data.
+ */
 namespace archendale
 {
 	template <class T> class _ref
@@ -16,7 +20,6 @@ namespace archendale
 			m_data = new T; 
 			if(m_count == 0 || m_data == 0) 
 			{
-				string errString;
 				OutOfMemoryException exp("Not Enough Memory to build _ref : " __FILE__);
 				throw exp;
 			} // if
@@ -24,15 +27,16 @@ namespace archendale
 			(*m_count)++; 
 		} // _ref
 
-		// Constructor
-		_ref(T rhs) { 
+		/**
+		 *  @param rhs Pointer to the ref counted data, ownership is consumed
+		 */
+		_ref(T *rhs) { 
 			m_count = 0;
 			m_data = 0;
 			m_count = new unsigned int;
-			m_data = new T(rhs); 
+			m_data = rhs; 
 			if(m_count == 0 || m_data == 0) 
 			{
-				string errString;
 				OutOfMemoryException exp("Not Enough Memory to build _ref : " __FILE__);
 				throw exp;
 			} // if
@@ -97,18 +101,32 @@ namespace archendale
 			m_pointer = new _ref<T>(); 
 			if(m_pointer == 0) 
 			{
-				string errString;
 				OutOfMemoryException exp("Not Enough Memory to build m_pointer: " __FILE__);
 				throw exp;
 			} // if
 		} //ReferenceCounter 
 
+		/**
+ 	 	 *  Takes ownership of the the value of T and tracks references to it
+ 	 	 */
+		ReferenceCounter(T* value) { 
+			m_pointer = 0;
+			m_pointer = new _ref<T>(value); 
+			if(m_pointer == 0) 
+			{
+				OutOfMemoryException exp("Not Enough Memory to build m_pointer: " __FILE__);
+				throw exp;
+			} // if
+		} //ReferenceCounter 
+
+		/**
+ 	 	 *  Copies the value of T into the reference variable
+ 	 	 */
 		ReferenceCounter(const T& value) { 
 			m_pointer = 0;
 			m_pointer = new _ref<T>(value); 
 			if(m_pointer == 0) 
 			{
-				string errString;
 				OutOfMemoryException exp("Not Enough Memory to build m_pointer: " __FILE__);
 				throw exp;
 			} // if
@@ -119,7 +137,6 @@ namespace archendale
 			m_pointer = new _ref<T>(); 
 			if(m_pointer == 0) 
 			{
-				string errString;
 				OutOfMemoryException exp("Not Enough Memory to build m_pointer: " __FILE__);
 				throw exp;
 			} // if
@@ -134,12 +151,24 @@ namespace archendale
 			return *(*m_pointer); 
 		} // operator*
 
+		const T& operator*() const { 
+			return *(*m_pointer); 
+		} // operator*
+
 		T* operator->() { 
+			return m_pointer->operator->(); 
+		} // operator->
+
+		const T* operator->() const { 
 			return m_pointer->operator->(); 
 		} // operator->
 
 		ReferenceCounter<T>& operator=(const ReferenceCounter<T>& rhs) { 
 			*m_pointer = *rhs.m_pointer; 
+		}
+
+		ReferenceCounter<T>& operator==(const ReferenceCounter<T>& rhs) const { 
+			*m_pointer == *rhs.m_pointer; 
 		}
 	private:
 		_ref<T>* m_pointer;	

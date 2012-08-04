@@ -7,14 +7,14 @@
 #include <ThreadObject/ThreadSuper.h>
 #include <ThreadObject/ThreadAttribute.h>
 
-using archendale::ThreadSuper;
+using archendale::Thread;
 using archendale::ThreadAttribute;
 
-class ThreadCounter : public ThreadSuper
+class ThreadCounter : public Thread
 {
 public:
-        ThreadCounter( const char* output, ThreadAttribute, int iterations = 1000, bool* = 0);
-        ~ThreadCounter() { ; }
+        ThreadCounter( const char*, const ThreadAttribute&, int iterations = 1000, bool* = 0);
+        virtual ~ThreadCounter() { ; }
         void count();
         void run();
 private:

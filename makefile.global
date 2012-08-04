@@ -2,9 +2,9 @@
 CPP             = g++
 CPP_INCLUDES    = -I/home/vortarian/projects/archendale
 CPP_DEFINES     = -D_REENTRANT
-CPP_FLAGS       = $(GLOBALCCOPTIONS) $(CPP_DEFINES) $(CPP_INCLUDES) -g -fPIC
+CPP_FLAGS       = $(GLOBALCCOPTIONS) $(CPP_DEFINES) $(CPP_INCLUDES) -g -fPIC -pthread
 IOLIBS          =
-LINKER          = ar cru
-SHLINKER        = g++ -shared
+LINKER          = ar cru 
+SHLINKER        = g++ -shared -pthread
 LINKER_FLAGS    = 
 LINKER_ENTRY    =

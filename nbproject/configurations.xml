@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="79">
+<configurationDescriptor version="80">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df name="archendale" root=".">
       <df name="CGI">
@@ -111,11 +111,14 @@
           <in>SocketTestDriver.cpp</in>
         </df>
         <df name="ThreadObject">
+          <df name="debuginfo">
+          </df>
           <in>DetachedThreadRunner.cpp</in>
           <in>DetachedThreadRunner.h</in>
           <in>ThreadCounter.cpp</in>
           <in>ThreadCounter.h</in>
           <in>ThreadSuperTestDriver.cpp</in>
+          <in>tmp.cpp</in>
         </df>
         <df name="Util">
           <in>ReferenceCounter.cpp</in>
@@ -145,14 +148,14 @@
     <conf name="Default" type="0">
       <toolsSet>
         <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
-        <compilerSet>default</compilerSet>
+        <compilerSet>GNU|GNU</compilerSet>
       </toolsSet>
       <makefileType>
         <makeTool>
           <buildCommandWorkingDir>.</buildCommandWorkingDir>
           <buildCommand>${MAKE} -f makefile all</buildCommand>
           <cleanCommand>${MAKE} -f makefile clean</cleanCommand>
-          <executablePath></executablePath>
+          <executablePath>UnitTest/ThreadObject/ThreadSuperTestDriver</executablePath>
           <ccTool>
             <incDir>
               <pElem>.</pElem>

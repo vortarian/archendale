@@ -22,7 +22,7 @@ using namespace std;
 using std::string;
 using namespace archendale;
 
-class Worker : public ThreadSuper
+class Worker : public Thread
 {
 public:
 	Worker() { m_socketSet = false; }

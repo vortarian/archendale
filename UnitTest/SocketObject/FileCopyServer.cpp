@@ -27,7 +27,7 @@ using namespace archendale;
 
 const unsigned int NUM_WORKERS = 4;
 
-class Worker : public ThreadSuper
+class Worker : public Thread
 {
 public:
 	Worker() { m_socketSet = false; }

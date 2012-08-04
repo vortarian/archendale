@@ -41,7 +41,11 @@ namespace archendale {
 		bool operator==(const ThreadAttribute&) const;
 		bool operator==(const pthread_attr_t&) const;
 		const ThreadAttribute& operator=(const ThreadAttribute&);
+/**
+ * Pthreads documentation indicates that the thread attribute should be considered opague, so not allowing direct copying here
+ * @see man pthread_attribute_initialize
 		const pthread_attr_t& operator=(const pthread_attr_t&);
+ */
 	
 		const pthread_attr_t& getAttribute() const;
 	
@@ -88,7 +92,7 @@ public:
 
 		// isScheduleRegular:
 		//	true if scheduling is regular, non-realtime scheduling
-		bool isScheduleRegular();
+		bool isScheduleRegular() const;
 
 		//
 		// Realtime Issues
@@ -101,7 +105,7 @@ public:
 	
 		// isScheduleRoundRobin:
 		//	true if scheduling is real-time, round robin scheduling
-		bool isScheduleRoundRobin();
+		bool isScheduleRoundRobin() const;
 
 		// setScheduleFifo:
 		//	real-time, First-in First-out scheduling
@@ -110,7 +114,7 @@ public:
 	
 		// isScheduleFifo:
 		//	true if scheduling is real-time, First-in First-out scheduling
-		bool isScheduleFifo();
+		bool isScheduleFifo() const;
 
 		// setSchedulePriority
 		//	valid values: 0 - 99

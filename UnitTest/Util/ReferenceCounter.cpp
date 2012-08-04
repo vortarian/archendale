@@ -22,10 +22,10 @@ private:
 
 int main(void)
 {
-	ReferenceCounter<int>* rcptr = new ReferenceCounter<int>();
+	ReferenceCounter<int>* rcptr = new ReferenceCounter<int>(new int(0));
 
 	{
-		ReferenceCounter<int> a(3);
+		ReferenceCounter<int> a(new int(3));
 
 		// This block tests destruction
 		{
@@ -63,7 +63,7 @@ int main(void)
 		return -1;
 	}
 
-	ReferenceCounter<Dereferenced> deref(4);
+	ReferenceCounter<Dereferenced> deref(new Dereferenced(4));
 
 	deref->setValue(3);
 	if(deref->getValue() != 3)

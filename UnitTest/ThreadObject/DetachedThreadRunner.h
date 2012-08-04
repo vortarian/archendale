@@ -4,7 +4,9 @@
 #include <ThreadObject/ThreadSuper.h>
 #include <UnitTest/ThreadObject/ThreadCounter.h>
 
-class DetachedThreadRunner : public ThreadSuper
+using archendale::Thread;
+
+class DetachedThreadRunner : public Thread
 {
 public:
 	// DetachedThreadRunner:
