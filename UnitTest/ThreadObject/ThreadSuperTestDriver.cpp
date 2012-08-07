@@ -96,7 +96,7 @@ bool testJoinable() {
     ThreadCounter second("U", attr, count);
     ThreadCounter third("G", attr, count);
     ThreadCounter forth("T", attr, count);
-    // ThreadCounter fifth("Z", attr, count);
+    ThreadCounter fifth("Z", attr, count);
 
     displayWidth(count * 5);
 
@@ -104,7 +104,7 @@ bool testJoinable() {
     second.start();
     third.start();
     forth.start();
-    // fifth.start();
+    fifth.start();
 
     int numberOfExceptionsCaught = 0;
     try {
@@ -112,7 +112,7 @@ bool testJoinable() {
         second.join();
         third.join();
         forth.join();
-        // fifth.join();
+        fifth.join();
     } catch (ThreadDetachedException exp) {
         numberOfExceptionsCaught++;
     }

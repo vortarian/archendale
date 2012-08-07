@@ -86,14 +86,12 @@ namespace archendale {
     } // start
 
     void ThreadSuper::stop() {
-        AutoMutex aMutex(m_stateMutex);
 		// If it is not running, it is because the thread has already completed is operation (@see ThreadSuper->_run()) and it is unnecessary to stop it
 		if(m_running == true) {
         // m_running must be updated before the cancel
         // otherwise if an exception gets thrown, we will
         // exit without telling the thread it is no longer
         // running!
-			m_running = false;
 			if(m_threadHandle == 0) 
 				return;
 			if (pthread_equal(pthread_self(), m_threadHandle)) {
@@ -106,13 +104,15 @@ namespace archendale {
 						break;
 				} // switch
 			}
+        // Setting m_running last due to the ability to deadlock during the join (caused by the locking of the mutex in join(), stop() and _run()
+			AutoMutex aMutex(m_stateMutex);
+			m_running = false;
+			// Clear the thread handle
+			m_threadHandle = 0;
         }
-		// Clear the thread handle
-		m_threadHandle = 0;
     } // stop
 
     void ThreadSuper::join() {
-        AutoMutex aMutex(m_stateMutex);
 		if(m_threadHandle == 0)
 			return;
         switch (pthread_join(m_threadHandle, 0)) {
@@ -135,6 +135,8 @@ namespace archendale {
             }
                 break;
         } // switch
+        // Setting m_running last due to the ability to deadlock during the join (caused by the locking of the mutex in join(), stop() and _run()
+        AutoMutex aMutex(m_stateMutex);
         m_running = false;
     } // join
 
@@ -198,7 +200,8 @@ namespace archendale {
         _this->m_thread->m_running = true;
         _this->run();
         // once _this->run() returns, we have stopped running
-	// TODO:  Uncommenting this, might have needed this to continue being set to false or possibly done in the destructor
+// TODO:  Uncommenting this, might have needed this to continue being set to false or possibly done in the destructor
+        // Setting m_running last due to the ability to deadlock during the join (caused by the locking of the mutex in join(), stop() and _run()
         AutoMutex amut(_this->m_thread->m_stateMutex);
         _this->m_thread->m_running = false;
     } // _run
