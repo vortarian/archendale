@@ -4,7 +4,10 @@ include ./makefile.global
 all: libraries # writeclass 
 	make -C UnitTest -j
 
-libraries: 
+libdir:
+	mkdir -p lib
+
+libraries: libdir
 	make -C Exception -j
 	make -C ThreadObject -j
 	make -C String -j

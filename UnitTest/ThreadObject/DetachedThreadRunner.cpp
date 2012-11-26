@@ -7,7 +7,6 @@ DetachedThreadRunner::DetachedThreadRunner(ThreadCounter*& pThreadCounter, bool*
 
 DetachedThreadRunner::~DetachedThreadRunner() 
 {
-	std::cerr << std::endl << "DetachedThreadRunner going out of scope" << std::endl;
 } // ~DetachedThreadRunner
 
 void DetachedThreadRunner::run() 
