@@ -4,7 +4,7 @@ include ./makefile.global
 all: libraries # writeclass 
 	make -C test -j
 
-libraries: 
+libraries: libdir
 	make -C exception -j
 	make -C thread -j
 	make -C string -j
@@ -13,6 +13,8 @@ libraries:
 	make -C factory -j
 	make -C socket -j
 	make -C util -j
+libdir:
+	mkdir -p lib
 
 run:
 	make -C test run
