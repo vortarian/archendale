@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <String/String.h>
+#include <string/String.h>
 
 using namespace std;
 using namespace archendale;
@@ -51,7 +51,7 @@ void printSource(String file)
 	ofstream ostr(file.data());
 	ostr << endl 
 	
-		<< "#include <SocketObject/" << name.data() << ".h>" << endl	
+		<< "#include <socket/" << name.data() << ".h>" << endl	
 		<< endl
 		<< "namespace archendale" << endl
 		<< "{" << endl

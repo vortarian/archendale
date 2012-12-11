@@ -2,44 +2,44 @@
 include ./makefile.global
 
 all: libraries # writeclass 
-	make -C UnitTest -j
+	make -C test -j
 
 libraries: 
-	make -C Exception -j
-	make -C ThreadObject -j
-	make -C String -j
-	make -C CGI -j
-	make -C IO -j
-	make -C Factory -j
-	make -C SocketObject -j
-	make -C Util -j
+	make -C exception -j
+	make -C thread -j
+	make -C string -j
+	make -C cgi -j
+	make -C io -j
+	make -C factory -j
+	make -C socket -j
+	make -C util -j
 
 run:
-	make -C UnitTest run
+	make -C test run
 
 clean:
 	-rm -f *.o
 	-rm writeclass
-	make -C Exception clean -j 
-	make -C String clean -j 
-	make -C ThreadObject clean -j 
-	make -C IO clean -j 
-	make -C CGI clean -j 
-	make -C Factory clean -j 
-	make -C UnitTest clean -j 
-	make -C Util clean -j 
-	make -C SocketObject clean -j 
+	make -C exception clean -j 
+	make -C string clean -j 
+	make -C thread clean -j 
+	make -C io clean -j 
+	make -C cgi clean -j 
+	make -C factory clean -j 
+	make -C test clean -j 
+	make -C util clean -j 
+	make -C socket clean -j 
 
 touch:
 	touch ./makefile
-	touch ./Exception/makefile
-	touch ./IO/makefile
-	touch ./Util/makefile
-	touch ./String/makefile
-	touch ./ThreadObject/makefile
-	touch ./CGI/makefile
-	touch ./Factory/makefile
-	touch ./SocketObject/makefile
+	touch ./exception/makefile
+	touch ./io/makefile
+	touch ./util/makefile
+	touch ./string/makefile
+	touch ./thread/makefile
+	touch ./cgi/makefile
+	touch ./factory/makefile
+	touch ./socket/makefile
 
 .SUFFIXES: .cc .class .java .cxx .C .cpp .o .c .l .y
 
