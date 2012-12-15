@@ -68,7 +68,7 @@ public:
 			} else
 			{
 				m_socket << "SendData" << '\0' 
-					<< SocketObject::transmit;
+					<< Socket::transmit;
 
 				cout << "(Worker # " 
 					<< this 
@@ -88,7 +88,7 @@ public:
 				ch = m_socket.get();
 				ostr.put(ch);
 			} // for
-			m_socket << "SendGood" << '\0' << SocketObject::transmit;
+			m_socket << "SendGood" << '\0' << Socket::transmit;
 			cout 	<< "Received " 
 				<< m_socket.getBytesReceived() 
 				<< " bytes, returning" 
@@ -105,7 +105,7 @@ public:
 				<< exp.why() 
 				<< endl;
 			cerr << error.str() << endl;
-			m_socket << error.str() << '\0' << SocketObject::transmit;
+			m_socket << error.str() << '\0' << Socket::transmit;
 			m_socketSet = false;
 		} // try
 		m_socketSet = false;

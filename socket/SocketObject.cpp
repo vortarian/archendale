@@ -18,7 +18,7 @@ namespace archendale
 	//
 	/////////////////////////
 
-	Transmit SocketObject::transmit;
+	Transmit Socket::transmit;
 
 	/////////////////////////
 	//
@@ -26,7 +26,7 @@ namespace archendale
 	//
 	/////////////////////////
 
-	SocketObject::SocketObject(unsigned int readBufferLength)
+	Socket::Socket(unsigned int readBufferLength)
 	{
 		m_readBuffer 	 = 0;
 		m_readBufferSize = readBufferLength;
@@ -34,7 +34,7 @@ namespace archendale
 	} // SocketObject
 
 	// This is a private member, as it is bad to share a handle	
-	SocketObject::SocketObject(const SocketObject& rhs)
+	Socket::Socket(const Socket& rhs)
 	{
 		m_readBuffer 	 = 0;
 		m_socketHandle 	 = rhs.m_socketHandle;
@@ -44,7 +44,7 @@ namespace archendale
 		m_readBuffer 	 = new char[m_readBufferSize];
 	} // SocketObject
 
-	SocketObject::~SocketObject()
+	Socket::~Socket()
 	{
 		// Send remaining Data if possible
 		try 
@@ -61,7 +61,7 @@ namespace archendale
 	} // ~SocketObject
 
 	// This is a private member, as it is bad to share a handle	
-	const SocketObject& SocketObject::operator=(const SocketObject& rhs)
+	const Socket& Socket::operator=(const Socket& rhs)
 	{
 		delete m_readBuffer;
 		m_readBuffer 	 = 0;
@@ -81,7 +81,7 @@ namespace archendale
 
 	// send:
 	//
-	void SocketObject::send()
+	void Socket::send()
 	{
 		if(m_sendDataBuffer.size() <= 0) return;
 		int retValue = 0;
@@ -165,7 +165,7 @@ namespace archendale
 
 	// receive:
 	//
-	void SocketObject::receive()
+	void Socket::receive()
 	{
 		int count = ::recv(m_socketHandle->getSocket(), m_readBuffer, m_readBufferSize, MSG_NOSIGNAL);
 		if(count >= 0 )
@@ -228,56 +228,56 @@ namespace archendale
 	//
 	///////////////////////	
 
-	SocketObject& SocketObject::operator<<(const Transmit&)
+	Socket& Socket::operator<<(const Transmit&)
 	{
 		send();
 		return *this;		
 	} //  operator>>(const Transmit&)
 
-	SocketObject& SocketObject::operator<<(char data)
+	Socket& Socket::operator<<(char data)
 	{
 		m_sendDataBuffer += data;
 		return *this;
 	} //  operator<<(char) data 
 
-	SocketObject& SocketObject::operator>>(char& input)
+	Socket& Socket::operator>>(char& input)
 	{
 		input = get();
 		return *this;
 	} //  operator>>(char)
 
-	SocketObject& SocketObject::operator<<(unsigned char data)
+	Socket& Socket::operator<<(unsigned char data)
 	{
 		m_sendDataBuffer += char(data);
 		return *this;
 	} //  operator<<(unsigned char data)
 
-	SocketObject& SocketObject::operator>>(unsigned char& input)
+	Socket& Socket::operator>>(unsigned char& input)
 	{
 		input = get();
 		return *this;
 	} //  operator>>(unsigned char)
 
-	SocketObject& SocketObject::operator<<(const string& data)
+	Socket& Socket::operator<<(const string& data)
 	{
 		m_sendDataBuffer += data;
 		return *this;
 	} //  operator<<(string)
 
-	SocketObject& SocketObject::operator>>(string& input)
+	Socket& Socket::operator>>(string& input)
 	{	
 		getline(input);
 		return *this;
 	} //  operator>>(string)
 
-	SocketObject& SocketObject::operator<<(int data)
+	Socket& Socket::operator<<(int data)
 	{
 		iConverter.m_data.value = data;
 		m_sendDataBuffer.append(iConverter.m_data.data, iConverter.getSize());
 		return *this;
 	} //  operator<<(int) 
 
-	SocketObject& SocketObject::operator>>(int& input)
+	Socket& Socket::operator>>(int& input)
 	{
 		for(int i = 0; i < iConverter.getSize(); i++)
 		{
@@ -287,14 +287,14 @@ namespace archendale
 		return *this;
 	} //  operator>>(int)
 
-	SocketObject& SocketObject::operator<<(unsigned int data)
+	Socket& Socket::operator<<(unsigned int data)
 	{
 		uiConverter.m_data.value = data;
 		m_sendDataBuffer.append(uiConverter.m_data.data, uiConverter.getSize());
 		return *this;
 	} //  operator<<(unsigned int data)
 
-	SocketObject& SocketObject::operator>>(unsigned int& input)
+	Socket& Socket::operator>>(unsigned int& input)
 	{
 		for(int i = 0; i < uiConverter.getSize(); i++)
 		{
@@ -304,14 +304,14 @@ namespace archendale
 		return *this;
 	} //  operator>>(unsigned int)
 
-	SocketObject& SocketObject::operator<<(double data)
+	Socket& Socket::operator<<(double data)
 	{
 		dConverter.m_data.value = data;
 		m_sendDataBuffer.append(dConverter.m_data.data, dConverter.getSize());
 		return *this;
 	} //  operator<<(double) data 
 
-	SocketObject& SocketObject::operator>>(double& input)
+	Socket& Socket::operator>>(double& input)
 	{
 		for(int i = 0; i < dConverter.getSize(); i++)
 		{
@@ -321,14 +321,14 @@ namespace archendale
 		return *this;
 	} //  operator>>(double)
 
-	SocketObject& SocketObject::operator<<(long data)
+	Socket& Socket::operator<<(long data)
 	{
 		lConverter.m_data.value = data;
 		m_sendDataBuffer.append(lConverter.m_data.data, lConverter.getSize());
 		return *this;
 	} //  operator<<(long) data 
 
-	SocketObject& SocketObject::operator>>(long& input)
+	Socket& Socket::operator>>(long& input)
 	{
 		for(int i = 0; i < lConverter.getSize(); i++)
 		{
@@ -338,14 +338,14 @@ namespace archendale
 		return *this;
 	} //  operator>>(long)
 
-	SocketObject& SocketObject::operator<<(unsigned long data)
+	Socket& Socket::operator<<(unsigned long data)
 	{
 		ulConverter.m_data.value = data;
 		m_sendDataBuffer.append(ulConverter.m_data.data, ulConverter.getSize());
 		return *this;
 	} //  operator<<(unsigned long data)
 
-	SocketObject& SocketObject::operator>>(unsigned long& input)
+	Socket& Socket::operator>>(unsigned long& input)
 	{
 		for(int i = 0; i < ulConverter.getSize(); i++)
 		{
@@ -355,14 +355,14 @@ namespace archendale
 		return *this;
 	} //  operator>>(unsigned long)
 
-	SocketObject& SocketObject::operator<<(float data)
+	Socket& Socket::operator<<(float data)
 	{
 		fConverter.m_data.value = data;
 		m_sendDataBuffer.append(fConverter.m_data.data, fConverter.getSize());
 		return *this;
 	} //  operator<<(float data)
 
-	SocketObject& SocketObject::operator>>(float& input)
+	Socket& Socket::operator>>(float& input)
 	{
 		for(int i = 0; i < fConverter.getSize(); i++)
 		{
@@ -372,12 +372,12 @@ namespace archendale
 		return *this;
 	} //  operator>>(float)
 
-	int SocketObject::getSocket()
+	int Socket::getSocket()
 	{
 		return m_socketHandle->getSocket();
 	} // getSocket
 
-	void SocketObject::setSocket(int socket)
+	void Socket::setSocket(int socket)
 	{	
 		m_socketHandle->setSocket(socket);
 	} // setSocket
@@ -394,7 +394,7 @@ namespace archendale
         //      size of the buffer,
         //      and a char delimiter to stop reading at
 	//	leaves the delimiter in the socket stream
-        void SocketObject::getline(char* buffer, unsigned int length, char delim)
+        void Socket::getline(char* buffer, unsigned int length, char delim)
 	{
 		if(m_readDataBuffer.size() <= 0) receive();
 		unsigned int i = 0;
@@ -416,7 +416,7 @@ namespace archendale
         //      size of the buffer
         //      Reads until it finds whitespace
 	//	leaves the delimiter in the socket stream
-        void SocketObject::getline(char* buffer, unsigned int length)
+        void Socket::getline(char* buffer, unsigned int length)
 	{
 		if(m_readDataBuffer.size() <= 0) receive();
 		unsigned int i = 0;
@@ -453,7 +453,7 @@ namespace archendale
         //      delimiter to stop reading at
         //      Reads until it finds the delimiter, 
 	//	delimiter is removed from the string
-        void SocketObject::getline(string& input, char delim)
+        void Socket::getline(string& input, char delim)
 	{
 		if(m_readDataBuffer.size() <= 0) receive();
 		string::size_type i = 0;
@@ -473,7 +473,7 @@ namespace archendale
         //      delimiter to stop reading at
         //      Reads until it finds whitespace, removes
 	//	final piece of whitespace
-        void SocketObject::getline(string& input)
+        void Socket::getline(string& input)
 	{
 		if(m_readDataBuffer.size() <= 0) receive();
 		string::size_type i = 0;

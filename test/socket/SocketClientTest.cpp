@@ -51,7 +51,7 @@ main(int argc, char** argv)
 		cout << "Have Connection, enter data: " << endl;
 		getline(cin, data);
 		cout << "Sending: " << data << endl;
-		socket << data << '\0' << SocketObject::transmit;
+		socket << data << '\0' << Socket::transmit;
 		socket.getline(rdata, '\0');
 		cout << "Recieved: " << rdata << endl;
 		if(rdata == data) cout << "Succeeded!!!!!!!" << endl;

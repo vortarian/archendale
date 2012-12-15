@@ -15,7 +15,7 @@ namespace archendale
 
 	// SocketServer:
 	//
-	SocketServer::SocketServer(const InternetAddress& addr, int port, int backlog) : SocketObject(1), m_protocolName("tcp")
+	SocketServer::SocketServer(const InternetAddress& addr, int port, int backlog) : Socket(1), m_protocolName("tcp")
 	{
                 m_address = addr;
                 m_port = port;

@@ -9,7 +9,7 @@
 
 namespace archendale
 {
-	class SocketServer : public SocketObject
+	class SocketServer : public Socket
 	{
 	public:
 		// SocketServer:

@@ -7,7 +7,7 @@
 
 namespace archendale
 {
-	class INETSocket : public SocketObject
+	class INETSocket : public Socket
 	{
 		friend class SocketServer;
 	public:

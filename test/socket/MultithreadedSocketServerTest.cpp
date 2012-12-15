@@ -83,7 +83,7 @@ public:
 			cout << "(Only displaying first 255 bytes of data!)" << endl;
 			cout << "Returning: " << tempData << endl;
 		} // if
-		m_socket << data << '\0' << SocketObject::transmit;
+		m_socket << data << '\0' << Socket::transmit;
 		m_socketSet = false;
 	} // run
 

@@ -97,7 +97,7 @@ namespace archendale
 
 	// INETSocket:
 	//
-	INETSocket::INETSocket(const INETSocket& in) : SocketObject(in), m_protocolName("tcp")
+	INETSocket::INETSocket(const INETSocket& in) : Socket(in), m_protocolName("tcp")
 	{
 		m_address = in.m_address;
 		m_port = in.m_port;
@@ -107,7 +107,7 @@ namespace archendale
 	//
 	const INETSocket& INETSocket::operator=(const INETSocket& in) 
 	{
-		SocketObject::operator=(in);
+		Socket::operator=(in);
 		m_address = in.m_address;
 		m_port = in.m_port;
 	} // INETSocket

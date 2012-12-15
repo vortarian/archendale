@@ -8,7 +8,7 @@ using namespace archendale;
 void main(void)
 {
 	SocketAttribute attr;
-	SocketObject so(attr);
+	Socket so(attr);
 
 	so << "Testing";
 };

@@ -88,7 +88,7 @@ main(int argc, char** argv)
 				cout << "(Only displaying first 255 bytes of data!)" << endl;
 				cout << "Returning: " << tempData << endl;
 			} // if
-			socket << data << '\0' << SocketObject::transmit;
+			socket << data << '\0' << Socket::transmit;
 			cout << "Total bytes sent on this socket: " << socket.getBytesSent() << endl;
 			cout << "Total bytes received on this socket: " << socket.getBytesReceived() << endl;
 		} // while

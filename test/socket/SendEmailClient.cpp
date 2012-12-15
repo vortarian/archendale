@@ -58,19 +58,19 @@ int main(void)
 		socket.getline(remoteReply, '\n');
 		cout << remoteReply << endl;
 
-		socket << "HELO " << hostname << "\r\n" << SocketObject::transmit;
+		socket << "HELO " << hostname << "\r\n" << Socket::transmit;
 		socket.getline(remoteReply, '\n');
 		cout << remoteReply << endl;
 
-		socket << "MAIL FROM: " << emailAddressFrom << "\r\n" << SocketObject::transmit;
+		socket << "MAIL FROM: " << emailAddressFrom << "\r\n" << Socket::transmit;
 		socket.getline(remoteReply, '\n');
 		cout << remoteReply << endl;
 
-		socket << "RCPT TO: " << emailAddressTo << "\r\n" << SocketObject::transmit;
+		socket << "RCPT TO: " << emailAddressTo << "\r\n" << Socket::transmit;
 		socket.getline(remoteReply, '\n');
 		cout << remoteReply << endl;
 
-		socket << "DATA\n" << content << "\r\n" << ".\r\n" << SocketObject::transmit;
+		socket << "DATA\n" << content << "\r\n" << ".\r\n" << Socket::transmit;
 		socket.getline(remoteReply, '\n');
 		cout << remoteReply << endl;
 
