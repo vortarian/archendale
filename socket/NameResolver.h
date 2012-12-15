@@ -5,7 +5,6 @@
 #include <netdb.h>
 #include <vector>
 #include <thread/Mutex.h>
-#include <thread/AutoMutex.h>
 #include <socket/InternetAddress.h>
 
 using std::vector;

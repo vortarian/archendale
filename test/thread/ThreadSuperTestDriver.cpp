@@ -8,8 +8,6 @@
 #include <thread/ThreadAttribute.h>
 #include <thread/ThreadSuper.h>
 #include <thread/ThreadException.h>
-#include <thread/AutoMutex.h>
-#include <thread/AutoMutexTry.h>
 #include "ThreadCounter.h"
 #include <test/thread/DetachedThreadRunner.h>
 #include <typeinfo>

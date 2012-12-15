@@ -15,7 +15,6 @@
 #include <socket/SocketServer.h>
 #include <thread/ThreadSuper.h>
 #include <thread/Mutex.h>
-#include <thread/AutoMutex.h>
 
 using namespace std;
 using namespace archendale;

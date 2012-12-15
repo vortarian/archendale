@@ -1,5 +1,4 @@
 #include <socket/SocketServer.h>
-#include <thread/AutoMutex.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>

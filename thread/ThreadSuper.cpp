@@ -22,8 +22,7 @@
 //
 
 #include <thread/ThreadSuper.h>
-#include <thread/AutoMutex.h>
-#include <thread/AutoMutexTry.h>
+#include <thread/Mutex.h>
 #include <util/ReferenceCounter.h>
 #include <unistd.h> // for sleep()
 

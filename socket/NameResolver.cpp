@@ -5,7 +5,6 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <thread/Mutex.h>
-#include <thread/AutoMutex.h>
 
 
 namespace archendale

@@ -6,7 +6,7 @@ include ../makefile.global
 
 .SUFFIXES: .cc .class .java .cxx .C .cpp .o .c .l .y
 
-threadobject_OBJECTS = ThreadSuper.o ThreadAttribute.o Mutex.o AutoMutex.o AutoMutexTry.o
+threadobject_OBJECTS = ThreadSuper.o ThreadAttribute.o Mutex.o
 
 all: ../lib/libThreadObject.a ../lib/libThreadObject.so
 
