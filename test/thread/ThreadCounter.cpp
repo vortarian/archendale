@@ -3,7 +3,7 @@
 #include <pthread.h>
 #include "thread_counter.h"
 
-ThreadCounter::ThreadCounter(const char* output, const ThreadAttribute& attr, int iterations, bool* finished) : Thread(attr) {
+ThreadCounter::ThreadCounter(const char* output, const attribute& attr, int iterations, bool* finished) : Thread(attr) {
     mp_finished = finished;
     m_counter = 0;
     m_iterations = iterations;

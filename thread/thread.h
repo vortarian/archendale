@@ -33,12 +33,12 @@
 namespace archendale {
     class Thread;
 
-    class ThreadSuper {
+    class thread {
 		friend class Thread;
     public:
-        ThreadSuper();
-        ThreadSuper(const ThreadAttribute& attr);
-        virtual ~ThreadSuper();
+        thread();
+        thread(const attribute& attr);
+        virtual ~thread();
 
         /////////////////////////////////////////////////////////////
         //
@@ -94,13 +94,13 @@ namespace archendale {
         ///////////////////////////////////////////////////////////
 
         // compares thread id's to see if they equal
-        bool operator==(const ThreadSuper&) const;
+        bool operator==(const thread&) const;
 
         // deep copy of the incoming object,
         // this may be dangerous, as two thread handles
         // floating around . . . .
         // TODO: Decide if this is _to_ dangerous
-        const ThreadSuper& operator=(const ThreadSuper&);
+        const thread& operator=(const thread&);
 
         // getThread:
         // Get the Thread handle
@@ -108,11 +108,11 @@ namespace archendale {
 
         // getAttribute:
         // Get a copy of the current Attribute Object for this thread 
-        const ThreadAttribute& getAttribute() const;
+        const attribute& getAttribute() const;
 
         // setAttribute:
         // Set the current attribute for this thread
-        void setAttribute(const ThreadAttribute&);
+        void setAttribute(const attribute&);
 
         ///////////////////////////////////////////////////////////////
         //
@@ -146,7 +146,7 @@ namespace archendale {
         //	Pause the calling thread for some number of seconds
         static void wait(unsigned int = 0);
     private:
-        ThreadSuper(const ThreadSuper&) {
+        thread(const thread&) {
             throw NotImplementedException("ThreadSuper Copy Constructor should not be allowed");
 		}
 
@@ -156,7 +156,7 @@ namespace archendale {
 
         bool m_running;
         pthread_t m_threadHandle;
-        ThreadAttribute m_threadAttribute;
+        attribute m_threadAttribute;
 		
         // Mutex's:
 
@@ -167,7 +167,7 @@ namespace archendale {
         //	detach() will try to lock this mutex, if it fails
         // 	it will throw ThreadJoinInProgressException
         //  stop() will lock this mutex and then procede to stopping of the thread
-        Mutex m_stateMutex;
+        mutex m_stateMutex;
     };
 
     //
@@ -177,11 +177,11 @@ namespace archendale {
     //	
 
     class Thread {
-		friend class ThreadSuper;
+		friend class thread;
 
     public:
         Thread();
-        Thread(const ThreadAttribute& attr);
+        Thread(const attribute& attr);
         virtual ~Thread();
 
         /////////////////////////////////////////////////////////////
@@ -241,11 +241,11 @@ namespace archendale {
 
         // getAttribute:
         // Get a copy of the current Attribute Object for this thread 
-        const ThreadAttribute& getAttribute() const;
+        const attribute& getAttribute() const;
 
         // setAttribute:
         // Set the current attribute for this thread
-        void setAttribute(const ThreadAttribute&);
+        void setAttribute(const attribute&);
 
         ///////////////////////////////////////////////////////////////
         //
@@ -292,7 +292,7 @@ namespace archendale {
             throw NotImplementedException("Thread Copy Constructor should not be allowed");
         }
 
-        ReferenceCounter<ThreadSuper> m_thread;
+        reference_counter<thread> m_thread;
     };
 } // archendale
 

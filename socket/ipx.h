@@ -4,15 +4,15 @@
 
 namespace archendale
 {
-	class IPXSocket
+	class ipx
 	{
 		// IPXSocket:
 		//
-		IPXSocket();
+		ipx();
 
 		// ~IPXSocket:
 		//
-		~IPXSocket();
+		~ipx();
 
 	}; // IPXSocket
 } // namespace archendale

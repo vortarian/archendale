@@ -9,29 +9,29 @@ using std::string;
 
 namespace archendale
 {
-	class CGICommand
+	class command
 	{
 	public:
 		// CGICommand:
 		//
-		CGICommand();
+		command();
 
 		// CGICommand:
 		//
-		CGICommand(const CGICommand&);
+		command(const command&);
 
 		// ~CGICommand:
 		//
-		virtual ~CGICommand();
+		virtual ~command();
 	
 		// execute:
 		//
 		//
-		virtual void execute(CGI&) = 0;
+		virtual void execute(cgi&) = 0;
 		
 		// newInstance
 		//	Returns a pointer to a new instance of this class
-		CGICommand* newInstance();
+		command* newInstance();
 
 	private:
 	}; // CGICommand

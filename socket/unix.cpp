@@ -4,13 +4,13 @@ namespace archendale
 {
 	// UNIXSocket:
 	//
-	UNIXSocket::UNIXSocket()
+	unix::unix()
 	{
 	} // UNIXSocket
 
 	// ~UNIXSocket:
 	//
-	UNIXSocket::~UNIXSocket()
+	unix::~unix()
 	{
 	} // ~UNIXSocket
 

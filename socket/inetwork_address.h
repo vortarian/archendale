@@ -13,13 +13,13 @@ namespace archendale
 {
 	using std::vector;
 
-	class INetworkAddress 
+	class network_address 
 	{
 	public:
 
 		// ~InetAddress:
 		//
-		virtual ~INetworkAddress();
+		virtual ~network_address();
 
 		// getType:
 		//	Return the integer type of the address
@@ -60,12 +60,12 @@ namespace archendale
 		// InetAddress:
 		//	Protected constructor to keep
 		// 	direct instantiation from happening	
-		INetworkAddress(int, int);
+		network_address(int, int);
 		
 		// InetAddress:
 		//	Protected constructor to keep
 		// 	direct instantiation from happening	
-		INetworkAddress(const INetworkAddress&);
+		network_address(const network_address&);
 
 	private:
 		int 			m_addressType;

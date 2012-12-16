@@ -7,7 +7,7 @@ namespace archendale
 {
 	// SocketHandle:
 	//
-	SocketHandle::SocketHandle()
+	handle::handle()
 	{
 		m_bytesSent = 0;
 		m_bytesReceived = 0;
@@ -16,7 +16,7 @@ namespace archendale
 
 	// ~SocketHandle:
 	//
-	SocketHandle::~SocketHandle()
+	handle::~handle()
 	{
 		if(0 != m_socket) 
 		{
@@ -26,14 +26,14 @@ namespace archendale
 
 	// getSocket:
 	//
-	int& SocketHandle::getSocket()
+	int& handle::getSocket()
 	{
 		return m_socket;
 	} // getSocket
 
 	// ~SocketHandle:
 	//
-	void SocketHandle::setSocket(int socket)
+	void handle::setSocket(int socket)
 	{
 		m_bytesSent = 0;
 		m_bytesReceived = 0;

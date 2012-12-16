@@ -7,29 +7,29 @@
 
 namespace archendale
 {
-	class INETSocket : public Socket
+	class inet : public socket
 	{
-		friend class SocketServer;
+		friend class server;
 	public:
 		// INETSocket:
 		// 	Default constructor to use for SocketServer
-		INETSocket();
+		inet();
 
 		// INETSocket:
 		//
-		INETSocket(const InternetAddress&, int);
+		inet(const internet_address&, int);
 
 		// INETSocket:
 		//
-		INETSocket(const INETSocket&);
+		inet(const inet&);
 
 		// ~INETSocket:
 		//
-		~INETSocket();
+		~inet();
 
 		// operator=
 		//
-		const INETSocket& operator=(const INETSocket&);
+		const inet& operator=(const inet&);
 
 		// connect:
 		//	Connects the current socket
@@ -37,13 +37,13 @@ namespace archendale
 
 		// setAddress
 		// 	Set the address of this socket
-		void setAddress(const InternetAddress&);
+		void setAddress(const internet_address&);
 		
 		// setPort
 		//	Set the port of this socket
 		void setPort(int port);
 	private:
-		InternetAddress m_address;	
+		internet_address m_address;	
 		unsigned int m_port;
 		const string m_protocolName;
 	}; // INETSocket

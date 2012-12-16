@@ -1,21 +1,21 @@
 #include <iostream>
-#include "SocketAttribute.h"
+#include "attribute.h"
 
 using namespace std;
 
 namespace archendale 
 {
-	SocketAttribute::SocketAttribute(unsigned int port, String host = "localhost")
+	attribute::attribute(unsigned int port, string host = "localhost")
 	{
 		cout << "SocketAttribute(port, host) Constructor Stub" << endl;
 	} // SocketAttribute
 
-	SocketAttribute::SocketAttribute(String portName, String host = "localhost")
+	attribute::attribute(string portName, string host = "localhost")
 	{
 		cout << "SocketAttribute(portName, host) Constructor Stub" << endl;
 	} // SocketAttribute(portName, host)
 
-	SocketAttribute::~SocketAttribute() 
+	attribute::~attribute() 
 	{
 		cout << "~SocketAttribute" << endl;
 	} // ~SocketAttribute
@@ -29,7 +29,7 @@ namespace archendale
 
 	// setPort
 	//      sets the port the host will listen on by a port name
-	void setPort(String portName)
+	void setPort(string portName)
 	{
 		cout << "setPort" << endl;
 	} // setPort

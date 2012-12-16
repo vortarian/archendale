@@ -4,15 +4,15 @@
 
 namespace archendale
 {
-	class UNIXSocket
+	class unix
 	{
 		// UNIXSocket:
 		//
-		UNIXSocket();
+		unix();
 
 		// ~UNIXSocket:
 		//
-		~UNIXSocket();
+		~unix();
 
 	}; // UNIXSocket
 } // namespace archendale

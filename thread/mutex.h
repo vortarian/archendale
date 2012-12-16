@@ -30,11 +30,11 @@
 
 namespace archendale 
 {
-	class Mutex
+	class mutex
 	{
 	public:
-		Mutex();
-		virtual ~Mutex();
+		mutex();
+		virtual ~mutex();
 
 		// acquire:
 		// 	Get the mutex for use
@@ -52,9 +52,9 @@ namespace archendale
 		void release();
 
 	private:
-		Mutex(const Mutex&) {} // Should not be created via copy constructor
-		bool operator=(const Mutex&) {} // Mutex's should not be assigned
-		bool operator==(const Mutex&) {} // Mutex's should not be compared
+		mutex(const mutex&) {} // Should not be created via copy constructor
+		bool operator=(const mutex&) {} // Mutex's should not be assigned
+		bool operator==(const mutex&) {} // Mutex's should not be compared
 		pthread_mutex_t m_mutex;
 		pthread_mutexattr_t m_mutexAttribute;
 	}; // Mutex
@@ -64,19 +64,19 @@ namespace archendale
     //	of a mutex, without the developer having to worry about release
     //	Mutex is released when the object goes out of scope
 
-    class AutoMutex {
+    class auto_mutex {
     public:
-        AutoMutex(Mutex& mutex);
-        ~AutoMutex();
+        auto_mutex(mutex& mutex);
+        ~auto_mutex();
     private:
 
-        const AutoMutex& operator=(const AutoMutex&) {
+        const auto_mutex& operator=(const auto_mutex&) {
         };
 
-        AutoMutex(const AutoMutex& autoMutex) : m_mutex(autoMutex.m_mutex) {
+        auto_mutex(const auto_mutex& autoMutex) : m_mutex(autoMutex.m_mutex) {
         };
 
-        Mutex& m_mutex;
+        mutex& m_mutex;
     }; // AutoMutex
 
 	// AutoMutexTry
@@ -84,21 +84,21 @@ namespace archendale
 	//	of a mutex, or the throwing of the exception MutexBusyException,
 	//	without the developer having to worry about release
 	//	Mutex is released when the object goes out of scope
-	class AutoMutexTry
+	class auto_mutex_try
 	{
 	public:
-		AutoMutexTry(Mutex&);
-		~AutoMutexTry();
+		auto_mutex_try(mutex&);
+		~auto_mutex_try();
 
 		// retry:
 		// 	Used to attempt to retry the mutex acquire
 		void retry();
 	private:
-		const AutoMutexTry& operator=(const AutoMutexTry&) {};
-		AutoMutexTry(const AutoMutexTry& mutex) : m_mutex(mutex.m_mutex) {};
+		const auto_mutex_try& operator=(const auto_mutex_try&) {};
+		auto_mutex_try(const auto_mutex_try& mutex) : m_mutex(mutex.m_mutex) {};
 		// set to true if acquired, otherwise false
 		bool m_acquired;
-		Mutex& m_mutex;	
+		mutex& m_mutex;	
 	}; // AutoMutexTry
 
 } // archendale

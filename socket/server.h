@@ -9,16 +9,16 @@
 
 namespace archendale
 {
-	class SocketServer : public Socket
+	class server : public socket
 	{
 	public:
 		// SocketServer:
 		//
-		SocketServer(const InternetAddress&, int, int = 10);
+		server(const internet_address&, int, int = 10);
 
 		// ~SocketServer:
 		//
-		virtual ~SocketServer();
+		virtual ~server();
 
 		// isWaiting:
 		//	RET number of waiting connections if there is a connection waiting
@@ -26,12 +26,12 @@ namespace archendale
 
 		// getSocket:
 		//	Returns a connected socket
-		INETSocket getWaitingConnection();
+		inet getWaitingConnection();
 
 	private:
 		// SocketServer:
 		//	Don't want any copying going on here
-		SocketServer(const SocketServer&) { ; }
+		server(const server&) { ; }
 
 		// bind:
 		//
@@ -41,11 +41,11 @@ namespace archendale
 		// 
 		void listen();
 	
-		InternetAddress m_address;	
+		internet_address m_address;	
 		int m_port;
 		int m_backlog; // The number of connections to be allowed to wait at a time
 		const string m_protocolName;
-		Mutex m_serverMutex;
+		mutex m_serverMutex;
 	}; // SocketServer
 } // namespace archendale
 

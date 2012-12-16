@@ -9,7 +9,7 @@ using namespace std;
 using namespace archendale;
 
 
-void printValues(CGI& cgi)
+void printValues(cgi& cgi)
 {
 	cout << "Content-type: text/html\n\n" << endl;
 
@@ -59,7 +59,7 @@ void printValues(CGI& cgi)
 
 int main(void)
 {
-	CGI cgi;
+	cgi cgi;
 	vector<string> queryKeys = cgi.getAllKeys();
 	vector<string>::const_iterator start = queryKeys.begin();
 	vector<string>::const_iterator end = queryKeys.end();

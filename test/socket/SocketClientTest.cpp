@@ -41,9 +41,9 @@ main(int argc, char** argv)
 			} // if
 		} // if
 
-		InternetAddress addr = NameResolver::getAddress("localhost");
+		internet_address addr = name_resolver::getAddress("localhost");
 		string data, rdata;
-		INETSocket socket(addr, port);
+		inet socket(addr, port);
 
 		cout << "Getting connection" << endl;
 		socket.connect();
@@ -51,7 +51,7 @@ main(int argc, char** argv)
 		cout << "Have Connection, enter data: " << endl;
 		getline(cin, data);
 		cout << "Sending: " << data << endl;
-		socket << data << '\0' << Socket::transmit;
+		socket << data << '\0' << socket::transmit;
 		socket.getline(rdata, '\0');
 		cout << "Recieved: " << rdata << endl;
 		if(rdata == data) cout << "Succeeded!!!!!!!" << endl;

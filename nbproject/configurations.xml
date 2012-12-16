@@ -3,103 +3,89 @@
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df name="archendale" root=".">
       <df name="cgi">
-        <in>CGI.cpp</in>
-        <in>CGI.h</in>
-        <in>CGICommand.cpp</in>
-        <in>CGICommand.h</in>
-        <in>makefile</in>
+        <in>cgi.cpp</in>
+        <in>cgi.h</in>
+        <in>command.cpp</in>
+        <in>command.h</in>
       </df>
       <df name="exception">
-        <in>Exception.cpp</in>
-        <in>Exception.h</in>
-        <in>Exception.proj</in>
-        <in>makefile</in>
-        <in>snMakefile</in>
+        <in>exception.cpp</in>
+        <in>exception.h</in>
       </df>
       <df name="factory">
-        <in>Factory.cpp</in>
-        <in>Factory.h</in>
-        <in>FactoryException.h</in>
-        <in>makefile</in>
+        <in>exception.h</in>
+        <in>factory.cpp</in>
+        <in>factory.h</in>
       </df>
       <df name="io">
-        <in>FileTable.cc</in>
-        <in>FileTable.h</in>
-        <in>IEntry.cpp</in>
-        <in>IEntry.h</in>
-        <in>IOException.h</in>
-        <in>ITDF.cpp</in>
-        <in>ITDF.h</in>
-        <in>OTDF.cpp</in>
-        <in>OTDF.h</in>
-        <in>makefile</in>
+        <in>exception.h</in>
+        <in>file_table.cc</in>
+        <in>file_table.h</in>
+        <in>ientry.cpp</in>
+        <in>ientry.h</in>
+        <in>itdf.cpp</in>
+        <in>itdf.h</in>
+        <in>otdf.cpp</in>
+        <in>otdf.h</in>
       </df>
       <df name="lib">
       </df>
       <df name="socket">
-        <in>APPLETALKSocket.cpp</in>
-        <in>APPLETALKSocket.h</in>
-        <in>ATMPVCSocket.cpp</in>
-        <in>ATMPVCSocket.h</in>
-        <in>AX25Socket.cpp</in>
-        <in>AX25Socket.h</in>
-        <in>INET6Socket.cpp</in>
-        <in>INET6Socket.h</in>
-        <in>INETSocket.cpp</in>
-        <in>INETSocket.h</in>
-        <in>INetworkAddress.cpp</in>
-        <in>INetworkAddress.h</in>
-        <in>IPXSocket.cpp</in>
-        <in>IPXSocket.h</in>
-        <in>InternetAddress.cpp</in>
-        <in>InternetAddress.h</in>
-        <in>NETLINKSocket.cpp</in>
-        <in>NETLINKSocket.h</in>
-        <in>NameResolver.cpp</in>
-        <in>NameResolver.h</in>
-        <in>PACKETSocket.cpp</in>
-        <in>PACKETSocket.h</in>
-        <in>SocketAttribute.cpp</in>
-        <in>SocketAttribute.h</in>
-        <in>SocketException.h</in>
-        <in>SocketHandle.cpp</in>
-        <in>SocketHandle.h</in>
-        <in>SocketObject.cpp</in>
-        <in>SocketObject.h</in>
-        <in>SocketServer.cpp</in>
-        <in>SocketServer.h</in>
         <in>SocketTestDriver.cpp</in>
-        <in>UNIXSocket.cpp</in>
-        <in>UNIXSocket.h</in>
-        <in>X25Socket.cpp</in>
-        <in>X25Socket.h</in>
-        <in>makefile</in>
+        <in>appletalk.cpp</in>
+        <in>appletalk.h</in>
+        <in>atmpvc.cpp</in>
+        <in>atmpvc.h</in>
+        <in>attribute.cpp</in>
+        <in>attribute.h</in>
+        <in>ax25.cpp</in>
+        <in>ax25.h</in>
+        <in>exception.h</in>
+        <in>handle.cpp</in>
+        <in>handle.h</in>
+        <in>inet.cpp</in>
+        <in>inet.h</in>
+        <in>inet6.cpp</in>
+        <in>inet6.h</in>
+        <in>inetwork_address.cpp</in>
+        <in>inetwork_address.h</in>
+        <in>internet_address.cpp</in>
+        <in>internet_address.h</in>
+        <in>ipx.cpp</in>
+        <in>ipx.h</in>
+        <in>name_resolver.cpp</in>
+        <in>name_resolver.h</in>
+        <in>netlink.cpp</in>
+        <in>netlink.h</in>
+        <in>packet.cpp</in>
+        <in>packet.h</in>
+        <in>server.cpp</in>
+        <in>server.h</in>
+        <in>socket.cpp</in>
+        <in>socket.h</in>
+        <in>unix.cpp</in>
+        <in>unix.h</in>
+        <in>x25.cpp</in>
+        <in>x25.h</in>
       </df>
       <df name="string">
-        <in>String.cpp</in>
-        <in>String.h</in>
-        <in>StringDriver.cpp</in>
-        <in>makefile</in>
-        <in>snMakefile</in>
+        <in>string.cpp</in>
+        <in>string.h</in>
+        <in>stringdriver.cpp</in>
       </df>
       <df name="test">
         <df name="cgi">
           <in>CGITest.cpp</in>
-          <in>makefile</in>
-          <in>test.sh</in>
         </df>
         <df name="exception">
           <in>ExceptionTestDriver.cpp</in>
-          <in>makefile</in>
         </df>
         <df name="factory">
           <in>FactoryTest.cpp</in>
-          <in>makefile</in>
         </df>
         <df name="io">
           <in>IEntryTest.cpp</in>
           <in>IOTest.cpp</in>
-          <in>makefile</in>
         </df>
         <df name="socket">
           <in>FileCopyClient.cpp</in>
@@ -109,46 +95,32 @@
           <in>SocketClientTest.cpp</in>
           <in>SocketServerTest.cpp</in>
           <in>SocketTestDriver.cpp</in>
-          <in>makefile</in>
         </df>
         <df name="thread">
           <in>DetachedThreadRunner.cpp</in>
-          <in>DetachedThreadRunner.h</in>
           <in>ThreadCounter.cpp</in>
-          <in>ThreadCounter.h</in>
           <in>ThreadSuperTestDriver.cpp</in>
-          <in>makefile</in>
+          <in>detached_thread_runner.h</in>
+          <in>thread_counter.h</in>
         </df>
         <df name="util">
           <in>ReferenceCounter.cpp</in>
           <in>SequenceTest.cpp</in>
-          <in>makefile</in>
-          <in>seqGenSaveFile.txt</in>
         </df>
-        <in>makefile</in>
       </df>
       <df name="thread">
-        <in>AutoMutex.cpp</in>
-        <in>AutoMutex.h</in>
-        <in>AutoMutexTry.cpp</in>
-        <in>AutoMutexTry.h</in>
-        <in>Mutex.cpp</in>
-        <in>Mutex.h</in>
-        <in>MutexException.h</in>
-        <in>ThreadAttribute.cpp</in>
-        <in>ThreadAttribute.h</in>
-        <in>ThreadException.h</in>
-        <in>ThreadObject.proj</in>
-        <in>ThreadSuper.cpp</in>
-        <in>ThreadSuper.h</in>
-        <in>makefile</in>
-        <in>snMakefile</in>
+        <in>attribute.cpp</in>
+        <in>attribute.h</in>
+        <in>exception.h</in>
+        <in>mutex.cpp</in>
+        <in>mutex.h</in>
+        <in>thread.cpp</in>
+        <in>thread.h</in>
       </df>
       <df name="util">
-        <in>ReferenceCounter.h</in>
-        <in>SequenceGenerator.cpp</in>
-        <in>SequenceGenerator.h</in>
-        <in>makefile</in>
+        <in>reference_counter.h</in>
+        <in>sequence_generator.cpp</in>
+        <in>sequence_generator.h</in>
       </df>
       <in>writeclass.cpp</in>
     </df>
@@ -186,47 +158,7 @@
           </ccTool>
         </makeTool>
       </makefileType>
-      <item path="socket/APPLETALKSocket.cpp" ex="true" tool="1" flavor="0">
-      </item>
-      <item path="socket/APPLETALKSocket.h" ex="true" tool="3" flavor="0">
-      </item>
-      <item path="socket/ATMPVCSocket.cpp" ex="true" tool="1" flavor="0">
-      </item>
-      <item path="socket/ATMPVCSocket.h" ex="true" tool="3" flavor="0">
-      </item>
-      <item path="socket/AX25Socket.cpp" ex="true" tool="1" flavor="0">
-      </item>
-      <item path="socket/AX25Socket.h" ex="true" tool="3" flavor="0">
-      </item>
-      <item path="socket/INET6Socket.cpp" ex="true" tool="1" flavor="0">
-      </item>
-      <item path="socket/INET6Socket.h" ex="true" tool="3" flavor="0">
-      </item>
-      <item path="socket/IPXSocket.cpp" ex="true" tool="1" flavor="0">
-      </item>
-      <item path="socket/IPXSocket.h" ex="true" tool="3" flavor="0">
-      </item>
-      <item path="socket/NETLINKSocket.cpp" ex="true" tool="1" flavor="0">
-      </item>
-      <item path="socket/NETLINKSocket.h" ex="true" tool="3" flavor="0">
-      </item>
-      <item path="socket/PACKETSocket.cpp" ex="true" tool="1" flavor="0">
-      </item>
-      <item path="socket/PACKETSocket.h" ex="true" tool="3" flavor="0">
-      </item>
-      <item path="socket/SocketAttribute.cpp" ex="true" tool="1" flavor="0">
-      </item>
-      <item path="socket/SocketAttribute.h" ex="true" tool="3" flavor="0">
-      </item>
       <item path="socket/SocketTestDriver.cpp" ex="true" tool="1" flavor="0">
-      </item>
-      <item path="socket/UNIXSocket.cpp" ex="true" tool="1" flavor="0">
-      </item>
-      <item path="socket/UNIXSocket.h" ex="true" tool="3" flavor="0">
-      </item>
-      <item path="socket/X25Socket.cpp" ex="true" tool="1" flavor="0">
-      </item>
-      <item path="socket/X25Socket.h" ex="true" tool="3" flavor="0">
       </item>
       <item path="writeclass.cpp" ex="true" tool="1" flavor="0">
       </item>

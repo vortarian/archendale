@@ -8,17 +8,17 @@
 namespace archendale 
 {
 
-	class OTDF
+	class otdf
 	{
 	public:
-		OTDF(std::ostream&);
-		OTDF(const OTDF&);
-		virtual ~OTDF();
+		otdf(std::ostream&);
+		otdf(const otdf&);
+		virtual ~otdf();
 
-		OTDF& operator<<(const size_t&);
-		OTDF& operator<<(const int&);
-		OTDF& operator<<(const double&);
-		OTDF& operator<<(const std::string&);
+		otdf& operator<<(const size_t&);
+		otdf& operator<<(const int&);
+		otdf& operator<<(const double&);
+		otdf& operator<<(const std::string&);
 	private:
 		std::ostream& m_outputStream;
 	}; // OTDF

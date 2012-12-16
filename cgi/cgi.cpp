@@ -15,7 +15,7 @@ using std::map;
 using std::cerr;
 
 namespace archendale {
-	CGI::CGI()
+	cgi::cgi()
 	{
 		char* cptr = 0;
 
@@ -103,7 +103,7 @@ namespace archendale {
 		} // try
 	} // CGI
 
-	CGI::CGI(const CGI& rhs)
+	cgi::cgi(const cgi& rhs)
 	{
 		m_server_software = rhs.m_server_software;
 		m_server_name = rhs.m_server_name;
@@ -127,7 +127,7 @@ namespace archendale {
 		m_responseData = rhs.m_responseData;
 	} // CGI
 
-	const CGI& CGI::operator=(const CGI& rhs)
+	const cgi& cgi::operator=(const cgi& rhs)
 	{
 		m_server_software = rhs.m_server_software;
 		m_server_name = rhs.m_server_name;
@@ -151,7 +151,7 @@ namespace archendale {
 		m_responseData = rhs.m_responseData;
 	} // operator=
 
-	string CGI::getValue(string key)
+	string cgi::getValue(string key)
 	{
 		map<string, string>::iterator element = m_requestData.find(key);
 		if(m_requestData.end() == element)
@@ -162,12 +162,12 @@ namespace archendale {
 		return element->second;
 	} // getValue 
 
-	void CGI::setValue(string key, string value)
+	void cgi::setValue(string key, string value)
 	{
 		m_responseData[key] = value;
 	} // setValue
 
-	void CGI::writeJavascriptData(ostream& ostr) const
+	void cgi::writeJavascriptData(ostream& ostr) const
 	{
 		map<string, string>::const_iterator data = m_responseData.begin();
 		ostr << "<script type=\"text/javascript\">" << endl;
@@ -187,92 +187,92 @@ namespace archendale {
 		ostr << "</script>" << endl;
 	} // writeJavascriptData
 
-	string CGI::getServerSoftware() const
+	string cgi::getServerSoftware() const
 	{
 		return m_server_software;
 	} // getServerSoftware;
 
-	string CGI::getServerName() const
+	string cgi::getServerName() const
 	{
 		return m_server_name;
 	} // getServerName;
 
-	string CGI::getGatewayInterface() const
+	string cgi::getGatewayInterface() const
 	{
 		return m_gateway_interface;
 	} // getGatewayInterface;
 
-	string CGI::getServerProtocol() const
+	string cgi::getServerProtocol() const
 	{
 		return m_server_protocol;
 	} // getServerProtocol;
 
-	string CGI::getServerPort() const
+	string cgi::getServerPort() const
 	{
 		return m_server_port;
 	} // getServerPort;
 
-	string CGI::getRequestMethod() const
+	string cgi::getRequestMethod() const
 	{
 		return m_request_method;
 	} // getRequestMethod;
 
-	string CGI::getPathInfo() const
+	string cgi::getPathInfo() const
 	{
 		return m_path_info;
 	} // getPathInfo;
 
-	string CGI::getPathTranslated() const
+	string cgi::getPathTranslated() const
 	{
 		return m_path_translated;
 	} // getPathTranslated;
 
-	string CGI::getScriptName() const
+	string cgi::getScriptName() const
 	{
 		return m_script_name;
 	} // getScriptName;
 
-	string CGI::getQueryString() const
+	string cgi::getQueryString() const
 	{
 		return m_query_string;
 	} // getQueryString;
 
-	string CGI::getRemoteHost() const
+	string cgi::getRemoteHost() const
 	{
 		return m_remote_host;
 	} // getRemoteHost;
 
-	string CGI::getRemoteAddr() const
+	string cgi::getRemoteAddr() const
 	{
 		return m_remote_addr;
 	} // getRemoteAddr;
 
-	string CGI::getAuthType() const
+	string cgi::getAuthType() const
 	{
 		return m_auth_type;
 	} // getAuthType;
 
-	string CGI::getRemoteUser() const
+	string cgi::getRemoteUser() const
 	{
 		return m_remote_user;
 	} // getRemoteUser;
 
-	string CGI::getRemoteIdent() const
+	string cgi::getRemoteIdent() const
 	{
 		return m_remote_ident;
 	} // getRemoteIdent;
 
-	string CGI::getContentType() const
+	string cgi::getContentType() const
 	{
 		return m_content_type;
 	} // getContentType;
 
-	string CGI::getContentLength() const
+	string cgi::getContentLength() const
 	{
 		return m_content_length;
 	} // getContentLength;
 
-	vector<string> CGI::getAllKeys() const
+	vector<string> cgi::getAllKeys() const
 	{
 		vector<string> returnValue;
 		map< string, string >::const_iterator mapIterator = m_requestData.begin();
@@ -285,7 +285,7 @@ namespace archendale {
 		return returnValue;
 	} // getAllKeys
 
-	string CGI::extractToken(string& queryString)
+	string cgi::extractToken(string& queryString)
 	{
 		// Parsing and breaking down the arguments to the request
 		// Each ? represents a new argument

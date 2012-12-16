@@ -4,18 +4,18 @@
 
 namespace archendale
 {
-	class SocketHandle 
+	class handle 
 	{
 	public:
 		// Only want this to be used by the Socket Object
 
 		// SocketHandle:
 		//
-		SocketHandle();
+		handle();
 
 		// ~SocketHandle:
 		//
-		~SocketHandle();
+		~handle();
 
 		// getSocket:
 		//
@@ -43,11 +43,11 @@ namespace archendale
 	private:
 		// SocketHandle:
 		//	Don't let SocketHandle's be copied
-		SocketHandle(const SocketHandle&) { ; }
+		handle(const handle&) { ; }
 		
 		// operator=
 		//	Don't let SocketHandle's be copied
-		bool operator=(const SocketHandle&) { ; }
+		bool operator=(const handle&) { ; }
 
 		unsigned int m_bytesSent, m_bytesReceived;
 		int m_socket;

@@ -14,7 +14,7 @@ namespace archendale
 
 	// SocketServer:
 	//
-	SocketServer::SocketServer(const InternetAddress& addr, int port, int backlog) : Socket(1), m_protocolName("tcp")
+	server::server(const internet_address& addr, int port, int backlog) : socket(1), m_protocolName("tcp")
 	{
                 m_address = addr;
                 m_port = port;
@@ -90,25 +90,25 @@ namespace archendale
 
 	// ~SocketServer:
 	//
-	SocketServer::~SocketServer()
+	server::~server()
 	{
 	} // ~SocketServer
 
         // isWaiting:
         //      RET number of waiting connetions if there is a connection waiting
-        int SocketServer::isWaiting()
+        int server::isWaiting()
         {
-		AutoMutex mut(m_serverMutex);
+		auto_mutex mut(m_serverMutex);
 		NotImplementedException exp;
 		throw exp;
         } // isWaiting
 
         // getWaitingConnection:
         //      
-        INETSocket SocketServer::getWaitingConnection()
+        inet server::getWaitingConnection()
         {
-		AutoMutex mut(m_serverMutex);
-		INETSocket inetsocket;
+		auto_mutex mut(m_serverMutex);
+		inet inetsocket;
 		sockaddr_in clientInformation;
 		socklen_t len = sizeof(clientInformation);
 		int socket = accept(getSocket(), (sockaddr*) &clientInformation, &len);
@@ -159,7 +159,7 @@ namespace archendale
 				}
 			} // switch
 		} // if
-		InternetAddress addr;
+		internet_address addr;
 		addr.addAddress(inet_ntoa(clientInformation.sin_addr));
 		inetsocket.setSocket(socket);
 		inetsocket.setPort(ntohs(clientInformation.sin_port));
@@ -170,7 +170,7 @@ namespace archendale
 
         // bind:
         //      binds the current socket
-        void SocketServer::bind()
+        void server::bind()
         {
                 sockaddr_in socketAttribute;
                 socketAttribute.sin_family = m_address.getType();
@@ -216,7 +216,7 @@ namespace archendale
 
         // listen:
         //      binds the current socket
-        void SocketServer::listen()
+        void server::listen()
         {
 		if(-1 == ::listen(getSocket(), m_backlog)) 
 		{

@@ -8,20 +8,20 @@ using std::vector;
 
 namespace archendale
 {
-	template<class T> class FileTable : public vector<T>
+	template<class T> class file_table : public vector<T>
 	{
 	public:
 		// FileTable:
 		//
-		FileTable(const string& dataFile);
+		file_table(const string& dataFile);
 
 		// FileTable:
 		//
-		FileTable(const FileTable<T>&);
+		file_table(const file_table<T>&);
 
 		// ~FileTable:
 		//
-		virtual ~FileTable();
+		virtual ~file_table();
 		
 		// update
 		//	Update entries in the table
@@ -46,6 +46,6 @@ namespace archendale
 } // namespace FantasyRealm
 
 // Template clas
-#include <io/FileTable.cc>
+#include <io/file_table.cc>
 
 #endif // FileTable_H

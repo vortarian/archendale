@@ -9,20 +9,20 @@
 
 namespace archendale
 {
-	class SequenceGenerator : public IEntry
+	class sequence_generator : public ientry
 	{
 	public:
 		// SequenceGenerator:
 		//
-		SequenceGenerator();
+		sequence_generator();
 
 		// SequenceGenerator:
 		//
-		SequenceGenerator(const SequenceGenerator&);
+		sequence_generator(const sequence_generator&);
 
 		// ~SequenceGenerator:
 		//
-		virtual ~SequenceGenerator();
+		virtual ~sequence_generator();
 
 		// getNext:
 		//	Returns the next value in the sequence
@@ -42,15 +42,15 @@ namespace archendale
 	
 		// newInstance:	
 		// Returns a new instance of this class
-		static void* newInstance() { return new SequenceGenerator; }
+		static void* newInstance() { return new sequence_generator; }
 
 		// writeData:
 		// 	Write class data to the stream
-		OTDF& writeData(OTDF& out) const;
+		otdf& writeData(otdf& out) const;
 	
 		// readData:
 		// 	Read class data from the stream
-		ITDF& readData(ITDF& in);
+		itdf& readData(itdf& in);
 
 	private:	
 		class Entry
@@ -73,7 +73,7 @@ namespace archendale
 		//	return the end() if none found
 		std::vector<Entry>::iterator findSequence(const std::string&) throw (ObjectNotFoundException);
 
-		static FactoryRegistrar<SequenceGenerator> CFR;
+		static FactoryRegistrar<sequence_generator> CFR;
 		static const std::string m_className;
 	}; // SequenceGenerator
 } // namespace archendale

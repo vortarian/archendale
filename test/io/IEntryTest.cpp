@@ -13,26 +13,26 @@ using namespace std;
 namespace archendale
 {
 
-class IntEntry : public IEntry
+class IntEntry : public ientry
 {
 public:
 	IntEntry() { ; }
 	IntEntry(int data) { m_data = data; }
 	~IntEntry() { ; }
 	static void* newInstance() { return new IntEntry; }
-	OTDF& writeData(OTDF& out) const
+	otdf& writeData(otdf& out) const
 	{
 		return out << m_data; 
 	} // writeData
 	
-	ITDF& readData(ITDF& in)
+	itdf& readData(itdf& in)
 	{
 		return in >> m_data;
 	} // readData
 	
 	bool operator==(const IntEntry& rhs) const
 	{
-		if(!IEntry::operator==(rhs)) return false;
+		if(!ientry::operator==(rhs)) return false;
 		return m_data == rhs.m_data;
 	} // operator ==
 	
@@ -47,26 +47,26 @@ private:
 FactoryRegistrar<IntEntry> IntEntry::CFR("IntEntry");
 const string IntEntry::m_className = "IntEntry";
 
-class StringEntry : public IEntry
+class StringEntry : public ientry
 {
 public:
 	StringEntry() { ; }
 	StringEntry(string data) { m_data = data; }
 	~StringEntry() { ; }
 	static void* newInstance() { return new StringEntry; }
-	OTDF& writeData(OTDF& out) const
+	otdf& writeData(otdf& out) const
 	{
 		return out << m_data; 
 	} // writeData
 	
-	ITDF& readData(ITDF& in)
+	itdf& readData(itdf& in)
 	{
 		return in >> m_data;
 	} // readData
 	
 	bool operator==(const StringEntry& rhs) const
 	{
-		if(!IEntry::operator==(rhs)) return false;
+		if(!ientry::operator==(rhs)) return false;
 		return m_data == rhs.m_data;
 	} // operator ==
 	
@@ -80,14 +80,14 @@ private:
 FactoryRegistrar<StringEntry> StringEntry::CFR("StringEntry");
 const string StringEntry::m_className = "StringEntry";
 
-class HeterogenusEntry : public IEntry
+class HeterogenusEntry : public ientry
 {
 public:
 	HeterogenusEntry() { ; }
 	HeterogenusEntry(string data) { m_data = data; }
 	~HeterogenusEntry() { ; }
 	static void* newInstance() { return new HeterogenusEntry; }
-	OTDF& writeData(OTDF& out) const
+	otdf& writeData(otdf& out) const
 	{
 		out << int(m_strings.size());
 		vector<string>::const_iterator start = m_strings.begin();
@@ -99,7 +99,7 @@ public:
 		return out << m_data; 
 	} // writeData
 	
-	ITDF& readData(ITDF& in)
+	itdf& readData(itdf& in)
 	{
 		int size = 0;
 		in >> size;
@@ -115,7 +115,7 @@ public:
 	
 	bool operator==(const HeterogenusEntry& rhs) const
 	{
-		if(!IEntry::operator==(rhs)) return false;
+		if(!ientry::operator==(rhs)) return false;
 		if(m_data != rhs.m_data) return false;
 		if(m_strings.size() != rhs.m_strings.size()) return false;
 		vector<string>::const_iterator start = m_strings.begin();
@@ -161,14 +161,14 @@ using namespace archendale;
 
 // entryFactory:
 //	returns the next IEntry type object from the ITDF stream
-IEntry* entryFactory(ITDF& in)
+ientry* entryFactory(itdf& in)
 {
 	string name;
 	in >> name;
 	void *ptr = 0;
 	try
 	{
-		ptr = Factory::createInstance(name);
+		ptr = factory::createInstance(name);
 	} catch (ClassNotFoundException exp)
 	{
 		cout << "ClassNotFoundException: " << exp.why() << endl << "File: " __FILE__ << ":" << __LINE__ << endl;
@@ -179,7 +179,7 @@ IEntry* entryFactory(ITDF& in)
 	//	which dynamic_cast can take.  Then, the dynamic_cast checks to be sure the
 	//	type is correct, if it is not, then 0 is returned here.  Keep in mind that
 	//	static_cast has no runtime overhead
-	return dynamic_cast<IEntry*>(static_cast<IEntry*>(ptr));
+	return dynamic_cast<ientry*>(static_cast<ientry*>(ptr));
 } // entryFactory
 
 // TODO: Try it with a Templatized Entry
@@ -198,12 +198,12 @@ int main(void)
 		hsa.addString("Four");
 		
 		stringstream iostr;
-		OTDF otdf(iostr);	
+		otdf otdf(iostr);	
 
 		otdf << ia.getName() << ia << sa.getName() << sa << hsa.getName() << hsa;
 
-		ITDF itdf(iostr);
-		IEntry* tib = entryFactory(itdf);	// get the IntEntry
+		itdf itdf(iostr);
+		ientry* tib = entryFactory(itdf);	// get the IntEntry
 
 		// Test the types:
 		if(0 == tib)
@@ -227,7 +227,7 @@ int main(void)
 		// Finally, read the object
 		itdf >> *ib;
 		
-		IEntry* tsb = entryFactory(itdf);	// get the StringEntry
+		ientry* tsb = entryFactory(itdf);	// get the StringEntry
 		if(0 == tsb)
 		{
 			cout << "null pointers, tsb is not valid" << endl;
@@ -246,7 +246,7 @@ int main(void)
 		// Read the string object
 		itdf >> *sb;
 		
-		IEntry* htsb = entryFactory(itdf);	// get the HeterogenusEntry
+		ientry* htsb = entryFactory(itdf);	// get the HeterogenusEntry
 		if(0 == htsb)
 		{
 			cout << "null pointers, htsb is not valid" << endl;

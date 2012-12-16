@@ -27,20 +27,20 @@ void functor(void)
 
 int main(void)
 {
-	Factory::registerFunction(string("functor"), (void*) functor);
+	factory::registerFunction(string("functor"), (void*) functor);
 
-	void (*func)(void) = (void (*)(void)) Factory::getFunction("functor");
+	void (*func)(void) = (void (*)(void)) factory::getFunction("functor");
 	func();
 
-	CommandTest* cmd = (CommandTest*) Factory::createInstance("CommandTest");
-	cmd = (CommandTest*) Factory::createInstance("CommandTest");
+	CommandTest* cmd = (CommandTest*) factory::createInstance("CommandTest");
+	cmd = (CommandTest*) factory::createInstance("CommandTest");
 	cmd->execute();
 	delete cmd;
 
 	// Now test that the exception gets thrown
 	try
 	{
-		cmd = (CommandTest*) Factory::createInstance("BogusClass");
+		cmd = (CommandTest*) factory::createInstance("BogusClass");
 		cout << "No Exception caught, test FAILED" << endl;
 	} catch (ClassNotFoundException exp)
 	{

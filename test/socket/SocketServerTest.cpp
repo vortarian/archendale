@@ -40,13 +40,13 @@ main(int argc, char** argv)
 			} // if
 		} // if
 
-		InternetAddress addr = NameResolver::getAddress("localhost");
-		SocketServer sserver(addr, port, 1);
+		internet_address addr = name_resolver::getAddress("localhost");
+		server sserver(addr, port, 1);
 
 		while(1)
 		{
 			cout << "Waiting for connection" << endl;
-			INETSocket socket = sserver.getWaitingConnection();
+			inet socket = sserver.getWaitingConnection();
 			string data;
 			cout << "Waiting for data" << endl;	
 			try 
@@ -88,7 +88,7 @@ main(int argc, char** argv)
 				cout << "(Only displaying first 255 bytes of data!)" << endl;
 				cout << "Returning: " << tempData << endl;
 			} // if
-			socket << data << '\0' << Socket::transmit;
+			socket << data << '\0' << socket::transmit;
 			cout << "Total bytes sent on this socket: " << socket.getBytesSent() << endl;
 			cout << "Total bytes received on this socket: " << socket.getBytesReceived() << endl;
 		} // while

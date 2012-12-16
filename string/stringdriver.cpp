@@ -4,7 +4,7 @@
 
 #include <string/string.h>
 
-using archendale::String;
+using archendale::string;
 
 class TestException
 {
@@ -43,13 +43,13 @@ private:
 
 void testConstructor()
 {
-	String noargs;
+	string noargs;
 	if(0 != strcmp(noargs.data(), ""))
 	{
 		THROWTEXP("noargs != \"\"");
 	}
 
-	String args("Hello World");
+	string args("Hello World");
 	if(0 != strcmp(args.data(), "Hello World"))
 	{
 		THROWTEXP("Hello World");
@@ -59,7 +59,7 @@ void testConstructor()
 
 void testAssignment()
 {
-	String additionAssignmentTest;
+	string additionAssignmentTest;
 	additionAssignmentTest += "Hello World";
 	if(0 != strcmp(additionAssignmentTest.data(), "Hello World"))
 	{
@@ -67,7 +67,7 @@ void testAssignment()
 	}
 	
 
-	String additionTest;
+	string additionTest;
 	additionTest = additionAssignmentTest + " How are you?";
 	if(0 != strcmp(additionTest.data(), "Hello World How are you?"))
 	{
@@ -78,9 +78,9 @@ void testAssignment()
 
 void testLogicalOperators()
 {
-	String rat("World");
+	string rat("World");
 
-	if(!(rat == String("World")))
+	if(!(rat == string("World")))
 	{
 		THROWTEXP("rat == World");
 	}
@@ -146,7 +146,7 @@ void testLogicalOperators()
 
 void testShrink()
 {
-	String shrinker, shrinkempty;
+	string shrinker, shrinkempty;
 	shrinker = "test";
 	shrinker.shrink();
 	shrinkempty.shrink();
@@ -158,13 +158,13 @@ void testFind()
 	using archendale::IndexOutOfBoundsException;
 	using archendale::StringNotFoundException;
 	
-	String findOn("Test");
-	String Begin("Te");
-	String End("st");
-	String Middle("es");
-	String TooLong("Test1");
-	String NotInTooLong("nofind");
-	String NotIn("nd");
+	string findOn("Test");
+	string Begin("Te");
+	string End("st");
+	string Middle("es");
+	string TooLong("Test1");
+	string NotInTooLong("nofind");
+	string NotIn("nd");
 	
 	try
 	{

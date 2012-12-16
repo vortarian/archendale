@@ -4,13 +4,13 @@ namespace archendale
 {
 	// ATMPVCSocket:
 	//
-	ATMPVCSocket::ATMPVCSocket()
+	atmpvc::atmpvc()
 	{
 	} // ATMPVCSocket
 
 	// ~ATMPVCSocket:
 	//
-	ATMPVCSocket::~ATMPVCSocket()
+	atmpvc::~atmpvc()
 	{
 	} // ~ATMPVCSocket
 

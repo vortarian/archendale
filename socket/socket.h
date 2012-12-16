@@ -55,11 +55,11 @@ namespace archendale
 	//	Each SocketObject keeps it's own copy of data buffers,
 	//		e.g. if you have data in the buffer, and get a copy (assign)
 	//		you will now have two copies of the buffer, one in each class
-	class Socket : public Mutex
+	class socket : public mutex
 	{
 	public:
-		Socket(unsigned int = 10000);
-		virtual ~Socket();
+		socket(unsigned int = 10000);
+		virtual ~socket();
 
 		// send:
 		//	transmit the data
@@ -85,32 +85,32 @@ namespace archendale
 		void writeToBuffer(const unsigned char*, const unsigned char*);
 		void writeToBuffer(const char* beg, const char* end); // defers to unsigned version
 
-		Socket& operator<<(char); 
-		Socket& operator>>(char&); 
-		Socket& operator<<(unsigned char); 
-		Socket& operator>>(unsigned char&); 
+		socket& operator<<(char); 
+		socket& operator>>(char&); 
+		socket& operator<<(unsigned char); 
+		socket& operator>>(unsigned char&); 
 
-		Socket& operator<<(const string&); 
-		Socket& operator>>(string&); 
+		socket& operator<<(const string&); 
+		socket& operator>>(string&); 
 
-		Socket& operator<<(int); 
-		Socket& operator>>(int&); 
-		Socket& operator<<(unsigned int); 
-		Socket& operator>>(unsigned int&); 
+		socket& operator<<(int); 
+		socket& operator>>(int&); 
+		socket& operator<<(unsigned int); 
+		socket& operator>>(unsigned int&); 
 
-		Socket& operator<<(double); 
-		Socket& operator>>(double&); 
+		socket& operator<<(double); 
+		socket& operator>>(double&); 
 
-		Socket& operator<<(long); 
-		Socket& operator>>(long&); 
-		Socket& operator<<(unsigned long); 
-		Socket& operator>>(unsigned long&); 
+		socket& operator<<(long); 
+		socket& operator>>(long&); 
+		socket& operator<<(unsigned long); 
+		socket& operator>>(unsigned long&); 
 
-		Socket& operator<<(float); 
-		Socket& operator>>(float&); 
+		socket& operator<<(float); 
+		socket& operator>>(float&); 
 		
 		static Transmit transmit;
-		Socket& operator<<(const Transmit&); 
+		socket& operator<<(const Transmit&); 
 
 		// getline functionality
 
@@ -159,8 +159,8 @@ namespace archendale
 		void setSocket(int);
 
 		// Can't have people sharing SocketHandles
-		Socket(const Socket&);
-		const Socket& operator=(const Socket&);
+		socket(const socket&);
+		const socket& operator=(const socket&);
 	private:
 
 		string m_sendDataBuffer;
@@ -176,12 +176,12 @@ namespace archendale
 		SocketDataConverter<double>              dConverter;
 		SocketDataConverter<float>               fConverter;
 
-		ReferenceCounter<SocketHandle> m_socketHandle;
+		reference_counter<handle> m_socketHandle;
 	}; // SocketObject
 
 	// get:
 	//
-	inline char Socket::get()
+	inline char socket::get()
 	{
 		if(m_readDataBuffer.size() <= 0) receive();
 		char ret = m_readDataBuffer[0];
@@ -191,7 +191,7 @@ namespace archendale
 
 	// get:
 	//	special get function for strings saves the looping
-	inline void Socket::get(string& input)
+	inline void socket::get(string& input)
 	{
 		if(m_readDataBuffer.size() <= 0) receive();
 		string::size_type i = 0;
@@ -216,7 +216,7 @@ namespace archendale
 				
 	// writeToBuffer:
 	//
-	inline void Socket::writeToBuffer(const char* beg, const char* end)
+	inline void socket::writeToBuffer(const char* beg, const char* end)
 	{
 		while(beg != end)
 		{
@@ -227,7 +227,7 @@ namespace archendale
 
 	// writeToBuffer:
 	//
-	inline void Socket::writeToBuffer(const unsigned char* beg, const unsigned char* end)
+	inline void socket::writeToBuffer(const unsigned char* beg, const unsigned char* end)
 	{
 		writeToBuffer((const char*) beg, (const char*) end);
 	} // writeToBuffer

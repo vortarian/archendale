@@ -11,7 +11,7 @@ DetachedThreadRunner::~DetachedThreadRunner()
 
 void DetachedThreadRunner::run() 
 {
-	ThreadAttribute attr;
+	attribute attr;
 	// This builds the object, then starts it
 	m_pThreadCounter = new ThreadCounter("Detached\n", attr, 2, mp_finished); 
 	m_pThreadCounter->start();

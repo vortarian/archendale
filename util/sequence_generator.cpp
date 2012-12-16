@@ -6,25 +6,25 @@ using namespace std;
 namespace archendale
 {
 
-	const string SequenceGenerator::m_className("SequenceGenerator");
-	FactoryRegistrar<SequenceGenerator> SequenceGenerator::CFR("SequenceGenerator");
+	const string sequence_generator::m_className("sequence_generator");
+	FactoryRegistrar<sequence_generator> sequence_generator::CFR("sequence_generator");
 
 	// SequenceGenerator:
 	//
-	SequenceGenerator::SequenceGenerator()
+	sequence_generator::sequence_generator()
 	{
 	} // SequenceGenerator
 
 	// SequenceGenerator:
 	//
-	SequenceGenerator::SequenceGenerator(const SequenceGenerator& in)
+	sequence_generator::sequence_generator(const sequence_generator& in)
 	{
 		m_data = in.m_data;
 	} // SequenceGenerator
 
 	// ~SequenceGenerator:
 	//
-	SequenceGenerator::~SequenceGenerator()
+	sequence_generator::~sequence_generator()
 	{
 	} // ~SequenceGenerator
 
@@ -32,7 +32,7 @@ namespace archendale
 	//	Locate a given sequence in the data, 
 	//	return an iterator at that point
 	//	return the end() if none found
-	vector<SequenceGenerator::Entry>::iterator SequenceGenerator::findSequence(const string& searchValue) throw(ObjectNotFoundException)
+	vector<sequence_generator::Entry>::iterator sequence_generator::findSequence(const string& searchValue) throw(ObjectNotFoundException)
 	{
 		vector<Entry>::iterator start =  m_data.begin();
 		vector<Entry>::iterator end = m_data.end();
@@ -48,14 +48,14 @@ namespace archendale
 
 	// getNext:
 	//	Returns the next value in the sequence
-	int SequenceGenerator::getNext(const string& sequenceName) throw(ObjectNotFoundException)
+	int sequence_generator::getNext(const string& sequenceName) throw(ObjectNotFoundException)
 	{
 		return findSequence(sequenceName)->m_value++;
 	} // getNext
 
 	// addSequence:
 	//	Creates a new Sequence
-	void SequenceGenerator::addSequence(const string& sequenceName)
+	void sequence_generator::addSequence(const string& sequenceName)
 	{
 		try
 		{
@@ -71,14 +71,14 @@ namespace archendale
 
 	// removeSequence:
 	//	Removes an existing Sequence
-	void SequenceGenerator::removeSequence(const string& sequenceName) throw (ObjectNotFoundException)
+	void sequence_generator::removeSequence(const string& sequenceName) throw (ObjectNotFoundException)
 	{
 		m_data.erase(findSequence(sequenceName));
 	} // removeSequence
 
 	// writeData:
 	// 	Write class data to the stream
-	OTDF& SequenceGenerator::writeData(OTDF& out) const
+	otdf& sequence_generator::writeData(otdf& out) const
 	{
 		out << m_data.size();
 		vector<Entry>::const_iterator start = m_data.begin();
@@ -93,7 +93,7 @@ namespace archendale
 
 	// readData:
 	// 	Read class data from the stream
-	ITDF& SequenceGenerator::readData(ITDF& in)
+	itdf& sequence_generator::readData(itdf& in)
 	{
 		int size = 0;
 		in >> size;

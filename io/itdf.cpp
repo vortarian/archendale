@@ -21,19 +21,19 @@ namespace archendale
 		return is;
 	} // eatwhite
 
-	ITDF::ITDF(istream& input) : m_inputStream(input)
+	itdf::itdf(istream& input) : m_inputStream(input)
 	{
 	} // ITDF
 
-	ITDF::ITDF(const ITDF& itdf) : m_inputStream(itdf.m_inputStream)
+	itdf::itdf(const itdf& itdf) : m_inputStream(itdf.m_inputStream)
 	{
 	} // ITDF
 
-	ITDF::~ITDF()
+	itdf::~itdf()
 	{
 	} // ITDF
 
-	ITDF& ITDF::operator>>(double& out)
+	itdf& itdf::operator>>(double& out)
 	{
 		eatwhite(m_inputStream);
 		if(!m_inputStream.eof() && m_inputStream.good())
@@ -54,7 +54,7 @@ namespace archendale
 		return *this;
 	} // ITDF
 
-	ITDF& ITDF::operator>>(size_t& out)
+	itdf& itdf::operator>>(size_t& out)
 	{
 		eatwhite(m_inputStream);
 		if(!m_inputStream.eof() && m_inputStream.good())
@@ -77,7 +77,7 @@ namespace archendale
 	} // ITDF
 
 
-	ITDF& ITDF::operator>>(int& out)
+	itdf& itdf::operator>>(int& out)
 	{
 		eatwhite(m_inputStream);
 		if(!m_inputStream.eof() && m_inputStream.good())
@@ -103,7 +103,7 @@ namespace archendale
 	// reasons other than the delimiter
 	// TODO: update so that \t can appear in file
 	// TODO: update algorithm so that any delimiter can be used
-	ITDF& ITDF::operator>>(string& out)
+	itdf& itdf::operator>>(string& out)
 	{
 		string buffer;
 		out = "";

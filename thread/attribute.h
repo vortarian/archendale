@@ -31,16 +31,16 @@
 
 namespace archendale {
 
-	class ThreadAttribute
+	class attribute
 	{
 	public:
-		ThreadAttribute();
-		virtual ~ThreadAttribute();
-		ThreadAttribute(const ThreadAttribute&);
+		attribute();
+		virtual ~attribute();
+		attribute(const attribute&);
 	
-		bool operator==(const ThreadAttribute&) const;
+		bool operator==(const attribute&) const;
 		bool operator==(const pthread_attr_t&) const;
-		const ThreadAttribute& operator=(const ThreadAttribute&);
+		const attribute& operator=(const attribute&);
 /**
  * Pthreads documentation indicates that the thread attribute should be considered opague, so not allowing direct copying here
  * @see man pthread_attribute_initialize

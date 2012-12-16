@@ -17,7 +17,7 @@ bool testSequence(void)
 	int oneCounter, twoCounter;
 	oneCounter = twoCounter = 0;
 	{
-		SequenceGenerator seqGen;
+		sequence_generator seqGen;
 		seqGen.addSequence(seqOne);
 		seqGen.addSequence(seqTwo);
 
@@ -40,16 +40,16 @@ bool testSequence(void)
 		} // for
 
 		ofstream ostr("seqGenSaveFile.txt", ios::trunc);
-		OTDF otdf(ostr);
+		otdf otdf(ostr);
 		otdf << seqGen;
 	}
 
 	// Now, try loading from the file	
 	
 	{
-		SequenceGenerator seqGen;
+		sequence_generator seqGen;
 		ifstream istr("seqGenSaveFile.txt");
-		ITDF itdf(istr);
+		itdf itdf(istr);
 		itdf >> seqGen;
 
 		int i = oneCounter;

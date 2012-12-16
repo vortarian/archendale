@@ -14,12 +14,12 @@ using std::vector;
 
 namespace archendale {
 
-	class CGI
+	class cgi
 	{
 	public:
-		CGI();
-		CGI(const CGI&);
-		const CGI& operator=(const CGI&);
+		cgi();
+		cgi(const cgi&);
+		const cgi& operator=(const cgi&);
 
 		string getValue(string);
 		void setValue(string, string);

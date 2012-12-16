@@ -10,7 +10,7 @@ using std::string;
 
 namespace archendale
 {
-	class SocketAttribute 
+	class attribute 
 	{
 	public:
 		// SocketAttribute Constructores:
@@ -20,9 +20,9 @@ namespace archendale
 		//	SocketAttribute(port, host)
 		//	SocketAttribute(portName, host)
 		//
-		SocketAttribute(unsigned int, string = "localhost");
-		SocketAttribute(string, string = "localhost");
-		virtual ~SocketAttribute();
+		attribute(unsigned int, string = "localhost");
+		attribute(string, string = "localhost");
+		virtual ~attribute();
 
 		// setHostName:
 		//	sets the host name that the socket listens on

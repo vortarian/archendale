@@ -56,7 +56,7 @@ using std::map;
 
 namespace archendale
 {
-	class Factory
+	class factory
 	{
 	private:
 		static map<string, void*> m_classMap;
@@ -64,15 +64,15 @@ namespace archendale
 
 		// Factory:
 		// Do not allow instatiation
-		Factory();
+		factory();
 
 		// Factory:
 		// Do not allow instatiation
-		Factory(const Factory&);
+		factory(const factory&);
 
 		// ~Factory:
 		// Do not allow instatiation
-		virtual ~Factory();
+		virtual ~factory();
 
 	public:
 		// createInstance
@@ -106,7 +106,7 @@ namespace archendale
 		FactoryRegistrar(string className) 
 		{ 
 			void *pFunc = (void*) &T::newInstance;
-			Factory::registerClass(className, pFunc ); 
+			factory::registerClass(className, pFunc ); 
 		} // FactoryRegistrar
 	}; // FactoryRegistrar
 

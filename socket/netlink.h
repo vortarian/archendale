@@ -4,15 +4,15 @@
 
 namespace archendale
 {
-	class NETLINKSocket
+	class netlink
 	{
 		// NETLINKSocket:
 		//
-		NETLINKSocket();
+		netlink();
 
 		// ~NETLINKSocket:
 		//
-		~NETLINKSocket();
+		~netlink();
 
 	}; // NETLINKSocket
 } // namespace archendale

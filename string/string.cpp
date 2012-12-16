@@ -16,7 +16,7 @@ namespace archendale
 // Global Operators
 //////////////////////////////////////////////////////////////////////
 
-	ostream& operator<<(ostream& out, const String& rhs) {
+	ostream& operator<<(ostream& out, const string& rhs) {
 		out << rhs.m_data;
 		return out;
 	} // operator<<
@@ -25,7 +25,7 @@ namespace archendale
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-	String::String()
+	string::string()
 	{
 		m_data = 0;
 		m_length = 0;
@@ -33,7 +33,7 @@ namespace archendale
 		m_data[0] = '\0';
 	}
 
-	String::String(const char* data, const unsigned int length)
+	string::string(const char* data, const unsigned int length)
 	{
 		m_data = 0;
 		m_length = 0;
@@ -48,13 +48,13 @@ namespace archendale
 		}
 	}
 
-	String::~String()
+	string::~string()
 	{
 		delete[] m_data;
 		m_data = 0;
 	}
 
-	String::String(const String& data)
+	string::string(const string& data)
 	{
 		m_data = 0;
 		m_length = 0;
@@ -62,16 +62,16 @@ namespace archendale
 		strcpy(m_data, data.m_data);
 	}
 
-	String String::operator ()(unsigned int start, unsigned int end) const
+	string string::operator ()(unsigned int start, unsigned int end) const
 	{
 		char* data = new char[end - start];
 		strncpy(data, m_data + start, end - start);
-		String retValue(data);
+		string retValue(data);
 		delete[] data;
 		return retValue;
 	}
 
-	bool String::isEqual(const String& rhs, bool ignoreCase) const {
+	bool string::isEqual(const string& rhs, bool ignoreCase) const {
 		if(true == ignoreCase) {
 			char* ldata = new char[m_length];
 			char* rdata = new char[rhs.m_length];
@@ -90,7 +90,7 @@ namespace archendale
 			rdata[i] = rhs.m_data[i];
 
 			// Finally, the comparison
-			bool retValue = String(ldata) == String(rdata);
+			bool retValue = string(ldata) == string(rdata);
 			delete[] ldata;
 			delete[] rdata;
 
@@ -100,21 +100,21 @@ namespace archendale
 		} // if
 	} // compare
 
-	String& String::operator +=(const String& data)
+	string& string::operator +=(const string& data)
 	{
 		setSize(m_length + data.m_length);
 		strcat(m_data, data.m_data);
 		return *this;
 	}
 
-	String String::operator +(const String& data) const
+	string string::operator +(const string& data) const
 	{
-		String NewString(*this);
+		string NewString(*this);
 		NewString += data;
 		return NewString;
 	}
 
-	String& String::operator =(const String& data)
+	string& string::operator =(const string& data)
 	{
 		delete[] m_data;
 		m_data = 0;
@@ -124,7 +124,7 @@ namespace archendale
 		return *this;
 	}
 
-	bool String::operator ==(const String& data) const
+	bool string::operator ==(const string& data) const
 	{
 		if(m_length != data.m_length)
 		{
@@ -137,7 +137,7 @@ namespace archendale
 		}
 	}
 
-	bool String::operator !=(const String& data) const
+	bool string::operator !=(const string& data) const
 	{
 		if(m_length != data.m_length)
 		{
@@ -150,35 +150,35 @@ namespace archendale
 		}
 	}
 
-	bool String::operator >(const String& data) const
+	bool string::operator >(const string& data) const
 	{
 		int val = strcmp(m_data, data.m_data);
 		if(val > 0) return true;
 		else return false;
 	}
 
-	bool String::operator <(const String& data) const
+	bool string::operator <(const string& data) const
 	{
 		int val = strcmp(m_data, data.m_data);
 		if(val < 0) return true;
 		else return false;
 	}
 
-	bool String::operator >=(const String& data) const
+	bool string::operator >=(const string& data) const
 	{
 		int val = strcmp(m_data, data.m_data);
 		if(val >= 0) return true;
 		else return false;
 	}
 
-	bool String::operator <=(const String& data) const
+	bool string::operator <=(const string& data) const
 	{
 		int val = strcmp(m_data, data.m_data);
 		if(val <= 0) return true;
 		else return false;
 	}
 
-	ostream& String::operator <<(ostream& ostr)
+	ostream& string::operator <<(ostream& ostr)
 	{
 		return (ostr << m_data);
 	}
@@ -186,7 +186,7 @@ namespace archendale
 	////////////////////
 	// Public Methods
 	////////////////////
-	bool String::shrink()
+	bool string::shrink()
 	{
 		unsigned int size = strlen(m_data) + 1;
 		if(m_length == size) return true;
@@ -206,17 +206,17 @@ namespace archendale
 		return true;
 	}
 
-	const char* String::data() const
+	const char* string::data() const
 	{
 		return m_data;
 	}
 
-	unsigned int String::length() const
+	unsigned int string::length() const
 	{
 		return m_length;
 	}
 
-	unsigned int String::find(const String& expr, unsigned int beginIndex) const
+	unsigned int string::find(const string& expr, unsigned int beginIndex) const
 	{
 		if(beginIndex >= length()) 
 		{
@@ -241,12 +241,12 @@ namespace archendale
 		throw exp;
 	}
 
-	String String::subString(unsigned int subStringLength) const
+	string string::subString(unsigned int subStringLength) const
 	{
 		return subString(0, subStringLength);	
 	}
 
-	String String::subString(unsigned int startIndex, unsigned int subStringLength) const
+	string string::subString(unsigned int startIndex, unsigned int subStringLength) const
 	{
 		if(startIndex > m_length)
 		{
@@ -254,17 +254,17 @@ namespace archendale
 			throw exp;
 		} // if
 		if(subStringLength > m_length - startIndex) subStringLength = m_length - startIndex;
-		String newStr(data() + startIndex, subStringLength);
+		string newStr(data() + startIndex, subStringLength);
 		return newStr;
 	}
 
-	String String::subString(const String token) const
+	string string::subString(const string token) const
 	{
 		NotImplementedException exp;
 		throw exp;
 	}
 
-	bool String::setSize(const unsigned int size)
+	bool string::setSize(const unsigned int size)
 	{
 		if(m_length == size) return true;
 		if(size <= 1)

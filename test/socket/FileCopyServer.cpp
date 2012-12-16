@@ -30,16 +30,16 @@ class Worker : public Thread
 {
 public:
 	Worker() { m_socketSet = false; }
-	void setSocket(INETSocket& sock) 
+	void setSocket(inet& sock) 
 	{ 
-		AutoMutex aMutex(mut);
+		auto_mutex aMutex(mut);
 		m_socket = sock; 
 		m_socketSet = true;
 	} // setSocket
 
 	void run()
 	{
-		AutoMutex aMutex(mut);
+		auto_mutex aMutex(mut);
 		if(m_socketSet == false) 
 		{
 			std::cerr << "(Worker # " 
@@ -67,7 +67,7 @@ public:
 			} else
 			{
 				m_socket << "SendData" << '\0' 
-					<< Socket::transmit;
+					<< socket::transmit;
 
 				cout << "(Worker # " 
 					<< this 
@@ -87,7 +87,7 @@ public:
 				ch = m_socket.get();
 				ostr.put(ch);
 			} // for
-			m_socket << "SendGood" << '\0' << Socket::transmit;
+			m_socket << "SendGood" << '\0' << socket::transmit;
 			cout 	<< "Received " 
 				<< m_socket.getBytesReceived() 
 				<< " bytes, returning" 
@@ -104,7 +104,7 @@ public:
 				<< exp.why() 
 				<< endl;
 			cerr << error.str() << endl;
-			m_socket << error.str() << '\0' << Socket::transmit;
+			m_socket << error.str() << '\0' << socket::transmit;
 			m_socketSet = false;
 		} // try
 		m_socketSet = false;
@@ -112,8 +112,8 @@ public:
 	} // run
 
 private:
-	Mutex mut;
-	INETSocket m_socket;
+	mutex mut;
+	inet m_socket;
 	bool m_socketSet;
 }; // Worker
 
@@ -154,13 +154,13 @@ int main(int argc, char** argv)
 				throw exp;
 			} // if
 		} // if
-		InternetAddress addr = NameResolver::getAddress(hostName);
-		SocketServer sserver(addr, port, 1);
+		internet_address addr = name_resolver::getAddress(hostName);
+		server sserver(addr, port, 1);
 		cout << "Server listening on " << hostName << ":" << port << endl;
 		while(1)
 		{
 			cout << "Waiting for connection" << endl;
-			INETSocket socket = sserver.getWaitingConnection();
+			inet socket = sserver.getWaitingConnection();
 			unsigned int theWorkerNum = getNextWorkerNumber();
 			cout << "Using worker: " << theWorkerNum << endl;
 			// Could do this more intelligently, but it is only a unit test

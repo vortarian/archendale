@@ -4,15 +4,15 @@
 
 namespace archendale
 {
-	class PACKETSocket
+	class packet
 	{
 		// PACKETSocket:
 		//
-		PACKETSocket();
+		packet();
 
 		// ~PACKETSocket:
 		//
-		~PACKETSocket();
+		~packet();
 
 	}; // PACKETSocket
 } // namespace archendale

@@ -4,13 +4,13 @@ namespace archendale
 {
 	// IPXSocket:
 	//
-	IPXSocket::IPXSocket()
+	ipx::ipx()
 	{
 	} // IPXSocket
 
 	// ~IPXSocket:
 	//
-	IPXSocket::~IPXSocket()
+	ipx::~ipx()
 	{
 	} // ~IPXSocket
 

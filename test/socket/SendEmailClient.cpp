@@ -36,8 +36,8 @@ int main(void)
 		getline(cin, content);
 		cout << endl << endl;
 
-		InternetAddress addr = NameResolver::getAddress(hostname);
-		INETSocket socket(addr, port);
+		internet_address addr = name_resolver::getAddress(hostname);
+		inet socket(addr, port);
                 try
                 {
                         socket.connect();
@@ -58,19 +58,19 @@ int main(void)
 		socket.getline(remoteReply, '\n');
 		cout << remoteReply << endl;
 
-		socket << "HELO " << hostname << "\r\n" << Socket::transmit;
+		socket << "HELO " << hostname << "\r\n" << socket::transmit;
 		socket.getline(remoteReply, '\n');
 		cout << remoteReply << endl;
 
-		socket << "MAIL FROM: " << emailAddressFrom << "\r\n" << Socket::transmit;
+		socket << "MAIL FROM: " << emailAddressFrom << "\r\n" << socket::transmit;
 		socket.getline(remoteReply, '\n');
 		cout << remoteReply << endl;
 
-		socket << "RCPT TO: " << emailAddressTo << "\r\n" << Socket::transmit;
+		socket << "RCPT TO: " << emailAddressTo << "\r\n" << socket::transmit;
 		socket.getline(remoteReply, '\n');
 		cout << remoteReply << endl;
 
-		socket << "DATA\n" << content << "\r\n" << ".\r\n" << Socket::transmit;
+		socket << "DATA\n" << content << "\r\n" << ".\r\n" << socket::transmit;
 		socket.getline(remoteReply, '\n');
 		cout << remoteReply << endl;
 

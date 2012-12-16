@@ -8,12 +8,12 @@
 #include <thread/attribute.h>
 
 using archendale::Thread;
-using archendale::ThreadAttribute;
+using archendale::attribute;
 
 class ThreadCounter : public Thread
 {
 public:
-        ThreadCounter( const char*, const ThreadAttribute&, int iterations = 1000, bool* = 0);
+        ThreadCounter( const char*, const attribute&, int iterations = 1000, bool* = 0);
         virtual ~ThreadCounter() { ; }
         void count();
         void run();

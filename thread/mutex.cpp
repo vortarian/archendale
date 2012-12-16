@@ -26,13 +26,13 @@
 namespace archendale 
 {
 
-	Mutex::Mutex() 
+	mutex::mutex() 
 	{
 		pthread_mutexattr_init(&m_mutexAttribute);
 		pthread_mutex_init(&m_mutex, &m_mutexAttribute);
 	} // Mutex
 
-	Mutex::~Mutex() 
+	mutex::~mutex() 
 	{
 		pthread_mutexattr_destroy(&m_mutexAttribute);
 		if(EBUSY == pthread_mutex_destroy(&m_mutex))
@@ -45,7 +45,7 @@ namespace archendale
 	// acquire:
 	// 	Get the mutex for use
 	//	NOTE: This function call blocks
-	void Mutex::acquire()
+	void mutex::acquire()
 	{
 		switch(pthread_mutex_lock(&m_mutex)) 
 		{
@@ -68,7 +68,7 @@ namespace archendale
 	// 	Get the mutex for use
 	//	NOTE: This function call does not block
 	//	Throws MutexBusyException if lock has not been acquired
-	bool Mutex::tryAcquire()
+	bool mutex::tryAcquire()
 	{
 		switch(pthread_mutex_trylock(&m_mutex))
 		{
@@ -90,7 +90,7 @@ namespace archendale
 
 	// release:
 	//	Let go of the mutex
-	void Mutex::release()
+	void mutex::release()
 	{
 		switch(pthread_mutex_unlock(&m_mutex))
 		{
@@ -110,29 +110,29 @@ namespace archendale
 	}
 
 	
-	AutoMutex::AutoMutex(Mutex& mutex) : m_mutex(mutex)
+	auto_mutex::auto_mutex(mutex& mutex) : m_mutex(mutex)
 	{
 		m_mutex.acquire();
 	} // AutoMutex
 	
-	AutoMutex::~AutoMutex()
+	auto_mutex::~auto_mutex()
 	{
 		m_mutex.release();
 	} // ~AutoMutex
 
-	AutoMutexTry::AutoMutexTry(Mutex& mutex) : m_mutex(mutex)
+	auto_mutex_try::auto_mutex_try(mutex& mutex) : m_mutex(mutex)
 	{
 		m_acquired = false;
 		retry();
 	} // AutoMutexTry
 
-	AutoMutexTry::~AutoMutexTry()
+	auto_mutex_try::~auto_mutex_try()
 	{
 		if(m_acquired)
 			m_mutex.release();
 	} // ~AutoMutexTry
 
-	void AutoMutexTry::retry()
+	void auto_mutex_try::retry()
 	{
 		if(m_acquired) return;
 		try 

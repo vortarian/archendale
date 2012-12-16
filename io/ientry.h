@@ -18,28 +18,28 @@ namespace archendale
 	 * operator== and decide if they want to use it, as well as setting
 	 * the m_id variable via the constructor to be a unique number
 	 */
-	class IEntry 
+	class ientry 
 	{
-	friend OTDF& operator<<(OTDF&, const IEntry&);
-	friend ITDF& operator>>(ITDF&, IEntry&);
+	friend otdf& operator<<(otdf&, const ientry&);
+	friend itdf& operator>>(itdf&, ientry&);
 
 	public:
-		IEntry(int = 0);
-		IEntry(const IEntry&);
-		virtual ~IEntry();
+		ientry(int = 0);
+		ientry(const ientry&);
+		virtual ~ientry();
 		
-		virtual OTDF& writeData(OTDF&) const = 0;
-		virtual ITDF& readData(ITDF&) = 0;
+		virtual otdf& writeData(otdf&) const = 0;
+		virtual itdf& readData(itdf&) = 0;
 		virtual const std::string& getName() = 0;
 
-		virtual const IEntry& operator=(const IEntry&);
-		virtual bool operator==(const IEntry&) const;
+		virtual const ientry& operator=(const ientry&);
+		virtual bool operator==(const ientry&) const;
 	protected:
 		int m_id;
 	}; // IEntry
 
-	OTDF& operator<<(OTDF&, const IEntry&);
-	ITDF& operator>>(ITDF&, IEntry&);
+	otdf& operator<<(otdf&, const ientry&);
+	itdf& operator>>(itdf&, ientry&);
 
 } // namespace
 

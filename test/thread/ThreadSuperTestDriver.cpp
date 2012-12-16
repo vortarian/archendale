@@ -88,7 +88,7 @@ bool testDetached() {
 bool testJoinable() {
     int count = 3;
 
-    ThreadAttribute attr;
+    attribute attr;
     attr.setCreateJoinable();
     ThreadCounter first("E", attr, count);
     ThreadCounter second("U", attr, count);
@@ -121,15 +121,15 @@ bool testJoinable() {
 bool testPriority() {
     try {
         cout << "Setting priority before creation, starting in 3 seconds" << endl;
-        ThreadAttribute attr;
+        attribute attr;
         attr.setScheduleRoundRobin(8);
         ThreadCounter midPriority("E", attr, 40);
         displayWidth(40);
         midPriority.start();
-        ThreadSuper::wait(2);
+        thread::wait(2);
         cout << endl << "Chaning Priority In Process" << endl;
         midPriority.scheduleRoundRobin(80);
-        ThreadSuper::wait(2);
+        thread::wait(2);
         cout << endl << "Joining" << endl;
         midPriority.join();
     } catch (ThreadScheduleInsufficientPermission exp) {
@@ -162,11 +162,11 @@ bool testConstructionDestruction(void) {
     try {
 
         {
-			ThreadAttribute attr;
+			attribute attr;
 			ThreadCounter first("E", attr, 1);
-			Mutex mutex, mutex2;
-			AutoMutex amutex(mutex);
-			AutoMutexTry atmutex(mutex2);
+			mutex mutex, mutex2;
+			auto_mutex amutex(mutex);
+			auto_mutex_try atmutex(mutex2);
 
 			// TODO: In current GCC calling the destructor here is also causing a 2nd call of the destructor when the code block exits ... look into why ..
 			// atmutex.~AutoMutexTry();

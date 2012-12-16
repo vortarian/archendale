@@ -4,15 +4,15 @@
 
 namespace archendale
 {
-	class ATMPVCSocket
+	class atmpvc
 	{
 		// ATMPVCSocket:
 		//
-		ATMPVCSocket();
+		atmpvc();
 
 		// ~ATMPVCSocket:
 		//
-		~ATMPVCSocket();
+		~atmpvc();
 
 	}; // ATMPVCSocket
 } // namespace archendale

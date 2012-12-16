@@ -24,35 +24,35 @@ namespace archendale
 	{
 	};
 
-	class String  
+	class string  
 	{
-		friend ostream& operator<<(ostream&, const String&);
+		friend ostream& operator<<(ostream&, const string&);
 
 	public:
 		// Constructors
-		String();
-		String(const char*, const unsigned int = 0);
+		string();
+		string(const char*, const unsigned int = 0);
 
 		// Destructor
-		virtual ~String();
+		virtual ~string();
 
 		// Copy Constructor
-		String(const String&);
+		string(const string&);
 
-		String& operator =(const String&);
-		String operator()(unsigned int, unsigned int) const;
+		string& operator =(const string&);
+		string operator()(unsigned int, unsigned int) const;
 		
-		bool isEqual(const String&, bool = false) const;
+		bool isEqual(const string&, bool = false) const;
 
 		// Logical Operators
-		String& operator +=(const String&);
-		String operator +(const String&) const;
-		bool operator ==(const String&) const;
-		bool operator !=(const String&) const;
-		bool operator >(const String&) const;
-		bool operator <(const String&) const;
-		bool operator >=(const String&) const;
-		bool operator <=(const String&) const;
+		string& operator +=(const string&);
+		string operator +(const string&) const;
+		bool operator ==(const string&) const;
+		bool operator !=(const string&) const;
+		bool operator >(const string&) const;
+		bool operator <(const string&) const;
+		bool operator >=(const string&) const;
+		bool operator <=(const string&) const;
 
 		// Extraction Operators		
 		ostream& operator<<(ostream&);
@@ -61,13 +61,13 @@ namespace archendale
 		bool shrink();
 		const char* data() const;
 		unsigned int length() const;
-		unsigned int find(const String&, unsigned int = 0) const;
+		unsigned int find(const string&, unsigned int = 0) const;
 		bool setSize(const unsigned int);
 
-		String subString(const unsigned int) const;
-		String subString(const unsigned int, const unsigned int) const;
+		string subString(const unsigned int) const;
+		string subString(const unsigned int, const unsigned int) const;
 		// For tokenizing
-		String subString(const String) const;
+		string subString(const string) const;
 	private:
 		char* m_data;		// String DataException
 		unsigned int m_length;	// Length of String

@@ -20,14 +20,14 @@ namespace archendale
 
 	// INETSocket:
 	//	Default constructor for use by SocketServer
-	INETSocket::INETSocket() : m_protocolName("tcp")
+	inet::inet() : m_protocolName("tcp")
 	{
 		m_port = 0;
 	} // INETSocket
 
 	// INETSocket:
 	//
-	INETSocket::INETSocket(const InternetAddress& addr, int port) : m_protocolName("tcp")
+	inet::inet(const internet_address& addr, int port) : m_protocolName("tcp")
 	{
 		m_address = addr;
 		m_port = port;
@@ -97,7 +97,7 @@ namespace archendale
 
 	// INETSocket:
 	//
-	INETSocket::INETSocket(const INETSocket& in) : Socket(in), m_protocolName("tcp")
+	inet::inet(const inet& in) : socket(in), m_protocolName("tcp")
 	{
 		m_address = in.m_address;
 		m_port = in.m_port;
@@ -105,22 +105,22 @@ namespace archendale
 
 	// INETSocket:
 	//
-	const INETSocket& INETSocket::operator=(const INETSocket& in) 
+	const inet& inet::operator=(const inet& in) 
 	{
-		Socket::operator=(in);
+		socket::operator=(in);
 		m_address = in.m_address;
 		m_port = in.m_port;
 	} // INETSocket
 
 	// ~INETSocket:
 	//
-	INETSocket::~INETSocket()
+	inet::~inet()
 	{
 	} // ~INETSocket
 
 	// connect:
 	//	Connects the current socket
-	void INETSocket::connect()
+	void inet::connect()
 	{
 		sockaddr_in socketAttribute;
 		socketAttribute.sin_family = m_address.getType();
@@ -214,14 +214,14 @@ namespace archendale
 
 	// setAddress
 	//      Set the address of this socket
-	void INETSocket::setAddress(const InternetAddress& addr)
+	void inet::setAddress(const internet_address& addr)
 	{
 		m_address = addr;
 	} // setAddress
 
 	// setPort
 	//      Set the port of this socket
-	void INETSocket::setPort(int port)
+	void inet::setPort(int port)
 	{
 		m_port = port;
 	} // setPort 

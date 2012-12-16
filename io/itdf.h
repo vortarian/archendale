@@ -8,17 +8,17 @@
 namespace archendale 
 {
 
-	class ITDF
+	class itdf
 	{
 	public:
-		ITDF(std::istream&);
-		ITDF(const ITDF&);
-		virtual ~ITDF();
+		itdf(std::istream&);
+		itdf(const itdf&);
+		virtual ~itdf();
 
-		ITDF& operator>>(size_t&);
-		ITDF& operator>>(int&);
-		ITDF& operator>>(double&);
-		ITDF& operator>>(std::string&);
+		itdf& operator>>(size_t&);
+		itdf& operator>>(int&);
+		itdf& operator>>(double&);
+		itdf& operator>>(std::string&);
 	private:
 		std::istream& m_inputStream;
 	}; // ITDF

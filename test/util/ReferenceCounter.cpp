@@ -22,22 +22,22 @@ private:
 
 int main(void)
 {
-	ReferenceCounter<int>* rcptr = new ReferenceCounter<int>(new int(0));
+	reference_counter<int>* rcptr = new reference_counter<int>(new int(0));
 
 	{
-		ReferenceCounter<int> a(new int(3));
+		reference_counter<int> a(new int(3));
 
 		// This block tests destruction
 		{
 			// Test Copy Constructor
-			ReferenceCounter<int> b = a;
+			reference_counter<int> b = a;
 
 			if(*b != 3)
 			{
 				cerr << "Test Failed! *b != 3, *b == " << *b << endl;
 			}
 
-			ReferenceCounter<int> c;
+			reference_counter<int> c;
 			c = b;
 			if(*c != 3)
 			{
@@ -63,7 +63,7 @@ int main(void)
 		return -1;
 	}
 
-	ReferenceCounter<Dereferenced> deref(new Dereferenced(4));
+	reference_counter<Dereferenced> deref(new Dereferenced(4));
 
 	deref->setValue(3);
 	if(deref->getValue() != 3)

@@ -6,20 +6,20 @@
 
 namespace archendale
 {
-	class InternetAddress : public INetworkAddress
+	class internet_address : public network_address
 	{
 	public:
 		// InternetAddress:
 		//
-		InternetAddress();
+		internet_address();
 
 		// InternetAddress:
 		//
-		InternetAddress(const InternetAddress&);
+		internet_address(const internet_address&);
 
 		// ~InternetAddress:
 		//
-		~InternetAddress();
+		~internet_address();
 	}; // InternetAddress
 } // namespace archendale
 

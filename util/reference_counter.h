@@ -93,10 +93,10 @@ namespace archendale
 		unsigned int* m_count;
 	}; // _ref
 
-	template <class T> class ReferenceCounter 
+	template <class T> class reference_counter 
 	{
 	public:
-		ReferenceCounter() { 
+		reference_counter() { 
 			m_pointer = 0;
 			m_pointer = new _ref<T>(); 
 			if(m_pointer == 0) 
@@ -109,7 +109,7 @@ namespace archendale
 		/**
  	 	 *  Takes ownership of the the value of T and tracks references to it
  	 	 */
-		ReferenceCounter(T* value) { 
+		reference_counter(T* value) { 
 			m_pointer = 0;
 			m_pointer = new _ref<T>(value); 
 			if(m_pointer == 0) 
@@ -122,7 +122,7 @@ namespace archendale
 		/**
  	 	 *  Copies the value of T into the reference variable
  	 	 */
-		ReferenceCounter(const T& value) { 
+		reference_counter(const T& value) { 
 			m_pointer = 0;
 			m_pointer = new _ref<T>(value); 
 			if(m_pointer == 0) 
@@ -132,7 +132,7 @@ namespace archendale
 			} // if
 		} //ReferenceCounter 
 
-		ReferenceCounter(const ReferenceCounter& rhs) { 
+		reference_counter(const reference_counter& rhs) { 
 			m_pointer = 0;
 			m_pointer = new _ref<T>(); 
 			if(m_pointer == 0) 
@@ -143,7 +143,7 @@ namespace archendale
 			*m_pointer = *rhs.m_pointer; 
 		} //ReferenceCounter 
 
-		~ReferenceCounter() { 
+		~reference_counter() { 
 			delete m_pointer; 
 		} //ReferenceCounter 
 
@@ -163,11 +163,11 @@ namespace archendale
 			return m_pointer->operator->(); 
 		} // operator->
 
-		ReferenceCounter<T>& operator=(const ReferenceCounter<T>& rhs) { 
+		reference_counter<T>& operator=(const reference_counter<T>& rhs) { 
 			*m_pointer = *rhs.m_pointer; 
 		}
 
-		ReferenceCounter<T>& operator==(const ReferenceCounter<T>& rhs) const { 
+		reference_counter<T>& operator==(const reference_counter<T>& rhs) const { 
 			*m_pointer == *rhs.m_pointer; 
 		}
 	private:

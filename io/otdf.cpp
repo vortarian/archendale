@@ -8,31 +8,31 @@ using namespace std;
 
 namespace archendale
 {
-	OTDF::OTDF(ostream& output) : m_outputStream(output)
+	otdf::otdf(ostream& output) : m_outputStream(output)
 	{
 	} // OTDF
 
-	OTDF::OTDF(const OTDF& otdf) : m_outputStream(otdf.m_outputStream)
+	otdf::otdf(const otdf& otdf) : m_outputStream(otdf.m_outputStream)
 	{
 	} // OTDF
 
-	OTDF::~OTDF()
+	otdf::~otdf()
 	{
 	} // OTDF
 
-	OTDF& OTDF::operator<<(const size_t& input)
-	{
-		m_outputStream << input << "\t";
-		return *this;
-	} // OTDF
-
-	OTDF& OTDF::operator<<(const int& input)
+	otdf& otdf::operator<<(const size_t& input)
 	{
 		m_outputStream << input << "\t";
 		return *this;
 	} // OTDF
 
-	OTDF& OTDF::operator<<(const double& input)
+	otdf& otdf::operator<<(const int& input)
+	{
+		m_outputStream << input << "\t";
+		return *this;
+	} // OTDF
+
+	otdf& otdf::operator<<(const double& input)
 	{
 		m_outputStream << input << "\t";
 		return *this;
@@ -42,7 +42,7 @@ namespace archendale
 	// reasons other than the delimiter
 	// TODO: update so that \t can appear in file
 	// TODO: update algorithm so that any delimiter can be used
-	OTDF& OTDF::operator<<(const string& input)
+	otdf& otdf::operator<<(const string& input)
 	{
                 string replaceText(8, ' ');
                 unsigned int startIndex = 0;

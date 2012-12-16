@@ -28,8 +28,8 @@ int main(void)
 		getline(cin, remoteHostName);
 		cout << endl << endl;
 
-		InternetAddress addr = NameResolver::getAddress(remoteHostName);
-		INETSocket socket(addr, port);
+		internet_address addr = name_resolver::getAddress(remoteHostName);
+		inet socket(addr, port);
                 try
                 {
                         socket.connect();
@@ -55,7 +55,7 @@ int main(void)
 				return -1;
 		} // if
 		char ch;
-		socket << remoteFileName << '\0' << Socket::transmit;
+		socket << remoteFileName << '\0' << socket::transmit;
 		string remoteReply;
 		socket.getline(remoteReply, '\0');
 		if(remoteReply == "SendData")
@@ -65,7 +65,7 @@ int main(void)
 			while(istr.get(ch)) sostr.put(ch);
 			size_t fileSize = sostr.str().size();
 			cout << "Sending file of size " << fileSize << endl;
-			socket << fileSize << sostr.str() << '\0' << Socket::transmit;	
+			socket << fileSize << sostr.str() << '\0' << socket::transmit;	
 		} else
 		{
 			cerr << "Error on file Server: " << remoteReply << endl;

@@ -11,24 +11,24 @@ using std::vector;
 
 namespace archendale
 {
-	class NameResolver
+	class name_resolver
 	{
 	public:
 		// NameResolver:
-		NameResolver();
+		name_resolver();
 
 		// ~NameResolver:
-		~NameResolver();
+		~name_resolver();
 
 		// getAddress:
 		//	returns the IP Address of a given name	
 		//	takes a string arguement which is the 
 		//	server to be looked up
-		static InternetAddress getAddress(const string&);
+		static internet_address getAddress(const string&);
 
 	private:
-		static InternetAddress populateAddress(hostent*);
-		static Mutex mut; // BSD Functions are not reentrant, must mutex them
+		static internet_address populateAddress(hostent*);
+		static mutex mut; // BSD Functions are not reentrant, must mutex them
 	}; // NameResolver
 }; // namespace archendale
 

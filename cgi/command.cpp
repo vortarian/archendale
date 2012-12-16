@@ -6,25 +6,25 @@ namespace archendale
 {
 	// CGICommand:
 	//
-	CGICommand::CGICommand()
+	command::command()
 	{
 	} // CGICommand
  
 	// CGICommand:
 	//
-	CGICommand::CGICommand(const CGICommand& in)
+	command::command(const command& in)
 	{
 	} // CGICommand
 
 	// ~CGICommand:
 	//
-	CGICommand::~CGICommand()
+	command::~command()
 	{
 	} // ~CGICommand
 
 	// newInstance:
 	//
-	CGICommand* CGICommand::newInstance()
+	command* command::newInstance()
 	{
 		NotImplementedException exp;
 		throw exp;

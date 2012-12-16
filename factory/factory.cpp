@@ -3,30 +3,30 @@
 
 namespace archendale
 {
-	map<string, void*> Factory::m_classMap;
-	map<string, void*> Factory::m_functionMap;
+	map<string, void*> factory::m_classMap;
+	map<string, void*> factory::m_functionMap;
 	
 	// Factory:
 	//
-	Factory::Factory()
+	factory::factory()
 	{
 	} // Factory
 
 	// Factory:
 	//
-	Factory::Factory(const Factory& in)
+	factory::factory(const factory& in)
 	{
 	} // Factory
 
 	// ~Factory:
 	//
-	Factory::~Factory()
+	factory::~factory()
 	{
 	} // ~Factory
 
 	// createInstance:
 	//
-	void* Factory::getFunction(const string& functionName)
+	void* factory::getFunction(const string& functionName)
 	{
 		void* pFunc = 0;
 		pFunc = m_functionMap[functionName];
@@ -40,7 +40,7 @@ namespace archendale
 
 	// createInstance:
 	//
-	void* Factory::createInstance(const string& className)
+	void* factory::createInstance(const string& className)
 	{
 		void* (*pFunc)(void) = 0;
 		pFunc = (void* (*)(void)) m_classMap[className];
@@ -54,14 +54,14 @@ namespace archendale
 
 	// registerClass:
 	//
-	void Factory::registerClass(string className, void* pFunc)
+	void factory::registerClass(string className, void* pFunc)
 	{
 		m_classMap[className] = pFunc;
 	} // registerClass
 
 	// registerFunction:
 	//
-	void Factory::registerFunction(string functionName, void* pFunc)
+	void factory::registerFunction(string functionName, void* pFunc)
 	{
 		m_functionMap[functionName] = pFunc;
 	} // registerFunction

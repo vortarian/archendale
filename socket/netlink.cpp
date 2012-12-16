@@ -4,13 +4,13 @@ namespace archendale
 {
 	// NETLINKSocket:
 	//
-	NETLINKSocket::NETLINKSocket()
+	netlink::netlink()
 	{
 	} // NETLINKSocket
 
 	// ~NETLINKSocket:
 	//
-	NETLINKSocket::~NETLINKSocket()
+	netlink::~netlink()
 	{
 	} // ~NETLINKSocket
 

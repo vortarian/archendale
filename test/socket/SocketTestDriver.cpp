@@ -33,7 +33,7 @@ bool testNameResolver()
 
 	try
 	{
-		InternetAddress address = NameResolver::getAddress(hostName);
+		internet_address address = name_resolver::getAddress(hostName);
 		vector < string > vec = address.getAddresses();
 		vector < string >::const_iterator start = vec.begin();
 		vector < string >::const_iterator end = vec.end();
@@ -69,15 +69,15 @@ bool testNameResolver()
 
 bool testSocketObjectRead()
 {
-	InternetAddress addr = NameResolver::getAddress("localhost");
-	INETSocket obj(addr, 7);
+	internet_address addr = name_resolver::getAddress("localhost");
+	inet obj(addr, 7);
 	obj.connect();
 
 	try {
 		{
 			string data = "testget"; 
 			cout << endl << "string : " << data << endl;
-			obj << data << '\0' << Socket::transmit;
+			obj << data << '\0' << socket::transmit;
 			data = "";
 			obj.getline(data, '\0');
 			cout << "Read Data: " << data << endl;
@@ -86,7 +86,7 @@ bool testSocketObjectRead()
 		{
 			char data = 'a';
 			cout << endl << "char : " << data << endl;
-			obj << data << Socket::transmit;
+			obj << data << socket::transmit;
 			data = 0;
 			obj >> data;
 			cout << "Read Data: " << data << endl;
@@ -95,7 +95,7 @@ bool testSocketObjectRead()
 		{
 			unsigned char data = 'a';
 			cout << endl << "unsigned char :" << data << endl;
-			obj << data << Socket::transmit;
+			obj << data << socket::transmit;
 			data = 0;
 			obj >> data;
 			cout << "Read Data: " << data << endl;
@@ -104,7 +104,7 @@ bool testSocketObjectRead()
 		{
 			char data[] = "1234567890abcd";
 			cout << endl << "char [15] :" << data << endl;
-			obj << data << '\0' << Socket::transmit;
+			obj << data << '\0' << socket::transmit;
 			string sdata;
 			obj.getline(sdata, '\0');
 			cout << "Read Data: " << sdata << endl;
@@ -113,7 +113,7 @@ bool testSocketObjectRead()
 		{
 			unsigned char data[15] = "1234567890abcd";
 			cout << endl << "unsigned char[15] :" << data << '\0' << endl;
-			obj << (char*) data << '\0' << Socket::transmit;
+			obj << (char*) data << '\0' << socket::transmit;
 			string sdata;
 			obj.getline(sdata, '\0');
 			cout << "Read Data: " << sdata << endl;
@@ -122,7 +122,7 @@ bool testSocketObjectRead()
 		{
 			int data = 1234567890;
 			cout << endl << "int :" << data << endl;
-			obj << data << Socket::transmit;
+			obj << data << socket::transmit;
 			data = 0;
 			obj >> data;
 			cout << "Read Data: " << data << endl;
@@ -131,7 +131,7 @@ bool testSocketObjectRead()
 		{
 			unsigned int data = 1234567890;
 			cout << endl << "unsigned int :" << data << endl;
-			obj << data << Socket::transmit;
+			obj << data << socket::transmit;
 			data = 0;
 			obj >> data;
 			cout << "Read Data: " << data << endl;
@@ -140,7 +140,7 @@ bool testSocketObjectRead()
 		{
 			double data = 452462408;
 			cout << endl << "double :" << data << endl;
-			obj << data << Socket::transmit;
+			obj << data << socket::transmit;
 			data = 0;
 			obj >> data;
 			cout << "Read Data: " << data << endl;
@@ -149,7 +149,7 @@ bool testSocketObjectRead()
 		{
 			long data = 452462408;
 			cout << endl << "long :" << data << endl;
-			obj << data << Socket::transmit;
+			obj << data << socket::transmit;
 			data = 0;
 			obj >> data;
 			cout << "Read Data: " << data << endl;
@@ -158,7 +158,7 @@ bool testSocketObjectRead()
 		{
 			unsigned long data = 452462408;
 			cout << endl << "unsigned long :" << data << endl;
-			obj << data << Socket::transmit;
+			obj << data << socket::transmit;
 			data = 0;
 			obj >> data;
 			cout << "Read Data: " << data << endl;
@@ -167,7 +167,7 @@ bool testSocketObjectRead()
 		{
 			float data = 234552.43;
 			cout << endl << "float :" << data << endl;
-			obj << data << Socket::transmit;
+			obj << data << socket::transmit;
 			data = 0;
 			obj >> data;
 			cout << "Read Data: " << data << endl;
@@ -192,9 +192,9 @@ bool testSocketObjectRead()
 bool testSocketObjectLargeReadWrite(unsigned int dataSize = 4000000)
 {
 	try {
-		InternetAddress addr = NameResolver::getAddress("localhost");
+		internet_address addr = name_resolver::getAddress("localhost");
 		int port = 5000;
-		INETSocket obj(addr, port);
+		inet obj(addr, port);
 		try
 		{
 			obj.connect();
@@ -234,7 +234,7 @@ bool testSocketObjectLargeReadWrite(unsigned int dataSize = 4000000)
 				<< "K bytes of data" 
 				<< endl;
 
-			obj << sendData << '\0' << Socket::transmit;
+			obj << sendData << '\0' << socket::transmit;
 
 			cout << "Data sent, reading data back" << endl;
 			obj.getline(receiveData, '\0');

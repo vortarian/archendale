@@ -4,15 +4,15 @@
 
 namespace archendale
 {
-	class AX25Socket
+	class ax25
 	{
 		// AX25Socket:
 		//
-		AX25Socket();
+		ax25();
 
 		// ~AX25Socket:
 		//
-		~AX25Socket();
+		~ax25();
 
 	}; // AX25Socket
 } // namespace archendale

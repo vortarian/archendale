@@ -4,15 +4,15 @@
 
 namespace archendale
 {
-	class INET6Socket
+	class inet6
 	{
 		// INET6Socket:
 		//
-		INET6Socket();
+		inet6();
 
 		// ~INET6Socket:
 		//
-		~INET6Socket();
+		~inet6();
 
 	}; // INET6Socket
 } // namespace archendale

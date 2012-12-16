@@ -25,16 +25,16 @@ class Worker : public Thread
 {
 public:
 	Worker() { m_socketSet = false; }
-	void setSocket(INETSocket& sock) 
+	void setSocket(inet& sock) 
 	{ 
-		AutoMutex aMutex(mut);
+		auto_mutex aMutex(mut);
 		m_socket = sock; 
 		m_socketSet = true;
 	} // setSocket
 
 	void run()
 	{
-		AutoMutex aMutex(mut);
+		auto_mutex aMutex(mut);
 		if(m_socketSet == false) 
 		{
 			std::cerr << "(Worker # " << this << ") Socket Not set before call to run, exiting" << endl;
@@ -82,13 +82,13 @@ public:
 			cout << "(Only displaying first 255 bytes of data!)" << endl;
 			cout << "Returning: " << tempData << endl;
 		} // if
-		m_socket << data << '\0' << Socket::transmit;
+		m_socket << data << '\0' << socket::transmit;
 		m_socketSet = false;
 	} // run
 
 private:
-	Mutex mut;
-	INETSocket m_socket;
+	mutex mut;
+	inet m_socket;
 	bool m_socketSet;
 }; // Worker
 
@@ -125,13 +125,13 @@ main(int argc, char** argv)
 			} // if
 		} // if
 
-		InternetAddress addr = NameResolver::getAddress("localhost");
-		SocketServer sserver(addr, port, 1);
+		internet_address addr = name_resolver::getAddress("localhost");
+		server sserver(addr, port, 1);
 
 		while(1)
 		{
 			cout << "Waiting for connection" << endl;
-			INETSocket socket = sserver.getWaitingConnection();
+			inet socket = sserver.getWaitingConnection();
 			unsigned int theWorkerNum = getNextWorkerNumber();
 			cout << "Using worker: " << theWorkerNum << endl;
 			// Could do this more intelligently, but it is only a unit test

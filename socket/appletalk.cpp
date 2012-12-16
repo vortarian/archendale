@@ -7,14 +7,14 @@ namespace archendale
 {
 	// APPLETALKSocket:
 	//
-	APPLETALKSocket::APPLETALKSocket()
+	appletalk::appletalk()
 	{
         throw NotImplementedException;
 	} // APPLETALKSocket
 
 	// ~APPLETALKSocket:
 	//
-	APPLETALKSocket::~APPLETALKSocket()
+	appletalk::~appletalk()
 	{
 	} // ~APPLETALKSocket
 

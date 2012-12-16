@@ -19,7 +19,7 @@ bool ITDFRead()
 	size_t size_tInput = 0;
 	string sInput = "";
 
-	OTDF otdf(istr);
+	otdf otdf(istr);
 
 	otdf << 33;
 	otdf << 32.5;
@@ -29,7 +29,7 @@ bool ITDFRead()
 	otdf << "Howdy";
 	otdf << 44;
 
-	ITDF itdf(istr);
+	itdf itdf(istr);
 
 	try 
 	{ 
@@ -120,7 +120,7 @@ bool ITDFRead()
 	// Now, see what happens if we try to read a double and the next value is a string
 	testString = "String";
 	stringstream istr2(testString);
-	ITDF itdf2(istr2);
+	itdf itdf2(istr2);
 	try
 	{
 		dInput = 0;

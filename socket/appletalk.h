@@ -4,15 +4,15 @@
 
 namespace archendale
 {
-	class APPLETALKSocket
+	class appletalk
 	{
 		// APPLETALKSocket:
 		//
-		APPLETALKSocket();
+		appletalk();
 
 		// ~APPLETALKSocket:
 		//
-		~APPLETALKSocket();
+		~appletalk();
 
 	}; // APPLETALKSocket
 } // namespace archendale

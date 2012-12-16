@@ -38,7 +38,7 @@ namespace archendale
 	//	POST:
 	//		m_threadAttribute has been initialized to default values
 	//				
-	ThreadAttribute::ThreadAttribute()
+	attribute::attribute()
 	{
 		pthread_attr_init(&m_threadAttribute);
 		m_scheduleParameter.sched_priority = 0;
@@ -49,7 +49,7 @@ namespace archendale
 	//	POST:
 	//		Clean up has been performed
 	//
-	ThreadAttribute::~ThreadAttribute()
+	attribute::~attribute()
 	{
 		pthread_attr_destroy(&m_threadAttribute);
 	} // ~ThreadAttribute
@@ -61,7 +61,7 @@ namespace archendale
 	//	POST:
 	//		m_threadAttribute == rhs.m_threadAttribute && !(m_threadAttribute === rhs.m_threadAttribute)
 	//
-	ThreadAttribute::ThreadAttribute(const ThreadAttribute& rhs)
+	attribute::attribute(const attribute& rhs)
 	{
 		pthread_attr_init(&m_threadAttribute);
 		if(rhs.isScheduleFifo())
@@ -87,7 +87,7 @@ namespace archendale
 	//	RET:
 	//		iff(m_threadAttribute == rhs.m_threadAttribute) true else false		
 	//
-	bool ThreadAttribute::operator==(const ThreadAttribute& rhs) const
+	bool attribute::operator==(const attribute& rhs) const
 	{
 		// Not Implemented
 		NotImplementedException exp;
@@ -164,7 +164,7 @@ namespace archendale
 	//	RET:
 	//		iff(m_threadAttribute == rhs.m_threadAttribute) true else false		
 	//
-	bool ThreadAttribute::operator==(const pthread_attr_t& rhs) const
+	bool attribute::operator==(const pthread_attr_t& rhs) const
 	{
 		// Not Implemented
 		NotImplementedException exp;
@@ -172,7 +172,7 @@ namespace archendale
 		return &m_threadAttribute == &rhs;
 	} // operator==
 
-	const ThreadAttribute& ThreadAttribute::operator=(const ThreadAttribute& rhs)
+	const attribute& attribute::operator=(const attribute& rhs)
 	{
 		pthread_attr_destroy(&m_threadAttribute);
 		pthread_attr_init(&m_threadAttribute);
@@ -219,7 +219,7 @@ namespace archendale
 
 	// setCreateJoinable:
 	//	Create Thread so that it's resources are not freed until parent Thread calls join()
-	void ThreadAttribute::setCreateJoinable()
+	void attribute::setCreateJoinable()
 	{
 		int returnValue = 0;
 		switch(pthread_attr_setdetachstate(&m_threadAttribute, PTHREAD_CREATE_JOINABLE))
@@ -233,7 +233,7 @@ namespace archendale
 
 	// setCreateDetached:
 	//	Create the Thread so that it's resources and execution are independent of Parent Thread
-	void ThreadAttribute::setCreateDetached()
+	void attribute::setCreateDetached()
 	{
 		int returnValue = 0;
 		switch(pthread_attr_setdetachstate(&m_threadAttribute, PTHREAD_CREATE_DETACHED))
@@ -246,7 +246,7 @@ namespace archendale
 	} // setCreateDetached
 
 	// getDetachState:
-	bool ThreadAttribute::getDetachState() const
+	bool attribute::getDetachState() const
 	{
 		int detachState = 0;
 		pthread_attr_getdetachstate(&m_threadAttribute, &detachState);
@@ -263,7 +263,7 @@ namespace archendale
 
 	// setScheduleRegular:
 	//	regular, non-realtime scheduling
-	void ThreadAttribute::setScheduleRegular()
+	void attribute::setScheduleRegular()
 	{
 		int returnValue = 0;
 		switch(pthread_attr_setschedpolicy(&m_threadAttribute, SCHED_OTHER))
@@ -277,7 +277,7 @@ namespace archendale
 
 	// isScheduleRegular:
 	//	regular, non-realtime scheduling
-	bool ThreadAttribute::isScheduleRegular() const
+	bool attribute::isScheduleRegular() const
 	{
 		int returnValue = 0;
 		int schedulePolicy = 0;
@@ -288,7 +288,7 @@ namespace archendale
 
 	// setScheduleRoundRobin:
 	//	real-time, round robin scheduling
-	void ThreadAttribute::setScheduleRoundRobin(int priority)
+	void attribute::setScheduleRoundRobin(int priority)
 	{
 		int returnValue = 0;
 		switch(pthread_attr_setschedpolicy(&m_threadAttribute, SCHED_RR))
@@ -311,7 +311,7 @@ namespace archendale
 
 	// isScheduleRoundRobin:
 	//	regular, non-realtime scheduling
-	bool ThreadAttribute::isScheduleRoundRobin() const
+	bool attribute::isScheduleRoundRobin() const
 	{
 		int returnValue = 0;
 		int schedulePolicy = 0;
@@ -322,7 +322,7 @@ namespace archendale
 
 	// setScheduleFifo:
 	//	real-time, First-in First-out scheduling
-	void ThreadAttribute::setScheduleFifo(int priority)
+	void attribute::setScheduleFifo(int priority)
 	{
 		int returnValue = 0;
 		switch(pthread_attr_setschedpolicy(&m_threadAttribute, SCHED_FIFO))
@@ -345,7 +345,7 @@ namespace archendale
 
 	// isScheduleFifo:
 	//	regular, non-realtime scheduling
-	bool ThreadAttribute::isScheduleFifo() const
+	bool attribute::isScheduleFifo() const
 	{
 		int returnValue = 0;
 		int schedulePolicy = 0;
@@ -357,7 +357,7 @@ namespace archendale
 	// setSchedulePriority
 	//	valid values: 0 - 99
 	//	Sets the scheduling priority for the thread
-	void ThreadAttribute::setSchedulePriority(int priority)
+	void attribute::setSchedulePriority(int priority)
 	{
 		if(isScheduleRegular() && 0 == priority)
 		{
@@ -384,7 +384,7 @@ namespace archendale
 	
 	// getSchedulePriority
 	//	returns the current scheduling priority
-	int ThreadAttribute::getSchedulePriority() const
+	int attribute::getSchedulePriority() const
 	{
 		pthread_attr_getschedparam(&m_threadAttribute, &m_scheduleParameter);
 		return m_scheduleParameter.sched_priority;
@@ -392,13 +392,13 @@ namespace archendale
 
 	// getScheduleParameter
 	//	returns the scheduling parameter
-	const sched_param& ThreadAttribute::getScheduleParameter() const
+	const sched_param& attribute::getScheduleParameter() const
 	{
 		return m_scheduleParameter;
 	} // getScheduleParameter
 
 	// setExplicitSchedule:
-	void ThreadAttribute::setExplicitSchedule()
+	void attribute::setExplicitSchedule()
 	{
 		int returnValue = 0;
 		switch(pthread_attr_setinheritsched(&m_threadAttribute, PTHREAD_EXPLICIT_SCHED))
@@ -411,7 +411,7 @@ namespace archendale
 	} // setExplicitSchedule
 
 	// setInheritParentSchedule:
-	void ThreadAttribute::setInheritParentSchedule()
+	void attribute::setInheritParentSchedule()
 	{
 		int returnValue = 0;
 		switch(pthread_attr_setinheritsched(&m_threadAttribute, PTHREAD_INHERIT_SCHED))
@@ -429,7 +429,7 @@ namespace archendale
 
 	// setScopeSystem:
 	//	NOTE: LinuxThreads only supports system scope at time of writing
-	void ThreadAttribute::setScopeSystem()
+	void attribute::setScopeSystem()
 	{
 		int returnValue = 0;
 		switch(pthread_attr_setscope(&m_threadAttribute, PTHREAD_SCOPE_SYSTEM))
@@ -451,7 +451,7 @@ namespace archendale
 	
 	// setScopeProcess:
 	//	NOTE: LinuxThreads does not support process scope at time of writing
-	void ThreadAttribute::setScopeProcess()
+	void attribute::setScopeProcess()
 	{
 		int returnValue = 0;
 		switch(pthread_attr_setscope(&m_threadAttribute, PTHREAD_SCOPE_PROCESS))
@@ -472,7 +472,7 @@ namespace archendale
 	} // setScopeProcess
 	
 	// getAttribute:
-	const pthread_attr_t& ThreadAttribute::getAttribute() const
+	const pthread_attr_t& attribute::getAttribute() const
 	{
 		return m_threadAttribute;
 	} // const getAttribute

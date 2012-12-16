@@ -16,20 +16,20 @@ namespace archendale
 {
 	// FileTable:
 	//
-	template<class T> FileTable<T>::FileTable(const string& dataFile) : DATA_FILE(dataFile)
+	template<class T> file_table<T>::file_table(const string& dataFile) : DATA_FILE(dataFile)
 	{
 		load();
 	} // FileTable
 
 	// FileTable:
 	//
-	template<class T> FileTable<T>::FileTable(const FileTable& in) : vector<T>(in), DATA_FILE(in.DATA_FILE)
+	template<class T> file_table<T>::file_table(const file_table& in) : vector<T>(in), DATA_FILE(in.DATA_FILE)
 	{
 	} // FileTable
 
 	// ~FileTable:
 	//
-	template<class T> FileTable<T>::~FileTable()
+	template<class T> file_table<T>::~file_table()
 	{
 		save();
 	} // ~FileTable
@@ -38,7 +38,7 @@ namespace archendale
 	//	Update entries in the table
 	//	If the entry does not exist, add an entry to the table
 	//	Replace all \t's with TAB_REPLACE_SIZE spaces
-	template<class T> void FileTable<T>::update(T entry)
+	template<class T> void file_table<T>::update(T entry)
 	{
 		if(entry.m_isNew)
 		{
@@ -52,7 +52,7 @@ namespace archendale
 
 	// remove:
 	//	Remove an entry from the table
-	template<class T> void FileTable<T>::remove(const T& entry)
+	template<class T> void file_table<T>::remove(const T& entry)
 	{
 		NotImplementedException exp;
 		throw exp;
@@ -60,7 +60,7 @@ namespace archendale
 
 	// save:
 	//
-	template<class T> void FileTable<T>::save()
+	template<class T> void file_table<T>::save()
 	{
 		ofstream ofstr(DATA_FILE.c_str(), ios::trunc);
 		if(!ofstr.is_open()) 
@@ -70,7 +70,7 @@ namespace archendale
 		} // if
 
 		// Create the output file
-		OTDF otdf(ofstr);
+		otdf otdf(ofstr);
 
 		vector<T>::const_iterator startIter = begin();
 		vector<T>::const_iterator endIter = end();
@@ -84,7 +84,7 @@ namespace archendale
 	// load:
 	//	Loads the data from DATA_FILE, the file must exist first!
 	//
-	template<class T> void FileTable<T>::load()
+	template<class T> void file_table<T>::load()
 	{
 		erase(begin(), end());
 		ifstream ifstr(DATA_FILE.c_str());
@@ -94,7 +94,7 @@ namespace archendale
 			throw exp;
 		} // if
 
-		ITDF itdf(ifstr);
+		itdf itdf(ifstr);
 		try 
 		{	
 			while(1)

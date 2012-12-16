@@ -4,13 +4,13 @@ namespace archendale
 {
 	// PACKETSocket:
 	//
-	PACKETSocket::PACKETSocket()
+	packet::packet()
 	{
 	} // PACKETSocket
 
 	// ~PACKETSocket:
 	//
-	PACKETSocket::~PACKETSocket()
+	packet::~packet()
 	{
 	} // ~PACKETSocket
 

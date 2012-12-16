@@ -18,17 +18,17 @@ namespace archendale
 		long ldata;
 	}; // union
 
-	Mutex NameResolver::mut;
+	mutex name_resolver::mut;
 
 	// NameResolver:
 	//	Builds from a hostName
-	NameResolver::NameResolver()
+	name_resolver::name_resolver()
 	{
 	} // NameResolver
 
 	// ~NameResolver:
 	//
-	NameResolver::~NameResolver()
+	name_resolver::~name_resolver()
 	{
 	} // ~NameResolver
 
@@ -36,9 +36,9 @@ namespace archendale
 	//      returns the IP Address of a given name
 	//      takes a string arguement which is the
 	//      server to be looked up
-	InternetAddress NameResolver::getAddress(const string& hostName)
+	internet_address name_resolver::getAddress(const string& hostName)
 	{
-		AutoMutex aMutex(mut);
+		auto_mutex aMutex(mut);
 		struct hostent* hostinfo;
 		hostinfo = gethostbyname(hostName.c_str());
 		if(!hostinfo) 
@@ -74,9 +74,9 @@ namespace archendale
 
 	// populateAddress:
 	//
-	InternetAddress NameResolver::populateAddress(hostent* hostinfo)
+	internet_address name_resolver::populateAddress(hostent* hostinfo)
 	{
-		InternetAddress address;
+		internet_address address;
 
 		address.addHostName(hostinfo->h_name);
 		for(int i = 0; hostinfo->h_aliases[i]; i++)

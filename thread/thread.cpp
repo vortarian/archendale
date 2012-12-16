@@ -47,18 +47,18 @@
 
 namespace archendale {
 
-    ThreadSuper::ThreadSuper() {
+    thread::thread() {
         m_threadHandle = 0;
         m_running = false;
     } // ThreadSuper
 
-    ThreadSuper::ThreadSuper(const ThreadAttribute& attr) {
+    thread::thread(const attribute& attr) {
         m_threadHandle = 0;
         m_threadAttribute = attr;
         m_running = false;
     } // ThreadSuper
 
-    ThreadSuper::~ThreadSuper() {
+    thread::~thread() {
         // TODO: All Joinable threads must be joined, if they are not, 
         //	then the destructor should take care of this
         try {
@@ -68,7 +68,7 @@ namespace archendale {
         } // try
     } // ~ThreadSuper
 
-    void ThreadSuper::start(Thread* thread) {
+    void thread::start(Thread* thread) {
         if (m_running == true) {
             ThreadRunningException exp;
             throw exp;
@@ -84,7 +84,7 @@ namespace archendale {
         } // switch
     } // start
 
-    void ThreadSuper::stop() {
+    void thread::stop() {
 		// If it is not running, it is because the thread has already completed is operation (@see ThreadSuper->_run()) and it is unnecessary to stop it
 		if(m_running == true) {
         // m_running must be updated before the cancel
@@ -104,14 +104,14 @@ namespace archendale {
 				} // switch
 			}
         // Setting m_running last due to the ability to deadlock during the join (caused by the locking of the mutex in join(), stop() and _run()
-			AutoMutex aMutex(m_stateMutex);
+			auto_mutex aMutex(m_stateMutex);
 			m_running = false;
 			// Clear the thread handle
 			m_threadHandle = 0;
         }
     } // stop
 
-    void ThreadSuper::join() {
+    void thread::join() {
 		if(m_threadHandle == 0)
 			return;
         switch (pthread_join(m_threadHandle, 0)) {
@@ -135,7 +135,7 @@ namespace archendale {
                 break;
         } // switch
         // Setting m_running last due to the ability to deadlock during the join (caused by the locking of the mutex in join(), stop() and _run()
-        AutoMutex aMutex(m_stateMutex);
+        auto_mutex aMutex(m_stateMutex);
         m_running = false;
     } // join
 
@@ -144,9 +144,9 @@ namespace archendale {
     //      detach() will try to lock m_joinOrDetachMutex, if it fails
     //      it will throw ThreadJoinInProcessException
 
-    void ThreadSuper::detach() {
+    void thread::detach() {
         try {
-            AutoMutexTry autoTryMutex(m_stateMutex);
+            auto_mutex_try autoTryMutex(m_stateMutex);
             switch (pthread_detach(m_threadHandle)) {
                 case ESRCH:
                 {
@@ -168,30 +168,30 @@ namespace archendale {
         } // try
     } // detach
 
-    bool ThreadSuper::operator==(const ThreadSuper& rhs) const {
+    bool thread::operator==(const thread& rhs) const {
         return pthread_equal(getThread(), rhs.getThread());
     } // operator==
 
     // Note that running states, and thread handles will not
     // be copied, as it is not MT Safe
 
-    const ThreadSuper& ThreadSuper::operator=(const ThreadSuper& rhs) {
+    const thread& thread::operator=(const thread& rhs) {
         setAttribute(rhs.getAttribute());
 		m_running = rhs.m_running;
 		m_threadHandle = rhs.m_threadHandle;
         return *this;
     } // operator=
 
-    const pthread_t& ThreadSuper::getThread() const {
+    const pthread_t& thread::getThread() const {
         return m_threadHandle;
     } // getThread
 
-    const ThreadAttribute& ThreadSuper::getAttribute() const {
+    const attribute& thread::getAttribute() const {
         return m_threadAttribute;
     } // getAttribute
 
     // Remember, this is a static method!
-    void* ThreadSuper::_run(Thread* _this) {
+    void* thread::_run(Thread* _this) {
         // Why set m_running here instead of start?
         // For the odd, extremely rare, probably never 
         // happen possibility that the thread gets 
@@ -201,17 +201,17 @@ namespace archendale {
         // once _this->run() returns, we have stopped running
 // TODO:  Uncommenting this, might have needed this to continue being set to false or possibly done in the destructor
         // Setting m_running last due to the ability to deadlock during the join (caused by the locking of the mutex in join(), stop() and _run()
-        AutoMutex amut(_this->m_thread->m_stateMutex);
+        auto_mutex amut(_this->m_thread->m_stateMutex);
         _this->m_thread->m_running = false;
     } // _run
 
-    void ThreadSuper::setAttribute(const ThreadAttribute& attr) {
+    void thread::setAttribute(const attribute& attr) {
         m_threadAttribute = attr;
     } // setAttribute
 
     // scheduleFifo:
 
-    void ThreadSuper::scheduleFifo(int priority) {
+    void thread::scheduleFifo(int priority) {
         m_threadAttribute.setScheduleFifo(priority);
         if (!m_running) return;
         switch (pthread_setschedparam(m_threadHandle, SCHED_FIFO, &m_threadAttribute.getScheduleParameter())) {
@@ -244,7 +244,7 @@ namespace archendale {
 
     // scheduleRoundRobin:
 
-    void ThreadSuper::scheduleRoundRobin(int priority) {
+    void thread::scheduleRoundRobin(int priority) {
         m_threadAttribute.setScheduleRoundRobin(priority);
         if (!m_running) return;
         switch (pthread_setschedparam(m_threadHandle, SCHED_RR, &m_threadAttribute.getScheduleParameter())) {
@@ -285,17 +285,17 @@ namespace archendale {
 
     // wait:
 
-    void ThreadSuper::wait(unsigned int delay) {
+    void thread::wait(unsigned int delay) {
         sleep(delay);
     } // wait
 
     //
     // The actual thread class
 
-    Thread::Thread() : m_thread(new ThreadSuper()) {
+    Thread::Thread() : m_thread(new thread()) {
     } // Thread
 
-    Thread::Thread(const ThreadAttribute& attr) : m_thread(new ThreadSuper(attr)) {
+    Thread::Thread(const attribute& attr) : m_thread(new thread(attr)) {
     } // Thread
 
     Thread::~Thread() {
@@ -334,11 +334,11 @@ namespace archendale {
         return m_thread->getThread();
     } // getThread
 
-    const ThreadAttribute& Thread::getAttribute() const {
+    const attribute& Thread::getAttribute() const {
         return m_thread->getAttribute();
     } // getAttribute
 
-    void Thread::setAttribute(const ThreadAttribute& attr) {
+    void Thread::setAttribute(const attribute& attr) {
         m_thread->setAttribute(attr);
     } // setAttribute
 
@@ -361,7 +361,7 @@ namespace archendale {
 
     // wait:
     void Thread::wait(unsigned int delay) {
-	ThreadSuper::wait(delay);
+	thread::wait(delay);
     } // wait
 
 } // archendale
