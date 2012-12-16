@@ -6,15 +6,15 @@ include ../makefile.global
 
 .SUFFIXES: .cc .class .java .cxx .C .cpp .o .c .l .y
 
-threadobject_OBJECTS = ThreadSuper.o ThreadAttribute.o Mutex.o
+thread_OBJECTS = thread.o attribute.o mutex.o
 
 all: ../lib/libThreadObject.a ../lib/libThreadObject.so
 
-../lib/libThreadObject.a: $(threadobject_OBJECTS)
-	$(LINKER) ../lib/libThreadObject.a $(LINKER_ENTRY) $(LINKER_FLAGS) $(threadobject_OBJECTS) $(threadobject_LIBS)
+../lib/libThreadObject.a: $(thread_OBJECTS)
+	$(LINKER) ../lib/libThreadObject.a $(LINKER_ENTRY) $(LINKER_FLAGS) $(thread_OBJECTS) $(thread_LIBS)
 
-../lib/libThreadObject.so: $(threadobject_OBJECTS)
-	$(SHLINKER) -o ../lib/libThreadObject.so $(LINKER_ENTRY) $(LINKER_FLAGS) $(threadobject_OBJECTS) $(threadobject_LIBS)
+../lib/libThreadObject.so: $(thread_OBJECTS)
+	$(SHLINKER) -o ../lib/libThreadObject.so $(LINKER_ENTRY) $(LINKER_FLAGS) $(thread_OBJECTS) $(thread_LIBS)
 
 .java.o:
 	$(JAVA) -c $< $(JAVA_FLAGS) $(JAVA_DEFINES) $(JAVA_INCLUDES)

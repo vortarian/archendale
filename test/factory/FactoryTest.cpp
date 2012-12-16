@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-#include <factory/Factory.h>
+#include <factory/factory.h>
 
 using namespace archendale;
 using namespace std;

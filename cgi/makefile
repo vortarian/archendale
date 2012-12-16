@@ -6,7 +6,7 @@ include ../makefile.global
 .SUFFIXES: .cc .class .java .cxx .C .cpp .o .c .l .y
 
 
-CGIOBJECTS = CGI.o CGICommand.o
+CGIOBJECTS = cgi.o command.o
 
 all: ../lib/libCGIObject.a ../lib/libCGIObject.so
 

@@ -5,11 +5,11 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include <thread/ThreadAttribute.h>
-#include <thread/ThreadSuper.h>
-#include <thread/ThreadException.h>
-#include "ThreadCounter.h"
-#include <test/thread/DetachedThreadRunner.h>
+#include <thread/attribute.h>
+#include <thread/thread.h>
+#include <thread/exception.h>
+#include "thread_counter.h"
+#include <test/thread/detached_thread_runner.h>
 #include <typeinfo>
 
 using namespace std;

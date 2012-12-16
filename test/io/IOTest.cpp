@@ -1,6 +1,6 @@
-#include <io/ITDF.h>
-#include <io/OTDF.h>
-#include <io/IOException.h>
+#include <io/itdf.h>
+#include <io/otdf.h>
+#include <io/exception.h>
 #include <iostream>
 #include <string>
 #include <sstream>

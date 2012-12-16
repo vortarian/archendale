@@ -7,14 +7,14 @@
 #include <sstream>
 #include <typeinfo>
 
-#include <socket/NameResolver.h>
-#include <socket/InternetAddress.h>
-#include <socket/SocketException.h>
-#include <socket/SocketObject.h>
-#include <socket/INETSocket.h>
-#include <socket/SocketServer.h>
-#include <thread/ThreadSuper.h>
-#include <thread/Mutex.h>
+#include <socket/name_resolver.h>
+#include <socket/internet_address.h>
+#include <socket/exception.h>
+#include <socket/socket.h>
+#include <socket/inet.h>
+#include <socket/server.h>
+#include <thread/thread.h>
+#include <thread/mutex.h>
 
 using namespace std;
 using namespace archendale;

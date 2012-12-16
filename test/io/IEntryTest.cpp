@@ -3,10 +3,10 @@
 #include <typeinfo>
 #include <vector>
 
-#include <io/ITDF.h>
-#include <io/OTDF.h>
-#include <io/IEntry.h>
-#include <factory/Factory.h>
+#include <io/itdf.h>
+#include <io/otdf.h>
+#include <io/ientry.h>
+#include <factory/factory.h>
 
 using namespace std;
 

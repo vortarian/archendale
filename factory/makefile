@@ -5,7 +5,7 @@ include ../makefile.global
 
 .SUFFIXES: .cc .class .java .cxx .C .cpp .o .c .l .y
 
-FACTORYOBJECTS = Factory.o
+FACTORYOBJECTS = factory.o
 
 all: ../lib/libFactoryObject.a ../lib/libFactoryObject.so
 

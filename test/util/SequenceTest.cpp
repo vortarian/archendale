@@ -1,7 +1,7 @@
-#include <util/SequenceGenerator.h>
-#include <io/OTDF.h>
-#include <io/ITDF.h>
-#include <exception/Exception.h>
+#include <util/sequence_generator.h>
+#include <io/otdf.h>
+#include <io/itdf.h>
+#include <exception/exception.h>
 
 #include <iostream>
 #include <fstream>

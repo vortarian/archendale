@@ -3,8 +3,8 @@
 #include <sstream>
 #include <typeinfo>
 
-#include <socket/INETSocket.h>
-#include <socket/NameResolver.h>
+#include <socket/inet.h>
+#include <socket/name_resolver.h>
 
 using namespace std;
 using namespace archendale;

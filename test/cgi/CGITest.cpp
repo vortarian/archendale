@@ -1,5 +1,5 @@
-#include <cgi/CGI.h>
-#include <exception/Exception.h>
+#include <cgi/cgi.h>
+#include <exception/exception.h>
 #include <iostream>
 #include <vector>
 #include <string>

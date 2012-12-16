@@ -5,7 +5,7 @@ include ../makefile.global
 
 .SUFFIXES: .cc .class .java .cxx .C .cpp .o .c .l .y
 
-SOCKETOBJECTS = NameResolver.o INetworkAddress.o InternetAddress.o SocketObject.o INETSocket.o SocketHandle.o SocketServer.o # SocketAttribute.o APPLETALKSocket.o ATMPVCSocket.o AX25Socket.o INET6Socket.o INETSocket.o IPXSocket.o NETLINKSocket.o PACKETSocket.o SocketSocket.o SocketObject.o SocketTestDriver.o UNIXSocket.o X25Socket.o
+SOCKETOBJECTS = name_resolver.o inetwork_address.o internet_address.o socket.o inet.o handle.o server.o # socketattribute.o appletalksocket.o atmpvcsocket.o ax25socket.o inet6socket.o inetsocket.o ipxsocket.o netlinksocket.o packetsocket.o socketsocket.o socketobject.o sockettestdriver.o unixsocket.o x25socket.o
 
 all: ../lib/libSocketObject.a ../lib/libSocketObject.so
 

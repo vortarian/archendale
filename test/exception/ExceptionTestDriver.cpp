@@ -1,6 +1,6 @@
 
 #include <iostream>
-#include <exception/Exception.h>
+#include <exception/exception.h>
 
 using archendale::Exception;
 

@@ -6,7 +6,7 @@ include ../makefile.global
 .SUFFIXES: .cc .class .java .cxx .C .cpp .o .c .l .y
 
 
-IOOBJECTS 	= ITDF.o OTDF.o IEntry.o
+IOOBJECTS 	= itdf.o otdf.o ientry.o
 
 all: ../lib/libIOObject.a ../lib/libIOObject.so
 

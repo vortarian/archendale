@@ -6,7 +6,7 @@ include ../makefile.global
 
 .SUFFIXES: .cc .class .java .cxx .C .cpp .o .c .l .y
 
-string_OBJECTS = String.o
+string_OBJECTS = string.o
 
 all: ../lib/libString.a ../lib/libString.so
 

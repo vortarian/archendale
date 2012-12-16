@@ -1,5 +1,5 @@
 #include <iostream>
-#include <util/ReferenceCounter.h>
+#include <util/reference_counter.h>
 
 using namespace std;
 using namespace archendale;

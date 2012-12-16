@@ -9,12 +9,12 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include <socket/NameResolver.h>
-#include <socket/InternetAddress.h>
-#include <socket/SocketException.h>
-#include <socket/SocketObject.h>
-#include <socket/INETSocket.h>
-#include <socket/SocketServer.h>
+#include <socket/name_resolver.h>
+#include <socket/internet_address.h>
+#include <socket/exception.h>
+#include <socket/socket.h>
+#include <socket/inet.h>
+#include <socket/server.h>
 
 using namespace std;
 using std::string;

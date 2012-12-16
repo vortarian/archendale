@@ -5,7 +5,7 @@ include ../makefile.global
 
 .SUFFIXES: .cc .class .java .cxx .C .cpp .o .c .l .y
 LINKER_FLAGS = -L../lib -lFactoryObject
-UTILOBJECTS = SequenceGenerator.o
+UTILOBJECTS = sequence_generator.o
 
 all: ../lib/libUtilObject.a ../lib/libUtilObject.so
 

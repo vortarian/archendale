@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <string/String.h>
+#include <string/string.h>
 
 using namespace std;
 using namespace archendale;

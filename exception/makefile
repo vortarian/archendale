@@ -10,7 +10,7 @@ include ../makefile.global
 .SUFFIXES: .cc .class .java .cxx .C .cpp .o .c .l .y
 
 
-exception_OBJECTS = Exception.o
+exception_OBJECTS = exception.o
 
 all: ../lib/libException.a ../lib/libException.so
 

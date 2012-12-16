@@ -1,5 +1,5 @@
 #include <iostream>
-#include <test/thread/DetachedThreadRunner.h>
+#include <test/thread/detached_thread_runner.h>
 
 DetachedThreadRunner::DetachedThreadRunner(ThreadCounter*& pThreadCounter, bool* bFinished) : Thread(), m_pThreadCounter(pThreadCounter), mp_finished(bFinished)
 {
