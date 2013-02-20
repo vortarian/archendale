@@ -33,7 +33,7 @@ namespace archendale
                         Exception exp(error);
                         throw exp;
                 } // if
-		int socketDescriptor = socket(m_address.getType(), SOCK_STREAM, protocol->p_proto);
+		int socketDescriptor = ::socket(m_address.getType(), SOCK_STREAM, protocol->p_proto);
                 if(-1 != socketDescriptor) 
 		{
 			setSocket(socketDescriptor);

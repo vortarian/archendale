@@ -45,7 +45,7 @@ namespace archendale
 			Exception exp(error);
 			throw exp;
 		} // if	
-		setSocket(socket(m_address.getType(), SOCK_STREAM, protocol->p_proto));
+		setSocket(::socket(m_address.getType(), SOCK_STREAM, protocol->p_proto));
 		if(-1 == getSocket())
 		{
 			switch(errno)

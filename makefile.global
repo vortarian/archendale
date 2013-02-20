@@ -5,6 +5,6 @@ CPP_DEFINES     = -D_REENTRANT
 CPP_FLAGS       = $(GLOBALCCOPTIONS) $(CPP_DEFINES) $(CPP_INCLUDES) -g -fPIC -pthread
 IOLIBS          =
 LINKER          = ar cru 
-SHLINKER        = g++ -shared -pthread
+SHLINKER        = g++ -std=c++11 -shared -pthread
 LINKER_FLAGS    = 
 LINKER_ENTRY    =

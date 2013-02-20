@@ -29,12 +29,12 @@ bool ITDFRead()
 	otdf << "Howdy";
 	otdf << 44;
 
-	itdf itdf(istr);
+	itdf itdf1(istr);
 
 	try 
 	{ 
 
-		itdf >> size_tInput;
+		itdf1 >> size_tInput;
 		cout << size_tInput << endl;
 		if(size_tInput != 33)
 		{
@@ -42,7 +42,7 @@ bool ITDFRead()
 			return false;
 		} // if
 
-		itdf >> dInput;
+		itdf1 >> dInput;
 		cout << dInput << endl;
 		if(dInput != 32.5)
 		{
@@ -50,7 +50,7 @@ bool ITDFRead()
 			return false;
 		} // if
 
-		itdf >> sInput;
+		itdf1 >> sInput;
 		cout << sInput << endl;
 		if(sInput != "Hello World")
 		{
@@ -58,7 +58,7 @@ bool ITDFRead()
 			return false;
 		} // if
 
-		itdf >> iInput;
+		itdf1 >> iInput;
 		cout << iInput << endl;
 		if(iInput != 48)
 		{
@@ -66,7 +66,7 @@ bool ITDFRead()
 			return false;
 		} // if
 
-		itdf >> dInput;
+		itdf1 >> dInput;
 		cout << dInput << endl;
 		if(dInput != 33)
 		{
@@ -74,7 +74,7 @@ bool ITDFRead()
 			return false;
 		} // if
 
-		itdf >> sInput;
+		itdf1 >> sInput;
 		cout << sInput << endl;
 		if(sInput != "Howdy")
 		{
@@ -82,7 +82,7 @@ bool ITDFRead()
 			return false;
 		} // if
 
-		itdf >> dInput;
+		itdf1 >> dInput;
 		cout << dInput << endl;
 		if(dInput != 44)
 		{
@@ -98,7 +98,7 @@ bool ITDFRead()
 	// Try a double read that is bad
 	try 
 	{
-		itdf >> dInput;
+		itdf1 >> dInput;
 		cerr << "Did not catch expected EOFException" << endl;
 		return false;
 	} catch (EOFException exp)
@@ -109,7 +109,7 @@ bool ITDFRead()
 	// Try a string read that is bad
 	try 
 	{
-		itdf >> sInput;
+		itdf1 >> sInput;
 		cerr << "Did not catch expected EOFException" << endl;
 		return false;
 	} catch (EOFException exp)
